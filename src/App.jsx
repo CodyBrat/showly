@@ -1,34 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React from 'react'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="landing-page">
+      {/* Background with circles */}
+      <div className="background">
+        <div className="circle circle-1"></div>
+        <div className="circle circle-2"></div>
+        <div className="circle circle-3"></div>
+        <div className="light-effect"></div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+
+      {/* Main container */}
+      <div className="container">
+        {/* Brand section */}
+        <section className="brand-section">
+          <h1 className="brand">Showly</h1>
+          <p className="tagline">LET'S DO IT TOGETHER</p>
+        </section>
+
+        {/* Scroll indicator */}
+        <div className="scroll-indicator">
+          <div className="arrows">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <footer className="footer">
+          <div className="copyright">ALL RIGHTS RESERVED</div>
+          <div className="company">SHOWLY AGENCY © 2025</div>
+        </footer>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 
