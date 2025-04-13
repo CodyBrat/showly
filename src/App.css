@@ -18,6 +18,15 @@
   --glow-color: rgba(120, 120, 150, 0.03);
   --glow-color-blue: rgba(70, 120, 255, 0.02);
   --glow-color-purple: rgba(120, 70, 255, 0.02);
+  --speaker-center-color-1: #181818;
+  --speaker-center-color-2: #121212;
+  --background-color: rgb(24, 24, 24);
+  --circle-color-1: rgba(43, 43, 43, 0.83);
+  --circle-color-2: rgba(75, 75, 75, 0.7);
+  --speaker-center-color-1: rgb(30, 30, 30);
+  --speaker-center-color-2: rgb(70, 70, 70);
+  --speaker-ring-color: rgba(50, 50, 50, 0.7);
+  --speaker-dust-color: rgba(150, 150, 150, 0.3);
 }
 
 body {
@@ -69,9 +78,10 @@ body {
   left: 50%;
   transform: translate(-50%, -50%) scale(0.9);
   border-radius: 50%;
-  border-style: dashed;
+  border-style: solid;
   border-width: 1px;
   opacity: 0;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1) inset;
 }
 
 .circle-1 {
@@ -80,7 +90,21 @@ body {
   border-color: var(--text-primary);
   opacity: 0;
   filter: drop-shadow(0 0 1px rgba(255,255,255,0.01));
-  animation: scaleIn 1.5s ease forwards 0.8s;
+  animation: scaleIn 1.5s ease forwards 0.8s, pulseSubtle 8s ease-in-out infinite;
+  border-width: 1.5px;
+}
+
+.circle-1::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 93%;
+  height: 93%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05) inset;
 }
 
 .circle-2 {
@@ -89,7 +113,21 @@ body {
   border-color: var(--text-primary);
   opacity: 0;
   filter: drop-shadow(0 0 1px rgba(255,255,255,0.01));
-  animation: scaleIn 1.5s ease forwards 1s;
+  animation: scaleIn 1.5s ease forwards 1s, pulseSubtle 8s ease-in-out infinite 1s;
+  border-width: 1px;
+}
+
+.circle-2::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 94%;
+  height: 94%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05) inset;
 }
 
 .circle-3 {
@@ -98,7 +136,36 @@ body {
   border-color: var(--text-primary);
   opacity: 0;
   filter: drop-shadow(0 0 1px rgba(255,255,255,0.01));
-  animation: scaleIn 1.5s ease forwards 1.2s;
+  animation: scaleIn 1.5s ease forwards 1.2s, pulseSubtle 8s ease-in-out infinite 2s;
+  border-width: 0.5px;
+}
+
+.circle-3::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 95%;
+  height: 95%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05) inset;
+}
+
+/* Speaker-like inner pattern for the smallest circle */
+.circle-1::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 25%;
+  height: 25%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(40,40,40,0.3), transparent 70%);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1) inset;
+  opacity: 0.2;
 }
 
 @keyframes scaleIn {
@@ -138,6 +205,19 @@ body {
   }
   100% {
     opacity: 0.04;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Add subtle pulse animation to mimic speaker vibration */
+@keyframes pulseSubtle {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.01);
+  }
+  100% {
     transform: translate(-50%, -50%) scale(1);
   }
 }
@@ -366,5 +446,144 @@ body {
   
   .footer {
     bottom: 1rem;
+  }
+}
+
+/* Speaker center element */
+.speaker-center {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, var(--speaker-center-color-1), var(--speaker-center-color-2));
+  border-radius: 50%;
+  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.1);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.speaker-ring {
+  position: absolute;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  z-index: 1;
+}
+
+.speaker-ring-1 {
+  width: 160px;
+  height: 160px;
+  animation: pulse 3s infinite alternate;
+}
+
+.speaker-ring-2 {
+  width: 220px;
+  height: 220px;
+  animation: pulse 4s infinite alternate;
+}
+
+.speaker-ring-3 {
+  width: 280px;
+  height: 280px;
+  animation: pulse 5s infinite alternate;
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.7;
+  }
+}
+
+.speaker-dust {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  animation: float 5s infinite, pulse 2s infinite;
+  z-index: 5;
+}
+
+.dust-1 {
+  top: -20px;
+  left: 50%;
+  animation-delay: 0s;
+}
+
+.dust-2 {
+  top: 20px;
+  right: -15px;
+  animation-delay: 0.5s;
+}
+
+.dust-3 {
+  bottom: -15px;
+  left: 30%;
+  animation-delay: 1s;
+}
+
+.dust-4 {
+  left: -15px;
+  top: 30%;
+  animation-delay: 1.5s;
+}
+
+.dust-5 {
+  top: -15px;
+  left: 30%;
+  animation-delay: 2s;
+}
+
+.dust-6 {
+  bottom: -12px;
+  right: 25%;
+  animation-delay: 0.7s;
+}
+
+.dust-7 {
+  left: -18px;
+  bottom: 35%;
+  animation-delay: 1.2s;
+}
+
+.dust-8 {
+  top: 40%;
+  right: -10px;
+  animation-delay: 1.8s;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px) translateX(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) translateX(5px) scale(1.2);
+  }
+  100% {
+    transform: translateY(0px) translateX(0px) scale(1);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.4;
   }
 }
