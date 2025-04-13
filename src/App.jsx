@@ -24,6 +24,23 @@ function App() {
         <div className="circle circle-3"></div>
         <div className="speaker-dust"></div>
         <div className="light-effect"></div>
+        
+        {/* Music elements */}
+        <div className="music-element guitar"></div>
+        <div className="music-element vinyl"></div>
+        <div className="music-element ticket"></div>
+        <div className="music-element music-note note-1"></div>
+        <div className="music-element music-note note-2"></div>
+        <div className="music-element music-note note-3"></div>
+        <div className="music-element headphones"></div>
+        <div className="music-element microphone"></div>
+        <div className="music-element drums"></div>
+        
+        {/* Top right elements */}
+        <div className="music-element top-right equalizer"></div>
+        <div className="music-element top-right mixer"></div>
+        <div className="music-element top-right music-note note-4"></div>
+        <div className="music-element top-right dj-controller"></div>
       </div>
 
       {/* Main container */}
