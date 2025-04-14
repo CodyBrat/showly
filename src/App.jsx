@@ -1,9 +1,102 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import './App.css'
 
 function App() {
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const textRef = useRef(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  // Handle mouse movement for the variable proximity effect
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  // Calculate distortion effect for each letter
+  useEffect(() => {
+    const text = textRef.current;
+    if (!text) return;
+    
+    const letters = text.querySelectorAll('.letter');
+    const sensitivity = 100; // Adjust sensitivity of the effect
+    const maxDistortion = 50; // Max distortion amount
+    
+    letters.forEach((letter) => {
+      const rect = letter.getBoundingClientRect();
+      const letterX = rect.left + rect.width / 2;
+      const letterY = rect.top + rect.height / 2;
+      
+      // Calculate distance between mouse and letter
+      const distanceX = mousePosition.x - letterX;
+      const distanceY = mousePosition.y - letterY;
+      const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+      
+      // Calculate distortion based on proximity
+      const distortion = Math.max(0, 1 - distance / sensitivity);
+      const letterDistortion = distortion * maxDistortion;
+      
+      // Apply transformations
+      letter.style.transform = `translate(${distortion * -distanceX * 0.1}px, ${distortion * -distanceY * 0.1}px) scale(${1 + distortion * 0.1})`;
+      letter.style.filter = `blur(${letterDistortion * 0.05}px)`;
+      letter.style.opacity = 1 - (distortion * 0.2);
+      letter.style.transition = 'transform 0.1s ease-out, filter 0.1s ease-out, opacity 0.1s ease-out';
+    });
+  }, [mousePosition]);
+
   return (
     <div className="landing-page">
+      {/* Navbar */}
+      <nav className="navbar">
+        <div className="navbar-container">
+          <div className="navbar-logo">
+            <span className="logo-text">showly</span>
+          </div>
+          
+          <div className="navbar-links-desktop">
+            <a href="#" className="nav-link">Home</a>
+            <a href="#" className="nav-link">Events</a>
+            <a href="#" className="nav-link">Artists</a>
+            <a href="#" className="nav-link">Venues</a>
+            <a href="#" className="nav-link">Pricing</a>
+          </div>
+          
+          <div className="navbar-buttons">
+            <button className="login-btn">Log In</button>
+            <button className="signup-btn">Get Started</button>
+            <button 
+              className={`menu-toggle ${isNavOpen ? 'active' : ''}`} 
+              onClick={() => setIsNavOpen(!isNavOpen)}
+              aria-label="Toggle navigation menu"
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </div>
+        </div>
+        
+        {/* Mobile menu */}
+        <div className={`navbar-mobile ${isNavOpen ? 'open' : ''}`}>
+          <div className="navbar-links-mobile">
+            <a href="#" className="nav-link">Home</a>
+            <a href="#" className="nav-link">Events</a>
+            <a href="#" className="nav-link">Artists</a>
+            <a href="#" className="nav-link">Venues</a>
+            <a href="#" className="nav-link">Pricing</a>
+            <div className="mobile-buttons">
+              <button className="login-btn">Log In</button>
+              <button className="signup-btn">Get Started</button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
       {/* Background with circles */}
       <div className="background">
         <div className="circle circle-1">
@@ -47,7 +140,14 @@ function App() {
       <div className="container">
         {/* Brand section */}
         <section className="brand-section">
-          <h1 className="brand">showly</h1>
+          <h1 className="brand proximity-text" ref={textRef}>
+            <span className="letter">s</span>
+            <span className="letter">h</span>
+            <span className="letter">o</span>
+            <span className="letter">w</span>
+            <span className="letter">l</span>
+            <span className="letter">y</span>
+          </h1>
           <p className="tagline">LET'S DO IT TOGETHER</p>
         </section>
 
