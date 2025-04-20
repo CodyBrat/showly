@@ -14,7 +14,7 @@
   --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.7);
   --text-tertiary: rgba(255, 255, 255, 0.5);
-  --accent-gradient: linear-gradient(90deg, #303030 0%, rgba(255,255,255,0.85) 50%, #303030 100%);
+  --accent-gradient: linear-gradient(90deg, #303030 0%, rgba(255,255,255,0.9) 50%, #303030 100%);
   --glow-color: rgba(120, 120, 150, 0.03);
   --glow-color-blue: rgba(70, 120, 255, 0.02);
   --glow-color-purple: rgba(120, 70, 255, 0.02);
