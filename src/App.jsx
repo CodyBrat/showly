@@ -49,7 +49,7 @@ function App() {
             parentClassName="decryption-animation"
           />
         </h1>
-        <div style={{ height: '400px', position: 'relative', maxWidth: '90%', margin: '0 auto' }}>
+        <div style={{ height: '600px', position: 'relative', maxWidth: '90%', margin: '0 auto' }}>
           <CircularGallery 
             items={categoryItems}
             bend={3} 
