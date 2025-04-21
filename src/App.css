@@ -1,5 +1,6 @@
 /* Google Fonts Import for Inter */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
 
 /* Base styles and reset */
 * {
@@ -27,13 +28,14 @@
   --speaker-center-color-2: rgb(70, 70, 70);
   --speaker-ring-color: rgba(50, 50, 50, 0.7);
   --speaker-dust-color: rgba(150, 150, 150, 0.3);
-  --navbar-height: 80px;
-  --navbar-bg: rgba(18, 18, 24, 0.7);
-  --navbar-border: rgba(255, 255, 255, 0.08);
+  --navbar-height: 70px;
+  --navbar-bg: rgba(18, 44, 36, 0.6);
+  --navbar-border: rgba(255, 255, 255, 0.1);
   --btn-primary: linear-gradient(135deg, rgba(120, 120, 120, 0.8), rgba(80, 80, 80, 0.8));
   --btn-primary-hover: linear-gradient(135deg, rgba(140, 140, 140, 0.9), rgba(100, 100, 100, 0.9));
   --btn-secondary: linear-gradient(135deg, rgba(60, 60, 65, 0.8), rgba(40, 40, 45, 0.8));
   --btn-secondary-hover: linear-gradient(135deg, rgba(70, 70, 75, 0.9), rgba(50, 50, 55, 0.9));
+  --section-spacing: 30vh;
 }
 
 body {
@@ -48,6 +50,110 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Navbar styles */
+.navbar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(18, 44, 36, 0.4);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  padding: 0.7rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 1200px;
+}
+
+.navbar-logo {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  margin-left: 0.8rem;
+}
+
+.navbar-logo::before {
+  content: '';
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.navbar-links {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-link {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  padding: 0.5rem 0.8rem;
+  position: relative;
+  opacity: 0.85;
+}
+
+.navbar-link:hover {
+  opacity: 1;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
+}
+
+.signup-button {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.6rem 1.3rem;
+  border-radius: 30px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+}
+
+.signup-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.signup-button:after {
+  content: '→';
+  margin-left: 8px;
+  font-size: 1.1rem;
+  transition: transform 0.2s ease;
+}
+
+.signup-button:hover:after {
+  transform: translateX(3px);
+}
+
 /* Main container for the entire app */
 
 
@@ -58,6 +164,52 @@ body {
   align-items: center;
   min-height: 100%;
   width: 100%;
+  position: relative;
+  margin-top: var(--navbar-height);
+}
+
+/* Section spacing */
+.browse-category {
+  margin-top: var(--section-spacing);
+}
+
+/* Browse category heading styles */
+.browse-category h1 {
+  font-size: 5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  padding: 0 2rem;
+}
+
+.browse-category h1 .decrypted {
+  background: linear-gradient(90deg, #fff, #ccc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+}
+
+/* Gallery container */
+.browse-category .circular-gallery {
+  margin-top: 2rem;
+}
+
+.Upcoming-Events {
+  padding: 2rem;
+  /* text-align: center; */
+  margin-top: var(--section-spacing);
+}
+
+.Upcoming-Events h1 {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  letter-spacing: 1px;
+}
+
+.Upcoming-Events h1 .decrypted {
+  background: linear-gradient(90deg, #fff, #ccc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   position: relative;
 }
 
@@ -82,22 +234,93 @@ body {
   transition: color 0.3s ease;
 }
 
-
-
-
-/* Upcoming Events section */
-.Upcoming-Events {
-  padding: 2rem;
-  text-align: center;
-  margin-top: 1rem;
+/* Event category styles */
+.event-category {
+  margin-bottom: 3rem;
+  text-align: left;
 }
 
-.Upcoming-Events h1 {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
+.event-category h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
   color: var(--text-primary);
   font-weight: 500;
-  letter-spacing: 1px;
+  position: relative;
+  display: inline-block;
+  padding-left: 1rem;
+}
+
+.event-category h2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 70%;
+  background: linear-gradient(to bottom, rgba(130, 130, 255, 0.9), rgba(80, 80, 180, 0.9));
+  border-radius: 2px;
+}
+
+/* Movie grid layout */
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.movie-card {
+  background: rgba(20, 20, 30, 0.4);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  height: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+}
+
+.movie-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.movie-image {
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+  position: relative;
+}
+
+.movie-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.movie-card:hover .movie-image img {
+  transform: scale(1.05);
+}
+
+.movie-info {
+  padding: 1.2rem;
+  text-align: left;
+}
+
+.movie-info h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.movie-info p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 400;
 }
 
 /* Override brand styles for the proximity effect */
@@ -108,6 +331,23 @@ body {
 }
 
 @media (max-width: 768px) {
+  .navbar {
+    padding: 0.8rem 1.2rem;
+  }
+
+  .navbar-links {
+    gap: 1rem;
+  }
+
+  .navbar-logo {
+    font-size: 1.2rem;
+  }
+
+  .signup-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+
   .proximity-text .letter {
     /* Simplified effect for mobile */
     transition: transform 0.3s ease-out !important;
@@ -126,6 +366,15 @@ body {
   .Upcoming-Events h1 {
     font-size: 1.8rem;
     margin-bottom: 1.5rem;
+  }
+  
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .movie-image {
+    height: 240px;
   }
 }
 
