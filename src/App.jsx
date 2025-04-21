@@ -3,6 +3,7 @@ import './App.css'
 import ShowlyTitle from './components/ShowlyTitle'
 import DecryptedText from './components/DecryptedText'
 import CircularGallery from './components/CircularGallery'
+import TiltedCard from './components/TiltedCard'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -14,6 +15,29 @@ function App() {
     { image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', text: 'Music' },
     { image: 'https://images.unsplash.com/photo-1527224857830-43a7acc85260?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', text: 'Comedy' },
     { image: 'https://images.unsplash.com/photo-1579710039144-85d6bdffddc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', text: 'Sports' }
+  ]
+
+  const movies = [
+    {
+      image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      title: "Inception 2",
+      caption: "Coming Soon • Dec 2024"
+    },
+    {
+      image: "https://images.unsplash.com/photo-1616530940355-351fabd9524b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      title: "The Matrix Resurrection",
+      caption: "Premiere • Nov 2024"
+    },
+    {
+      image: "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      title: "Interstellar 2",
+      caption: "Early Access • Oct 2024"
+    },
+    {
+      image: "https://images.unsplash.com/photo-1604975701397-6365ccbd028a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      title: "Dune: Part Three",
+      caption: "Pre-booking • Jan 2025"
+    }
   ]
 
   return (
@@ -49,13 +73,32 @@ function App() {
             parentClassName="decryption-animation"
           />
         </h1>
-        <div style={{ height: '600px', position: 'relative', maxWidth: '90%', margin: '0 auto' }}>
+        <div className="stats-bar">
+          <div className="stat-item">
+            <span className="stat-value">1,200+</span>
+            <span className="stat-label">Events</span>
+          </div>
+          <div className="stat-divider"></div>
+          <div className="stat-item">
+            <span className="stat-value">6</span>
+            <span className="stat-label">Categories</span>
+          </div>
+          <div className="stat-divider"></div>
+          <div className="stat-item">
+            <span className="stat-value">24/7</span>
+            <span className="stat-label">Support</span>
+          </div>
+        </div>
+        <div className="gallery-wrapper" style={{ height: '480px', position: 'relative', maxWidth: '90%', margin: '0 auto' }}>
+          <div className="category-badge badge-explore">Explore All Categories</div>
+          <div className="category-badge badge-trending">Trending Events</div>
+          <div className="icon-grid"></div>
           <CircularGallery 
             items={categoryItems}
             bend={3} 
             textColor="#ffffff" 
             borderRadius={0.05} 
-            font="bold 30px DM Sans"
+            font="bold 26px DM Sans"
           />
         </div>
       </div>
@@ -76,42 +119,32 @@ function App() {
         <div className="event-category">
           <h2>Movies</h2>
           <div className="movie-grid">
-            <div className="movie-card">
-              <div className="movie-image">
-                <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Movie 1" />
+            {movies.map((movie, index) => (
+              <div className="movie-card" key={index}>
+                <div className="movie-image">
+                  <TiltedCard
+                    imageSrc={movie.image}
+                    altText={movie.title}
+                    captionText={movie.title}
+                    containerHeight="360px"
+                    containerWidth="90%"
+                    imageHeight="360px"
+                    imageWidth="100%"
+                    rotateAmplitude={12}
+                    scaleOnHover={1.05}
+                    showMobileWarning={false}
+                    showTooltip={true}
+                    displayOverlayContent={true}
+                    overlayContent={
+                      <div className="movie-overlay-content">
+                        <h3>{movie.title}</h3>
+                        <p>{movie.caption}</p>
+                      </div>
+                    }
+                  />
+                </div>
               </div>
-              <div className="movie-info">
-                <h3>Inception 2</h3>
-                <p>Coming Soon • Dec 2024</p>
-              </div>
-            </div>
-            <div className="movie-card">
-              <div className="movie-image">
-                <img src="https://images.unsplash.com/photo-1616530940355-351fabd9524b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Movie 2" />
-              </div>
-              <div className="movie-info">
-                <h3>The Matrix Resurrection</h3>
-                <p>Premiere • Nov 2024</p>
-              </div>
-            </div>
-            <div className="movie-card">
-              <div className="movie-image">
-                <img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Movie 3" />
-              </div>
-              <div className="movie-info">
-                <h3>Interstellar 2</h3>
-                <p>Early Access • Oct 2024</p>
-              </div>
-            </div>
-            <div className="movie-card">
-              <div className="movie-image">
-                <img src="https://images.unsplash.com/photo-1604975701397-6365ccbd028a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Movie 4" />
-              </div>
-              <div className="movie-info">
-                <h3>Dune: Part Three</h3>
-                <p>Pre-booking • Jan 2025</p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
