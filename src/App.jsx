@@ -19,24 +19,44 @@ function App() {
 
   const movies = [
     {
-      image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      title: "Inception 2",
-      caption: "Coming Soon • Dec 2024"
+      image: "https://m.media-amazon.com/images/M/MV5BZWU4NDY0ODktOGI3OC00NWE1LWIwYmQtNmJiZWU3NmZlMDhkXkEyXkFqcGc@._V1_.jpg",
+      title: "Until Dawn",
+      caption: "25th April 2025"
     },
     {
-      image: "https://images.unsplash.com/photo-1616530940355-351fabd9524b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      title: "The Matrix Resurrection",
-      caption: "Premiere • Nov 2024"
+      image: "https://upload.wikimedia.org/wikipedia/en/thumb/9/95/Kesari_Chapter_2.jpg/250px-Kesari_Chapter_2.jpg",
+      title: "Kesari Chapter 2",
+      caption: "In Cinemas • 18th April 2025"
     },
     {
-      image: "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      title: "Interstellar 2",
-      caption: "Early Access • Oct 2024"
+      image: "https://m.media-amazon.com/images/M/MV5BNjIwZWY4ZDEtMmIxZS00NDA4LTg4ZGMtMzUwZTYyNzgxMzk5XkEyXkFqcGc@._V1_.jpg",
+      title: "Sinner",
+      caption: "In Cinemas • 18th April 2025"
     },
     {
-      image: "https://images.unsplash.com/photo-1604975701397-6365ccbd028a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      title: "Dune: Part Three",
-      caption: "Pre-booking • Jan 2025"
+      image: "https://image.tmdb.org/t/p/original/iPPTGh2OXuIv6d7cwuoPkw8govp.jpg",
+      title: "Minecraft: The Movie",
+      caption: "In Cinemas • 4th April 2025"
+    },
+    {
+      image: "https://s3.amazonaws.com/nightjarprod/content/uploads/sites/130/2025/02/03190714/rzfqeLdHIysJGrspMICyedpqDqt-scaled.jpg",
+      title: "Paddington in Peru",
+      caption: "In Cinemas • 18th April 2025"
+    },
+    {
+      image: "https://m.media-amazon.com/images/M/MV5BYjhkZjM3ZWYtMjUxMS00YzhlLTkxZWYtMzhkMzFhOTQ1NjRkXkEyXkFqcGc@._V1_.jpg",
+      title: "Amateur",
+      caption: "In Cinemas • 11th April 2025"
+    },
+    {
+      image: "https://dx35vtwkllhj9.cloudfront.net/the-chosen-inc/the-chosen-last-supper/images/gallery/image1.jpg",
+      title: "The Chosen: Last Supper",
+      caption: "In Cinemas • 17th April 2025"
+    },
+    {
+      image: "https://stat5.bollywoodhungama.in/wp-content/uploads/2023/10/Chhaava.jpg",
+      title: "Chhaava",
+      caption: "In Cinemas • 14th April 2025"
     }
   ]
 
