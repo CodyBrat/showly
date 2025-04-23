@@ -215,6 +215,14 @@ body {
 /* Special styling for the Upcoming Events section */
 .browse-category:nth-of-type(2) h1 {
   margin-bottom: 2.5rem;
+  position: relative;
+}
+
+/* Add a decorative line under the Upcoming Events title */
+.browse-category:nth-of-type(2) h1::after {
+  width: 120px;
+  height: 4px;
+  background: linear-gradient(90deg, rgba(120, 60, 190, 0.6), rgba(60, 120, 190, 0.3));
 }
 
 .browse-category h1::after {
@@ -347,20 +355,27 @@ body {
 
 /* Event category styles */
 .event-category {
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
   text-align: left;
   margin-top: 4rem;
   padding-top: 1rem;
 }
 
+.event-category:last-child {
+  margin-bottom: 2rem;
+}
+
 .event-category h2 {
   font-size: 1.8rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   color: var(--text-primary);
   font-weight: 500;
   position: relative;
   display: inline-block;
   padding-left: 1rem;
+  font-family: inherit;
+  text-transform: none;
+  letter-spacing: normal;
 }
 
 .event-category h2::before {
@@ -375,17 +390,29 @@ body {
   border-radius: 2px;
 }
 
-/* Special styling for the Upcoming Events title */
-.browse-category:nth-of-type(2) h1 {
-  margin-bottom: 0.5rem;
+/* Comedy-specific heading */
+.event-category:nth-of-type(3) h2 {
+  font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 2.2rem;
+  text-shadow: 3px 3px 0 rgba(255, 100, 100, 0.5);
+  transform: rotate(-1deg);
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  color: #fff;
+  background: linear-gradient(45deg, #FF5252, #FF1744);
+  border-radius: 5px;
+  border: 3px solid #fff;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+  margin-left: 2rem;
   position: relative;
 }
 
-/* Add a decorative line under the Upcoming Events title */
-.browse-category:nth-of-type(2) h1::after {
-  width: 120px;
-  height: 4px;
-  background: linear-gradient(90deg, rgba(120, 60, 190, 0.6), rgba(60, 120, 190, 0.3));
+/* Remove the vertical line for Comedy heading */
+.event-category:nth-of-type(3) h2::before {
+  display: none;
 }
 
 /* Movie grid layout */
@@ -603,10 +630,15 @@ body {
   
   .event-category {
     margin-top: 3rem;
+    margin-bottom: 3rem;
     padding-top: 0.5rem;
   }
   
-  .browse-category:nth-of-type(2) h1 {
+  .event-category h2 {
+    margin-bottom: 1.5rem;
+  }
+  
+  .browse-category:nth-child(2) h1 {
     margin-bottom: 0.5rem;
   }
 }
@@ -618,5 +650,863 @@ body {
   
   .browse-category {
     margin-top: calc(var(--section-spacing) * 0.8);
+  }
+}
+
+/* Concert Carousel Styles */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 2rem 0;
+}
+
+.concert-carousel {
+  display: flex;
+  scroll-behavior: smooth;
+  overflow-x: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  padding: 2rem 0;
+  scroll-snap-type: x mandatory;
+}
+
+.concert-carousel::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.carousel-item {
+  flex: 0 0 auto;
+  width: 55%;
+  padding: 0 1.2%;
+  scroll-snap-align: start;
+  transition: transform 0.3s, opacity 0.3s;
+  opacity: 1;
+  margin-bottom: 2rem;
+}
+
+.carousel-card {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  height: 100%;
+}
+
+.carousel-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+}
+
+.carousel-image {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+}
+
+.carousel-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.carousel-card:hover .carousel-image img {
+  transform: scale(1.05);
+}
+
+.carousel-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2.5rem;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, transparent 100%);
+  color: white;
+}
+
+.carousel-overlay h3 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.carousel-overlay p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 65px;
+  height: 65px;
+  background: rgba(25, 25, 35, 0.7);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.carousel-button:hover {
+  background: rgba(25, 25, 35, 0.9);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-button.prev {
+  left: 10px;
+}
+
+.carousel-button.next {
+  right: 10px;
+}
+
+@media (max-width: 1200px) {
+  .carousel-item {
+    width: 60%;
+    padding: 0 1.8%;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-item {
+    width: 85%;
+    padding: 0 2%;
+  }
+  
+  .carousel-button {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+  
+  .carousel-overlay h3 {
+    font-size: 1rem;
+  }
+  
+  .carousel-overlay p {
+    font-size: 0.8rem;
+  }
+  
+  .carousel-image {
+    height: 340px;
+  }
+  
+  .carousel-overlay {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-item {
+    width: 95%;
+    padding: 0 2.5%;
+  }
+  
+  .carousel-image {
+    height: 300px;
+  }
+}
+
+/* Comedy Section Styles */
+.comedy-showcase {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  padding: 1.5rem 0;
+  margin: 0 auto;
+  max-width: 1200px;
+  position: relative;
+}
+
+.comedy-card {
+  height: 500px;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  border: 4px solid #222;
+  background: #222;
+}
+
+.comedy-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  z-index: 5;
+}
+
+.comedy-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.comedy-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  filter: brightness(0.8) contrast(1.1);
+}
+
+.comedy-card:hover .comedy-image img {
+  transform: scale(1.06);
+  filter: brightness(0.5) blur(2px);
+}
+
+.comedy-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #FFC107;
+  color: #000;
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+  border: 2px solid #000;
+  z-index: 5;
+  transform: rotate(5deg);
+  font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', sans-serif;
+}
+
+.comic-splash {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-8deg);
+  background: #FF1744;
+  color: white;
+  font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', sans-serif;
+  font-size: 1.8rem;
+  font-weight: bold;
+  padding: 0.4rem 1.2rem;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  z-index: 10;
+  animation: splash 2s ease-in-out infinite alternate;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.comedy-card:hover .comic-splash {
+  opacity: 0.9;
+}
+
+.comedy-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  padding: 1rem;
+}
+
+.comedy-card:hover .comedy-overlay {
+  opacity: 1;
+}
+
+.comic-panel {
+  width: 90%;
+  background-color: #2a2a35;
+  border: 3px solid #000;
+  box-shadow: 8px 8px 0 rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 8px;
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+}
+
+.comedy-card:hover .comic-panel {
+  transform: translateY(0);
+}
+
+.speech-bubble {
+  position: relative;
+  background-color: #3a3a45;
+  border: 3px solid #000;
+  border-radius: 12px;
+  padding: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.speech-bubble:after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 15px;
+  background-color: #3a3a45;
+  border-right: 3px solid #000;
+  border-bottom: 3px solid #000;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.speech-bubble h3 {
+  font-size: 1.6rem;
+  margin-bottom: 0.8rem;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', sans-serif;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+}
+
+.comedy-description {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-bottom: 0.6rem;
+  color: #ddd;
+  font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', sans-serif;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.comedy-info-rows {
+  background: #222230;
+  border: 2px solid #000;
+  padding: 0.8rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.7rem;
+}
+
+.comedy-info-row {
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #ccc;
+  font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', sans-serif;
+}
+
+.comedy-info-icon {
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
+}
+
+.comedy-book-btn {
+  background: #FF1744;
+  border: 3px solid #000;
+  color: white;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 5px 5px 0 rgba(0,0,0,0.2);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', sans-serif;
+  font-size: 1rem;
+  text-transform: uppercase;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.comedy-book-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+  background: #FF5252;
+}
+
+.comedy-book-btn .btn-icon {
+  font-size: 1.3rem;
+}
+
+/* Comic-style active state */
+.comedy-book-btn:active {
+  transform: translate(5px, 5px);
+  box-shadow: 0 0 0 rgba(0,0,0,0.2);
+}
+
+@keyframes splash {
+  0% {
+    transform: translate(-50%, -50%) rotate(-8deg) scale(0.88);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(-6deg) scale(1.12);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.04) rotate(-1.5deg); }
+}
+
+.comedy-card:nth-child(3n-2) {
+  animation: bounce 7s infinite ease-in-out;
+  animation-delay: 0s;
+}
+
+.comedy-card:nth-child(3n-1) {
+  animation: bounce 7s infinite ease-in-out;
+  animation-delay: 2.3s;
+}
+
+.comedy-card:nth-child(3n) {
+  animation: bounce 7s infinite ease-in-out;
+  animation-delay: 4.6s;
+}
+
+@media (max-width: 1200px) {
+  .comedy-showcase {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .comedy-showcase {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+  
+  .comedy-card {
+    height: 420px;
+  }
+  
+  .speech-bubble h3 {
+    font-size: 1.3rem;
+  }
+  
+  .comedy-description {
+    font-size: 0.9rem;
+  }
+  
+  .comic-splash {
+    font-size: 1.4rem;
+  }
+}
+
+/* Music & Concerts Section - Vinyl Player Design */
+.music-showcase {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: auto auto;
+  grid-template-areas: 
+    "player display"
+    "controls display";
+  gap: 1rem;
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.vinyl-player {
+  grid-area: player;
+  position: relative;
+  height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.turntable-base {
+  width: 320px;
+  height: 320px;
+  background: linear-gradient(145deg, #2c2c34, #222228);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 
+              inset 0 2px 10px rgba(255, 255, 255, 0.1),
+              inset 0 -2px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  border: 1px solid rgba(100, 100, 120, 0.2);
+}
+
+.vinyl-disc {
+  width: 85%;
+  height: 85%;
+  background: radial-gradient(circle, #222, #111);
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.vinyl-disc::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  background: repeating-radial-gradient(
+    circle,
+    rgba(40, 40, 40, 0.2) 0px,
+    rgba(40, 40, 40, 0.2) 3px,
+    rgba(30, 30, 30, 0.3) 3px,
+    rgba(30, 30, 30, 0.3) 6px
+  );
+  z-index: 1;
+}
+
+.vinyl-label {
+  width: 35%;
+  height: 35%;
+  background: linear-gradient(145deg, #ff3e3e, #ae0001);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.vinyl-label::after {
+  content: '';
+  width: 15%;
+  height: 15%;
+  background: #222;
+  border-radius: 50%;
+  position: absolute;
+  border: 1px solid #444;
+}
+
+.vinyl-arm {
+  position: absolute;
+  top: 30%;
+  right: 5%;
+  width: 35%;
+  height: 8px;
+  background: linear-gradient(90deg, #888, #666);
+  transform-origin: right center;
+  transform: rotate(-20deg);
+  border-radius: 4px;
+  z-index: 3;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.vinyl-arm::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  background: #777;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.vinyl-arm::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 5px;
+  width: 10px;
+  height: 10px;
+  background: #999;
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.vinyl-controls {
+  grid-area: controls;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.vinyl-control {
+  background: linear-gradient(145deg, #2c2c34, #222228);
+  border: none;
+  color: white;
+  padding: 0.8rem 1.2rem;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  outline: none;
+}
+
+.vinyl-control:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(145deg, #323244, #28283a);
+}
+
+.vinyl-control:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.control-icon {
+  font-size: 1.2rem;
+}
+
+.control-text {
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+.vinyl-control.play {
+  background: linear-gradient(145deg, #ff3e3e, #ae0001);
+}
+
+.vinyl-control.play:hover {
+  background: linear-gradient(145deg, #ff5252, #c70003);
+}
+
+.concert-display {
+  grid-area: display;
+  position: relative;
+  min-height: 450px;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  aspect-ratio: 16/9;
+}
+
+.concert-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
+.concert-card.active {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: all;
+}
+
+.concert-image {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.concert-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.7s ease;
+}
+
+.concert-card.active .concert-image img {
+  transform: scale(1.05);
+}
+
+.concert-details {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 70%, transparent 100%);
+  color: white;
+  transform: translateY(0);
+  transition: transform 0.5s ease;
+}
+
+.concert-details h3 {
+  font-size: 1.8rem;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.concert-caption {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.concert-book-btn {
+  background: linear-gradient(90deg, #ff3e3e, #ae0001);
+  border: none;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  box-shadow: 0 4px 10px rgba(174, 0, 1, 0.3);
+}
+
+.concert-book-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(174, 0, 1, 0.4);
+  background: linear-gradient(90deg, #ff5252, #c70003);
+}
+
+.concert-book-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 5px rgba(174, 0, 1, 0.4);
+}
+
+.btn-icon {
+  font-size: 1.2rem;
+}
+
+/* Vinyl Animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-animation {
+  animation: spin 1.5s linear;
+}
+
+/* Responsive Design for Music Section */
+@media (max-width: 1024px) {
+  .music-showcase {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas: 
+      "player"
+      "display"
+      "controls";
+  }
+
+  .vinyl-player {
+    height: 280px;
+  }
+
+  .turntable-base {
+    width: 250px;
+    height: 250px;
+  }
+
+  .concert-display {
+    min-height: 400px;
+    aspect-ratio: 4/3;
+  }
+
+  .concert-details h3 {
+    font-size: 1.6rem;
+  }
+
+  .concert-caption {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .concert-display {
+    min-height: 350px;
+    aspect-ratio: 3/2;
+  }
+
+  .concert-details {
+    padding: 1.5rem;
+  }
+
+  .concert-details h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .concert-caption {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .concert-book-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  .vinyl-player {
+    height: 240px;
+  }
+
+  .turntable-base {
+    width: 200px;
+    height: 200px;
+  }
+
+  .vinyl-controls {
+    gap: 0.5rem;
+  }
+
+  .vinyl-control {
+    padding: 0.6rem 1rem;
+  }
+
+  .control-icon {
+    font-size: 1rem;
+  }
+
+  .control-text {
+    font-size: 0.8rem;
   }
 }
