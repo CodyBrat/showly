@@ -1,12 +1,15 @@
 import { useState, useRef, useEffect } from 'react'
+import { Routes, Route, Link, useLocation } from 'react-router-dom'
 import './App.css'
 import ShowlyTitle from './components/ShowlyTitle'
 import DecryptedText from './components/DecryptedText'
 import CircularGallery from './components/CircularGallery'
 import TiltedCard from './components/TiltedCard'
+import Movies from './pages/Movies'
+import Concerts from './pages/Concerts'
+import Comedy from './pages/Comedy'
 
-function App() {
-  const [count, setCount] = useState(0)
+function HomePage() {
   const concertCarouselRef = useRef(null)
   const [activeConcert, setActiveConcert] = useState(0)
 
@@ -208,21 +211,6 @@ function App() {
 
   return (
     <>
-      <div className="navbar-container">
-        <nav className="navbar">
-          <div className="navbar-logo"></div>
-          <ul className="navbar-links">
-            <li><a href="#" className="navbar-link">Home</a></li>
-            <li><a href="#" className="navbar-link">Integrations</a></li>
-            <li><a href="#" className="navbar-link">Pricing</a></li>
-            <li><a href="#" className="navbar-link">Logs</a></li>
-            <li><a href="#" className="navbar-link">Contact</a></li>
-          </ul>
-          <div className="navbar-actions">
-            <button className="signup-button">Get Template</button>
-          </div>
-        </nav>
-      </div>
       <div className="app-container">
         <ShowlyTitle/>
       </div>
@@ -285,7 +273,7 @@ function App() {
         <div className="event-category">
           <h2>Movies</h2>
           <div className="movie-grid">
-            {movies.map((movie, index) => (
+            {movies.slice(0, 4).map((movie, index) => (
               <div className="movie-card" key={index}>
                 <div className="movie-image">
                   <TiltedCard
@@ -293,7 +281,7 @@ function App() {
                     altText={movie.title}
                     captionText={movie.title}
                     containerHeight="360px"
-                    containerWidth="90%"
+                    containerWidth="100%"
                     imageHeight="360px"
                     imageWidth="100%"
                     rotateAmplitude={12}
@@ -311,6 +299,9 @@ function App() {
                 </div>
               </div>
             ))}
+          </div>
+          <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+            <Link to="/movies" className="view-all-button">View All Movies</Link>
           </div>
         </div>
 
@@ -363,53 +354,93 @@ function App() {
               </button>
             </div>
           </div>
+          <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+            <Link to="/concerts" className="view-all-button">View All Concerts</Link>
+          </div>
         </div>
 
         <div className="event-category">
           <h2>Comedy</h2>
           <div className="comedy-showcase">
             {comedy.map((show, index) => (
-              <div className="comedy-card" key={index}>
-                <div className="comedy-image">
-                  <img src={show.image} alt={show.title} />
-                  <div className="comic-splash">{["POW!", "HAHA!", "LOL!", "BOOM!", "BANG!", "WOW!"][index % 6]}</div>
-                  <div className="comedy-overlay">
-                    <div className="comic-panel">
-                      <div className="speech-bubble">
-                        <h3>{show.title}</h3>
-                        <p className="comedy-description">{show.description}</p>
+              <Link to="/comedy" key={index} className="comedy-card-link">
+                <div className="comedy-card">
+                  <div className="comedy-image">
+                    <img src={show.image} alt={show.title} />
+                    <div className="comic-splash">{["POW!", "HAHA!", "LOL!", "BOOM!", "BANG!", "WOW!"][index % 6]}</div>
+                    <div className="comedy-overlay">
+                      <div className="comic-panel">
+                        <div className="speech-bubble">
+                          <h3>{show.title}</h3>
+                          <p className="comedy-description">{show.description}</p>
+                        </div>
+                        <div className="comedy-info-rows">
+                          <div className="comedy-info-row">
+                            <span className="comedy-info-icon">📅</span>
+                            <span>{show.date}</span>
+                          </div>
+                          <div className="comedy-info-row">
+                            <span className="comedy-info-icon">⏰</span>
+                            <span>{show.time}</span>
+                          </div>
+                          <div className="comedy-info-row">
+                            <span className="comedy-info-icon">🏢</span>
+                            <span>{show.venue}</span>
+                          </div>
+                          <div className="comedy-info-row">
+                            <span className="comedy-info-icon">💰</span>
+                            <span>{show.ticketPrice}</span>
+                          </div>
+                        </div>
+                        <button className="comedy-book-btn">
+                          <span className="btn-text">BOOK TICKETS</span>
+                          <span className="btn-icon">🎭</span>
+                        </button>
                       </div>
-                      <div className="comedy-info-rows">
-                        <div className="comedy-info-row">
-                          <span className="comedy-info-icon">📅</span>
-                          <span>{show.date}</span>
-                        </div>
-                        <div className="comedy-info-row">
-                          <span className="comedy-info-icon">⏰</span>
-                          <span>{show.time}</span>
-                        </div>
-                        <div className="comedy-info-row">
-                          <span className="comedy-info-icon">🏢</span>
-                          <span>{show.venue}</span>
-                        </div>
-                        <div className="comedy-info-row">
-                          <span className="comedy-info-icon">💰</span>
-                          <span>{show.ticketPrice}</span>
-                        </div>
-                      </div>
-                      <button className="comedy-book-btn">
-                        <span className="btn-text">BOOK TICKETS</span>
-                        <span className="btn-icon">🎭</span>
-                      </button>
                     </div>
                   </div>
+                  <div className="comedy-badge">{show.date}</div>
                 </div>
-                <div className="comedy-badge">{show.date}</div>
-              </div>
+              </Link>
             ))}
+          </div>
+          <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+            <Link to="/comedy" className="view-all-button">View All Comedy</Link>
           </div>
         </div>
       </div>
+    </>
+  )
+}
+
+function App() {
+  const location = useLocation();
+  
+  return (
+    <>
+      <div className="navbar-container">
+        <nav className="navbar">
+          <div className="navbar-logo"></div>
+          <ul className="navbar-links">
+            <li><Link to="/" className={`navbar-link ${location.pathname === '/' ? 'active' : ''}`}>Home</Link></li>
+            <li><Link to="/movies" className={`navbar-link ${location.pathname === '/movies' ? 'active' : ''}`}>Movies</Link></li>
+            <li><Link to="/concerts" className={`navbar-link ${location.pathname === '/concerts' ? 'active' : ''}`}>Concerts</Link></li>
+            <li><Link to="/comedy" className={`navbar-link ${location.pathname.includes('/comedy') ? 'active' : ''}`}>Comedy</Link></li>
+            <li><Link to="/contact" className={`navbar-link ${location.pathname === '/contact' ? 'active' : ''}`}>Contact</Link></li>
+          </ul>
+          <div className="navbar-actions">
+            <button className="signup-button">Get Template</button>
+          </div>
+        </nav>
+      </div>
+      
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/movies" element={<Movies />} />
+        <Route path="/concerts" element={<Concerts />} />
+        <Route path="/comedy" element={<Comedy />} />
+        <Route path="*" element={<HomePage />} />
+      </Routes>
     </>
   )
 }
