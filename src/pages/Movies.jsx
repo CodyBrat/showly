@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import TiltedCard from '../components/TiltedCard';
 import DecryptedText from '../components/DecryptedText';
 import '../styles/Movies.css';
@@ -113,59 +113,163 @@ export default function Movies() {
     }
   ];
 
-  const [selectedGenre, setSelectedGenre] = useState('all');
+  // All movies combined for hero banner rotation
+  const featuredMovies = [
+    // Action movies
+    ...actionMovies.map(movie => ({
+      ...movie,
+      match: "96% Match",
+      description: movie.caption.includes("In Cinemas") 
+        ? `${movie.caption} • ${movie.genre}` 
+        : `${movie.caption} • ${movie.genre}`
+    })),
+    // Adventure movies
+    ...adventureMovies.map(movie => ({
+      ...movie,
+      match: "98% Match",
+      description: movie.caption.includes("In Cinemas") 
+        ? `${movie.caption} • ${movie.genre}` 
+        : `${movie.caption} • ${movie.genre}`
+    })),
+    // Drama movies
+    ...dramaMovies.map(movie => ({
+      ...movie,
+      match: "93% Match",
+      description: movie.caption.includes("In Cinemas") 
+        ? `${movie.caption} • ${movie.genre}` 
+        : `${movie.caption} • ${movie.genre}`
+    })),
+    // Sci-Fi movies
+    ...scifiMovies.map(movie => ({
+      ...movie,
+      match: "95% Match",
+      description: movie.caption.includes("In Cinemas") 
+        ? `${movie.caption} • ${movie.genre}` 
+        : `${movie.caption} • ${movie.genre}`
+    }))
+  ];
 
-  // Generic render function for movie grids
-  const renderMovieGrid = (movies) => {
+  const [selectedGenre, setSelectedGenre] = useState('all');
+  const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
+  const [isHeroTransitioning, setIsHeroTransitioning] = useState(false);
+
+  const sliderRefs = {
+    action: useRef(null),
+    adventure: useRef(null),
+    drama: useRef(null),
+    scifi: useRef(null)
+  };
+
+  // Get current hero movie with safeguards
+  const currentHeroMovie = featuredMovies[currentHeroIndex] || featuredMovies[0];
+
+  // Hero banner rotation effect - with safeguards
+  useEffect(() => {
+    // Ensure there are featured movies
+    if (featuredMovies.length === 0) return;
+
+    const interval = setInterval(() => {
+      setIsHeroTransitioning(true);
+      setTimeout(() => {
+        setCurrentHeroIndex((prevIndex) => {
+          // Ensure we don't exceed array bounds
+          const nextIndex = (prevIndex + 1) % featuredMovies.length;
+          return nextIndex;
+        });
+        setIsHeroTransitioning(false);
+      }, 500);
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, [featuredMovies.length]);
+
+  // Function to scroll sliders
+  const scrollSlider = (ref, direction) => {
+    if (ref.current) {
+      const scrollAmount = direction === 'left' ? -800 : 800;
+      ref.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
+
+  // Generic render function for movie sliders
+  const renderMovieSlider = (movies, sliderRef, category) => {
     return (
-      <div className="movie-grid">
-        {movies.map((movie, index) => (
-          <div className="movie-card" key={index}>
-            <div className="movie-image">
-              <TiltedCard
-                imageSrc={movie.image}
-                altText={movie.title}
-                captionText={movie.title}
-                containerHeight="360px"
-                containerWidth="100%"
-                imageHeight="360px"
-                imageWidth="100%"
-                rotateAmplitude={12}
-                scaleOnHover={1.05}
-                showMobileWarning={false}
-                showTooltip={true}
-                displayOverlayContent={true}
-                overlayContent={
-                  <div className="movie-overlay-content">
-                    <h3>{movie.title}</h3>
-                    <p className="movie-genre">{movie.genre}</p>
-                    <p className="movie-caption">{movie.caption}</p>
-                  </div>
-                }
-              />
-            </div>
+      <div className="movie-slider-container">
+        <div className="movie-slider-controls">
+          <button 
+            className="slider-control left" 
+            onClick={() => scrollSlider(sliderRef, 'left')}
+            aria-label="Scroll left"
+          >
+            ‹
+          </button>
+          <div className="movie-slider" ref={sliderRef}>
+            {movies.map((movie, index) => (
+              <div className="movie-slider-card" key={index}>
+                <TiltedCard
+                  imageSrc={movie.image}
+                  altText={movie.title}
+                  captionText={movie.title}
+                  containerHeight="360px"
+                  containerWidth="250px"
+                  imageHeight="360px"
+                  imageWidth="100%"
+                  rotateAmplitude={15}
+                  scaleOnHover={1.08}
+                  showMobileWarning={false}
+                  showTooltip={false}
+                  displayOverlayContent={true}
+                  overlayContent={
+                    <div className="movie-overlay-content">
+                      <div className="book-now-btn">Book Now</div>
+                      <h3>{movie.title}</h3>
+                      <p className="movie-genre">{movie.genre}</p>
+                      <p className="movie-caption">{movie.caption}</p>
+                    </div>
+                  }
+                />
+              </div>
+            ))}
           </div>
-        ))}
+          <button 
+            className="slider-control right" 
+            onClick={() => scrollSlider(sliderRef, 'right')}
+            aria-label="Scroll right"
+          >
+            ›
+          </button>
+        </div>
       </div>
     );
   };
 
   return (
     <div className="movies-page">
-      <div className="movies-hero">
-        <h1>
-          <DecryptedText 
-            text="Movies Collection" 
-            animateOn="view"
-            sequential={true}
-            speed={80}
-            maxIterations={20}
-            className="decrypted"
-            encryptedClassName="encrypted"
-            parentClassName="decryption-animation"
-          />
-        </h1>
-        <p className="movies-subtitle">Explore our curated selection of upcoming and trending movies</p>
+      {/* Dynamic Hero Banner */}
+      <div className={`movies-hero-banner ${isHeroTransitioning ? 'transitioning' : ''}`}>
+        <div className="hero-content">
+          <div className="hero-text">
+            <div className="movie-badges">
+              <span className="movie-match">{currentHeroMovie.match}</span>
+              <span className="movie-year">{currentHeroMovie.caption}</span>
+            </div>
+            <h1>{currentHeroMovie.title}</h1>
+            <p className="movie-description">{currentHeroMovie.description}</p>
+            <div className="hero-genre">{currentHeroMovie.genre}</div>
+            <div className="hero-actions">
+              <button className="hero-button book-now">
+                <span className="icon">🎬</span> Book Now
+              </button>
+              <button className="hero-button add-wishlist">
+                <span className="icon">+</span> My List
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="hero-gradient-overlay"></div>
+        <div className="hero-image">
+          <img src={currentHeroMovie.image} alt={currentHeroMovie.title} />
+        </div>
       </div>
 
       <div className="genre-filter">
@@ -201,13 +305,14 @@ export default function Movies() {
         </button>
       </div>
 
+      {/* Movie Categories with Horizontal Sliders */}
       {(selectedGenre === 'all' || selectedGenre === 'action') && (
         <div className="movie-category">
           <h2>Action Movies</h2>
           <div className="movie-category-description">
             <p>High-octane thrills and adrenaline-pumping adventures await</p>
           </div>
-          {renderMovieGrid(actionMovies)}
+          {renderMovieSlider(actionMovies, sliderRefs.action, 'action')}
         </div>
       )}
 
@@ -217,7 +322,7 @@ export default function Movies() {
           <div className="movie-category-description">
             <p>Epic journeys and captivating explorations of new worlds</p>
           </div>
-          {renderMovieGrid(adventureMovies)}
+          {renderMovieSlider(adventureMovies, sliderRefs.adventure, 'adventure')}
         </div>
       )}
 
@@ -227,7 +332,7 @@ export default function Movies() {
           <div className="movie-category-description">
             <p>Emotional narratives that explore the depths of human experience</p>
           </div>
-          {renderMovieGrid(dramaMovies)}
+          {renderMovieSlider(dramaMovies, sliderRefs.drama, 'drama')}
         </div>
       )}
 
@@ -237,7 +342,7 @@ export default function Movies() {
           <div className="movie-category-description">
             <p>Futuristic visions and mind-bending concepts that challenge reality</p>
           </div>
-          {renderMovieGrid(scifiMovies)}
+          {renderMovieSlider(scifiMovies, sliderRefs.scifi, 'scifi')}
         </div>
       )}
 
