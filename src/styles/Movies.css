@@ -10,23 +10,52 @@
 /* Netflix-style Hero Banner */
 .movies-hero-banner {
   position: relative;
-  height: 80vh;
+  height: 90vh;
   width: 100%;
   overflow: hidden;
   margin-bottom: 2rem;
+  z-index: 1;
+}
+
+.hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: inset 0 0 100px 20px rgba(0, 0, 0, 0.8);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  transform-origin: center;
 }
 
 /* Hero transition effects */
 .movies-hero-banner .hero-image img {
-  transition: opacity 0.5s ease, transform 12s ease;
+  transition: opacity 0.8s ease, transform 12s ease;
   opacity: 1;
-  transform: scale(1.04);
   animation: slowZoom 12s infinite alternate;
 }
 
 @keyframes slowZoom {
   from {
-    transform: scale(1);
+    transform: scale(1.02);
   }
   to {
     transform: scale(1.08);
@@ -57,35 +86,42 @@
   transform: translateX(-20px);
 }
 
-.hero-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
-.hero-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 .hero-gradient-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    to right,
-    rgba(20, 20, 20, 0.9) 0%,
-    rgba(20, 20, 20, 0.6) 30%,
-    rgba(20, 20, 20, 0.4) 50%,
-    rgba(20, 20, 20, 0.1) 85%,
-    rgba(20, 20, 20, 0) 100%
-  );
+  background-image: 
+    /* Side gradient */
+    linear-gradient(
+      to right,
+      rgba(20, 20, 20, 0.95) 0%,
+      rgba(20, 20, 20, 0.8) 15%,
+      rgba(20, 20, 20, 0.6) 30%,
+      rgba(20, 20, 20, 0.3) 50%,
+      rgba(20, 20, 20, 0.2) 70%,
+      rgba(20, 20, 20, 0.3) 85%,
+      rgba(20, 20, 20, 0.5) 100%
+    ),
+    /* Top gradient */
+    linear-gradient(
+      to bottom,
+      rgba(20, 20, 20, 0.9) 0%,
+      rgba(20, 20, 20, 0.6) 5%,
+      rgba(20, 20, 20, 0.1) 15%,
+      rgba(20, 20, 20, 0) 25%
+    ),
+    /* Bottom gradient */
+    linear-gradient(
+      to top,
+      rgba(20, 20, 20, 0.95) 0%,
+      rgba(20, 20, 20, 0.8) 10%,
+      rgba(20, 20, 20, 0.6) 20%,
+      rgba(20, 20, 20, 0.4) 30%,
+      rgba(20, 20, 20, 0.2) 50%,
+      rgba(20, 20, 20, 0) 70%
+    );
   z-index: 2;
 }
 
@@ -93,17 +129,18 @@
   position: absolute;
   bottom: 20%;
   left: 5%;
-  width: 40%;
+  width: 45%;
   z-index: 3;
-  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .hero-text h1 {
-  font-size: 3.5rem;
+  font-size: 4.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
   line-height: 1.1;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 0, 0, 0.3);
+  letter-spacing: -1px;
 }
 
 .movie-badges {
@@ -116,25 +153,29 @@
 .movie-match {
   color: #46d369;
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .movie-year {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   color: #ddd;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .movie-description {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   margin-bottom: 1.5rem;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .hero-genre {
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: #ddd;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.8rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .hero-actions {

@@ -8,24 +8,28 @@ export default function Movies() {
   const actionMovies = [
     {
       image: "https://m.media-amazon.com/images/M/MV5BZWU4NDY0ODktOGI3OC00NWE1LWIwYmQtNmJiZWU3NmZlMDhkXkEyXkFqcGc@._V1_.jpg",
+      bannerImage: "https://i0.wp.com/teaser-trailer.com/wp-content/uploads/2025/02/Until-Dawn.jpg?ssl=1",
       title: "Until Dawn",
       caption: "25th April 2025",
       genre: "Action, Thriller"
     },
     {
       image: "https://m.media-amazon.com/images/M/MV5BYjhkZjM3ZWYtMjUxMS00YzhlLTkxZWYtMzhkMzFhOTQ1NjRkXkEyXkFqcGc@._V1_.jpg",
+      bannerImage: "https://i.ytimg.com/vi/DFUiEIUVMhU/maxresdefault.jpg",
       title: "Amateur",
       caption: "In Cinemas • 11th April 2025",
       genre: "Action, Drama"
     },
     {
       image: "https://m.media-amazon.com/images/M/MV5BNjIwZWY4ZDEtMmIxZS00NDA4LTg4ZGMtMzUwZTYyNzgxMzk5XkEyXkFqcGc@._V1_.jpg",
+      bannerImage: "https://static-3.bitchute.com/live/cover_images/j6OsrydHxyia/aehpjtTAmc9j_640x360.jpg",
       title: "Sinner",
       caption: "In Cinemas • 18th April 2025",
       genre: "Action, Crime"
     },
     {
       image: "https://upload.wikimedia.org/wikipedia/en/thumb/9/95/Kesari_Chapter_2.jpg/250px-Kesari_Chapter_2.jpg",
+      bannerImage: "https://assets-in.bmscdn.com/discovery-catalog/events/et00439158-tynvgbjqby-landscape.jpg",
       title: "Kesari Chapter 2",
       caption: "In Cinemas • 18th April 2025",
       genre: "Action, Historical"
@@ -35,24 +39,28 @@ export default function Movies() {
   const adventureMovies = [
     {
       image: "https://image.tmdb.org/t/p/original/iPPTGh2OXuIv6d7cwuoPkw8govp.jpg",
+      bannerImage: "https://www.minecraft.net/content/dam/minecraftnet/franchise/photography/things/AMM%20Hero%20Visual%20Bee%20-%201170x500.jpg.jpg",
       title: "Minecraft: The Movie",
       caption: "In Cinemas • 4th April 2025",
       genre: "Adventure, Fantasy"
     },
     {
       image: "https://s3.amazonaws.com/nightjarprod/content/uploads/sites/130/2025/02/03190714/rzfqeLdHIysJGrspMICyedpqDqt-scaled.jpg",
+      bannerImage: "https://assets-in.bmscdn.com/discovery-catalog/events/et00418746-rgmwhtbrqr-landscape.jpg",
       title: "Paddington in Peru",
       caption: "In Cinemas • 18th April 2025",
       genre: "Adventure, Comedy"
     },
     {
       image: "https://stat5.bollywoodhungama.in/wp-content/uploads/2023/10/Chhaava.jpg",
+      bannerImage: "https://img.nowrunning.com/content/movie/2024/chaav-28722/bg4-chhaava.jpg",
       title: "Chhaava",
       caption: "In Cinemas • 14th April 2025",
       genre: "Adventure, Historical"
     },
     {
       image: "https://assets-in.bmscdn.com/discovery-catalog/events/et00378228-tqqybflwkx-landscape.jpg",
+      bannerImage: "https://filmfare.wwmindia.com/content/2023/apr/ramayana11682580089.jpg",
       title: "Ramayana",
       caption: "Coming Soon • June 2025",
       genre: "Adventure, Mythological"
@@ -62,24 +70,28 @@ export default function Movies() {
   const dramaMovies = [
     {
       image: "https://dx35vtwkllhj9.cloudfront.net/the-chosen-inc/the-chosen-last-supper/images/gallery/image1.jpg",
+      bannerImage: "https://images.christianpost.com/full/142915/the-chosen-last-supper.jpg?w=1920",
       title: "The Chosen: Last Supper",
       caption: "In Cinemas • 17th April 2025",
       genre: "Drama, Historical"
     },
     {
       image: "https://m.media-amazon.com/images/M/MV5BM2QwNGJkMDQtZWRlYy00OGE2LWJiYzktYWY1OGU2YjYwZTVmXkEyXkFqcGc@._V1_.jpg",
+      bannerImage: "https://www.augustreview.com/wp-content/uploads/2022/10/The-Piano-Lesson-Denzel-Wasington.jpg",
       title: "The Piano Lesson",
       caption: "Coming Soon • May 2025",
       genre: "Drama"
     },
     {
       image: "https://m.media-amazon.com/images/M/MV5BNTk5MTkzNjU1OV5BMl5BanBnXkFtZTgwNzk5Mzk3MzE@._V1_.jpg",
+      bannerImage: "https://amc-theatres-res.cloudinary.com/image/upload/f_auto,fl_lossy,h_465,q_auto,w_1920/v1579117927/amc-cdn/production/2/movies/4800/4770/Hero_1920x1080.jpg",
       title: "A Beautiful Mind",
       caption: "Remastered • June 2025",
       genre: "Drama, Biography"
     },
     {
       image: "https://in.bmscdn.com/events/moviecard/ET00334632.jpg",
+      bannerImage: "https://filmfare.wwmindia.com/content/2022/nov/malkaantheteacher11669788708.jpg",
       title: "The Teacher",
       caption: "In Cinemas • 5th May 2025",
       genre: "Drama, Thriller"
@@ -89,24 +101,28 @@ export default function Movies() {
   const scifiMovies = [
     {
       image: "https://www.hollywoodreporter.com/wp-content/uploads/2016/06/independence_day_resurgence_10.jpg",
+      bannerImage: "https://c4.wallpaperflare.com/wallpaper/306/64/1022/extinction-independence-day-resurgence-movies-wallpaper-preview.jpg",
       title: "Extinction Event",
       caption: "Coming Soon • July 2025",
       genre: "Sci-Fi, Action"
     },
     {
       image: "https://i0.wp.com/www.murphysmultiverse.com/wp-content/uploads/2022/12/mafvx5.jpg",
+      bannerImage: "https://assets-prd.ignimgs.com/2021/05/10/the-colony-poster-1620658422354.jpg",
       title: "The Colony",
       caption: "In Cinemas • 28th April 2025",
       genre: "Sci-Fi, Thriller"
     },
     {
       image: "https://assets-prd.ignimgs.com/2022/10/07/screenshot-1665160759108-1665160873121.png",
+      bannerImage: "https://www.chicagomag.com/wp-content/archive/Arts-Culture/C-Notes/February-2013/From-the-Vault-Quantum-Leap/quantum-leap-banner.jpg",
       title: "Quantum Breach",
       caption: "Coming Soon • May 2025",
       genre: "Sci-Fi, Mystery"
     },
     {
       image: "https://i0.wp.com/bloody-disgusting.com/wp-content/uploads/2017/10/alien-covenant-1.jpg",
+      bannerImage: "https://cdn.mos.cms.futurecdn.net/xZbgGhM2beWbpDUaZZQDsi.jpg",
       title: "Deep Space",
       caption: "Coming Soon • August 2025",
       genre: "Sci-Fi, Horror"
@@ -169,19 +185,27 @@ export default function Movies() {
     if (featuredMovies.length === 0) return;
 
     const interval = setInterval(() => {
+      // Start transition
       setIsHeroTransitioning(true);
+      
+      // Wait for fade out to complete before changing content
       setTimeout(() => {
+        // Change the index
         setCurrentHeroIndex((prevIndex) => {
           // Ensure we don't exceed array bounds
           const nextIndex = (prevIndex + 1) % featuredMovies.length;
           return nextIndex;
         });
-        setIsHeroTransitioning(false);
-      }, 500);
-    }, 5000);
+        
+        // Allow time for DOM to update before showing new content
+        setTimeout(() => {
+          setIsHeroTransitioning(false);
+        }, 100);
+      }, 800); // Match this with the CSS transition time
+    }, 8000); // Increase display time for each movie
     
     return () => clearInterval(interval);
-  }, [featuredMovies.length]);
+  }, [featuredMovies.length, currentHeroIndex]);
 
   // Function to scroll sliders
   const scrollSlider = (ref, direction) => {
@@ -204,31 +228,31 @@ export default function Movies() {
             ‹
           </button>
           <div className="movie-slider" ref={sliderRef}>
-            {movies.map((movie, index) => (
+        {movies.map((movie, index) => (
               <div className="movie-slider-card" key={index}>
-                <TiltedCard
-                  imageSrc={movie.image}
-                  altText={movie.title}
-                  captionText={movie.title}
-                  containerHeight="360px"
+              <TiltedCard
+                imageSrc={movie.image}
+                altText={movie.title}
+                captionText={movie.title}
+                containerHeight="360px"
                   containerWidth="250px"
-                  imageHeight="360px"
-                  imageWidth="100%"
+                imageHeight="360px"
+                imageWidth="100%"
                   rotateAmplitude={15}
                   scaleOnHover={1.08}
-                  showMobileWarning={false}
+                showMobileWarning={false}
                   showTooltip={false}
-                  displayOverlayContent={true}
-                  overlayContent={
-                    <div className="movie-overlay-content">
+                displayOverlayContent={true}
+                overlayContent={
+                  <div className="movie-overlay-content">
                       <div className="book-now-btn">Book Now</div>
-                      <h3>{movie.title}</h3>
-                      <p className="movie-genre">{movie.genre}</p>
-                      <p className="movie-caption">{movie.caption}</p>
-                    </div>
-                  }
-                />
-              </div>
+                    <h3>{movie.title}</h3>
+                    <p className="movie-genre">{movie.genre}</p>
+                    <p className="movie-caption">{movie.caption}</p>
+                  </div>
+                }
+              />
+            </div>
             ))}
           </div>
           <button 
@@ -268,7 +292,7 @@ export default function Movies() {
         </div>
         <div className="hero-gradient-overlay"></div>
         <div className="hero-image">
-          <img src={currentHeroMovie.image} alt={currentHeroMovie.title} />
+          <img src={currentHeroMovie.bannerImage || currentHeroMovie.image} alt={currentHeroMovie.title} />
         </div>
       </div>
 
