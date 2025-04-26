@@ -67,14 +67,14 @@ function HomePage() {
 
   const concerts = [
     {
-      image: "https://www.impericon.com/cdn/shop/articles/20241209_g_r_2.jpg?v=1742482171",
-      title: "Summer Festival 2024",
+      image: "https://metalinsider.net/wp-content/uploads/2024/12/GunsNRoses_EU_ME_2025_Tour_Banner.jpg",
+      title: "Guns N Roses",
       caption: "Live • Aug 2024"
     },
     {
       image: "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-vilen-india-tour-0-2025-4-8-t-12-59-57.jpg",
-      title: "Rock Legends Tour",
-      caption: "Coming Soon • Jul 2024"
+      title: "Vilen India Tour",
+      caption: "Live • Apr 2025"
     },
     {
       image: "https://assets-in.bmscdn.com/discovery-catalog/events/et00438542-jxttzzdppy-landscape.jpg",
@@ -198,14 +198,41 @@ function HomePage() {
   }, [concerts.length]);
 
   const changeConcert = (index) => {
+    // Add a small delay before changing to let the animation work
+    const currentActive = document.querySelector('.concert-card.active');
     const vinyl = document.querySelector('.vinyl-disc');
-    if (vinyl) {
+    
+    if (currentActive) {
+      currentActive.classList.add('transitioning');
+      
+      // Also animate the vinyl disc
+      if (vinyl) {
+        vinyl.classList.remove('spin-animation');
+        setTimeout(() => {
+          vinyl.classList.add('spin-animation');
+        }, 50);
+      }
+      
+      setTimeout(() => {
+        setActiveConcert(index);
+        
+        setTimeout(() => {
+          const newActive = document.querySelector('.concert-card.active');
+          if (newActive) {
+            newActive.classList.remove('transitioning');
+          }
+        }, 50);
+      }, 300);
+    } else {
       setActiveConcert(index);
       
-      // Reset and replay animation
-      vinyl.classList.remove('spin-animation');
-      void vinyl.offsetWidth; // Trigger reflow
-      vinyl.classList.add('spin-animation');
+      // Also animate the vinyl disc on first change
+      if (vinyl) {
+        vinyl.classList.remove('spin-animation');
+        setTimeout(() => {
+          vinyl.classList.add('spin-animation');
+        }, 50);
+      }
     }
   };
 
@@ -322,13 +349,11 @@ function HomePage() {
                   <div className="concert-image">
                     <img src={concert.image} alt={concert.title} />
                   </div>
+                  <div className="card-logo">C6BANK</div>
+                  <div className="card-chip"></div>
                   <div className="concert-details">
                     <h3>{concert.title}</h3>
                     <p className="concert-caption">{concert.caption}</p>
-                    <button className="concert-book-btn">
-                      <span>BOOK NOW</span>
-                      <span className="btn-icon">🎵</span>
-                    </button>
                   </div>
                 </div>
               ))}
@@ -342,7 +367,7 @@ function HomePage() {
                 <span className="control-text">Prev</span>
               </button>
               <button className="vinyl-control play">
-                <span className="control-icon">▶️</span>
+                <span className="control-icon">▶</span>
                 <span className="control-text">Play</span>
               </button>
               <button className="vinyl-control next" onClick={() => {
