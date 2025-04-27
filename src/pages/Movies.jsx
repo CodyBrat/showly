@@ -1,11 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TiltedCard from '../components/TiltedCard';
 import DecryptedText from '../components/DecryptedText';
 import '../styles/Movies.css';
 
 export default function Movies() {
-  // Data for different movie genres
-  const actionMovies = [
+  const navigate = useNavigate();
+
+  // All movies in a single array
+  const allMovies = [
+    // Action movies
     {
       image: "https://m.media-amazon.com/images/M/MV5BZWU4NDY0ODktOGI3OC00NWE1LWIwYmQtNmJiZWU3NmZlMDhkXkEyXkFqcGc@._V1_.jpg",
       bannerImage: "https://i0.wp.com/teaser-trailer.com/wp-content/uploads/2025/02/Until-Dawn.jpg?ssl=1",
@@ -33,10 +37,22 @@ export default function Movies() {
       title: "Kesari Chapter 2",
       caption: "In Cinemas • 18th April 2025",
       genre: "Action, Historical"
-    }
-  ];
-
-  const adventureMovies = [
+    },
+    {
+      image: "https://cdn.marvel.com/content/1x/thunderboltsposter.jpeg",
+      bannerImage: "https://m.media-amazon.com/images/M/MV5BZDcxYTUzYzItZWZmMi00MTEyLTg0YjEtMGI1ZWY4OTQ2NmRkXkEyXkFqcGc@._V1_QL75_UY281_CR28,0,500,281_.jpg",
+      title: "Thunderbolts",
+      caption: "Release Date • 1st May 2025",
+      genre: "Action, Sci-Fi, Superhero, Adventure"
+    },
+    {
+      image: "https://m.media-amazon.com/images/M/MV5BNDRjY2E0ZmEtN2QwNi00NTEwLWI3MWItODNkMGYwYWFjNGE0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+      bannerImage: "https://assetscdn1.paytm.com/images/cinema/Captain-America--3ce23240-d976-11ef-8e08-83a3f4555821.jpeg",
+      title: "Captain America: Brave New World",
+      caption: "In Cinemas • 14th Feb 2025",
+      genre: "Action, Sci-Fi, Superhero, Adventure"
+    },
+    // Adventure movies
     {
       image: "https://image.tmdb.org/t/p/original/iPPTGh2OXuIv6d7cwuoPkw8govp.jpg",
       bannerImage: "https://www.minecraft.net/content/dam/minecraftnet/franchise/photography/things/AMM%20Hero%20Visual%20Bee%20-%201170x500.jpg.jpg",
@@ -59,15 +75,20 @@ export default function Movies() {
       genre: "Adventure, Historical"
     },
     {
-      image: "https://assets-in.bmscdn.com/discovery-catalog/events/et00378228-tqqybflwkx-landscape.jpg",
-      bannerImage: "https://filmfare.wwmindia.com/content/2023/apr/ramayana11682580089.jpg",
-      title: "Ramayana",
-      caption: "Coming Soon • June 2025",
-      genre: "Adventure, Mythological"
-    }
-  ];
-
-  const dramaMovies = [
+      image: "https://m.media-amazon.com/images/M/MV5BZGQwYmEzMzktYzBmMy00NmVmLTkyYTUtOTYyZjliZDNhZGVkXkEyXkFqcGc@._V1_.jpg",
+      bannerImage: "https://bleedingcool.com/wp-content/uploads/2025/01/mickey_oneseven_ver2_xxlg-1-2000x1125.jpg",
+      title: "Mickey 17",
+      caption: "In Cinemas • 7th March 2025",
+      genre: "Adventure, Comedy"
+    },
+    {
+      image: "https://i.redd.it/h9pk49rpxexc1.jpeg",
+      bannerImage: "https://static.digit.in/Mufasa-OTT-Release.png",
+      title: "Mufasa: The Lion King",
+      caption: "Release Date • 20th Dec 2024",
+      genre: "Adventure, Drama, Family"
+    },
+    // Drama movies
     {
       image: "https://dx35vtwkllhj9.cloudfront.net/the-chosen-inc/the-chosen-last-supper/images/gallery/image1.jpg",
       bannerImage: "https://images.christianpost.com/full/142915/the-chosen-last-supper.jpg?w=1920",
@@ -95,10 +116,8 @@ export default function Movies() {
       title: "The Teacher",
       caption: "In Cinemas • 5th May 2025",
       genre: "Drama, Thriller"
-    }
-  ];
-
-  const scifiMovies = [
+    },
+    // Sci-Fi movies
     {
       image: "https://www.hollywoodreporter.com/wp-content/uploads/2016/06/independence_day_resurgence_10.jpg",
       bannerImage: "https://c4.wallpaperflare.com/wallpaper/306/64/1022/extinction-independence-day-resurgence-movies-wallpaper-preview.jpg",
@@ -129,41 +148,38 @@ export default function Movies() {
     }
   ];
 
+  // Dynamically categorize movies based on their genre
+  const categorizeMoviesByGenre = () => {
+    const actionMovies = allMovies.filter(movie => 
+      movie.genre.includes('Action'));
+    
+    const adventureMovies = allMovies.filter(movie => 
+      movie.genre.includes('Adventure'));
+    
+    const dramaMovies = allMovies.filter(movie => 
+      movie.genre.includes('Drama'));
+    
+    const scifiMovies = allMovies.filter(movie => 
+      movie.genre.includes('Sci-Fi'));
+    
+    return {
+      actionMovies,
+      adventureMovies,
+      dramaMovies,
+      scifiMovies
+    };
+  };
+
+  const { actionMovies, adventureMovies, dramaMovies, scifiMovies } = categorizeMoviesByGenre();
+
   // All movies combined for hero banner rotation
-  const featuredMovies = [
-    // Action movies
-    ...actionMovies.map(movie => ({
-      ...movie,
-      match: "96% Match",
-      description: movie.caption.includes("In Cinemas") 
-        ? `${movie.caption} • ${movie.genre}` 
-        : `${movie.caption} • ${movie.genre}`
-    })),
-    // Adventure movies
-    ...adventureMovies.map(movie => ({
-      ...movie,
-      match: "98% Match",
-      description: movie.caption.includes("In Cinemas") 
-        ? `${movie.caption} • ${movie.genre}` 
-        : `${movie.caption} • ${movie.genre}`
-    })),
-    // Drama movies
-    ...dramaMovies.map(movie => ({
-      ...movie,
-      match: "93% Match",
-      description: movie.caption.includes("In Cinemas") 
-        ? `${movie.caption} • ${movie.genre}` 
-        : `${movie.caption} • ${movie.genre}`
-    })),
-    // Sci-Fi movies
-    ...scifiMovies.map(movie => ({
-      ...movie,
-      match: "95% Match",
-      description: movie.caption.includes("In Cinemas") 
-        ? `${movie.caption} • ${movie.genre}` 
-        : `${movie.caption} • ${movie.genre}`
-    }))
-  ];
+  const featuredMovies = allMovies.map(movie => ({
+    ...movie,
+    match: "96% Match",
+    description: movie.caption.includes("In Cinemas") 
+      ? `${movie.caption} • ${movie.genre}` 
+      : `${movie.caption} • ${movie.genre}`
+  }));
 
   const [selectedGenre, setSelectedGenre] = useState('all');
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
@@ -215,6 +231,11 @@ export default function Movies() {
     }
   };
 
+  // Function to handle booking navigation
+  const handleBookNow = (movie) => {
+    navigate('/booking', { state: { movie } });
+  };
+
   // Generic render function for movie sliders
   const renderMovieSlider = (movies, sliderRef, category) => {
     return (
@@ -228,31 +249,33 @@ export default function Movies() {
             ‹
           </button>
           <div className="movie-slider" ref={sliderRef}>
-        {movies.map((movie, index) => (
+            {movies.map((movie, index) => (
               <div className="movie-slider-card" key={index}>
-              <TiltedCard
-                imageSrc={movie.image}
-                altText={movie.title}
-                captionText={movie.title}
-                containerHeight="360px"
+                <TiltedCard
+                  imageSrc={movie.image}
+                  altText={movie.title}
+                  captionText={movie.title}
+                  containerHeight="360px"
                   containerWidth="250px"
-                imageHeight="360px"
-                imageWidth="100%"
+                  imageHeight="360px"
+                  imageWidth="100%"
                   rotateAmplitude={15}
                   scaleOnHover={1.08}
-                showMobileWarning={false}
+                  showMobileWarning={false}
                   showTooltip={false}
-                displayOverlayContent={true}
-                overlayContent={
-                  <div className="movie-overlay-content">
-                      <div className="book-now-btn">Book Now</div>
-                    <h3>{movie.title}</h3>
-                    <p className="movie-genre">{movie.genre}</p>
-                    <p className="movie-caption">{movie.caption}</p>
-                  </div>
-                }
-              />
-            </div>
+                  displayOverlayContent={true}
+                  overlayContent={
+                    <div className="movie-overlay-content">
+                      <div className="book-now-btn" onClick={() => handleBookNow(movie)}>Book Now</div>
+                      <div className="movie-details">
+                        <h3>{movie.title}</h3>
+                        <p className="movie-genre">{movie.genre}</p>
+                        <p className="movie-caption">{movie.caption}</p>
+                      </div>
+                    </div>
+                  }
+                />
+              </div>
             ))}
           </div>
           <button 
@@ -281,7 +304,10 @@ export default function Movies() {
             <p className="movie-description">{currentHeroMovie.description}</p>
             <div className="hero-genre">{currentHeroMovie.genre}</div>
             <div className="hero-actions">
-              <button className="hero-button book-now">
+              <button 
+                className="hero-button book-now"
+                onClick={() => handleBookNow(currentHeroMovie)}
+              >
                 <span className="icon">🎬</span> Book Now
               </button>
               <button className="hero-button add-wishlist">
@@ -330,7 +356,7 @@ export default function Movies() {
       </div>
 
       {/* Movie Categories with Horizontal Sliders */}
-      {(selectedGenre === 'all' || selectedGenre === 'action') && (
+      {(selectedGenre === 'all' || selectedGenre === 'action') && actionMovies.length > 0 && (
         <div className="movie-category">
           <h2>Action Movies</h2>
           <div className="movie-category-description">
@@ -340,7 +366,7 @@ export default function Movies() {
         </div>
       )}
 
-      {(selectedGenre === 'all' || selectedGenre === 'adventure') && (
+      {(selectedGenre === 'all' || selectedGenre === 'adventure') && adventureMovies.length > 0 && (
         <div className="movie-category">
           <h2>Adventure Movies</h2>
           <div className="movie-category-description">
@@ -350,7 +376,7 @@ export default function Movies() {
         </div>
       )}
 
-      {(selectedGenre === 'all' || selectedGenre === 'drama') && (
+      {(selectedGenre === 'all' || selectedGenre === 'drama') && dramaMovies.length > 0 && (
         <div className="movie-category">
           <h2>Drama Movies</h2>
           <div className="movie-category-description">
@@ -360,7 +386,7 @@ export default function Movies() {
         </div>
       )}
 
-      {(selectedGenre === 'all' || selectedGenre === 'scifi') && (
+      {(selectedGenre === 'all' || selectedGenre === 'scifi') && scifiMovies.length > 0 && (
         <div className="movie-category">
           <h2>Sci-Fi Movies</h2>
           <div className="movie-category-description">

@@ -8,6 +8,7 @@ import TiltedCard from './components/TiltedCard'
 import Movies from './pages/Movies'
 import Concerts from './pages/Concerts'
 import Comedy from './pages/Comedy'
+import BookingPage from './pages/BookingPage'
 
 function HomePage() {
   const concertCarouselRef = useRef(null)
@@ -464,6 +465,7 @@ function App() {
         <Route path="/movies" element={<Movies />} />
         <Route path="/concerts" element={<Concerts />} />
         <Route path="/comedy" element={<Comedy />} />
+        <Route path="/booking" element={<BookingPage />} />
         <Route path="*" element={<HomePage />} />
       </Routes>
     </>
