@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import DecryptedText from '../components/DecryptedText';
 import '../styles/Concerts.css';
 
@@ -558,7 +559,13 @@ export default function Concerts() {
                       ))}
                     </div>
                     <div className="cosmic-buttons-row">
-                      <button className="cosmic-button reserve-btn">RESERVE</button>
+                      <Link 
+                        to="/concert-booking" 
+                        state={{ concert: concert }}
+                        className="cosmic-button reserve-btn"
+                      >
+                        RESERVE
+                      </Link>
                       <button 
                         className="cosmic-button spotify-btn"
                         onClick={(e) => {
@@ -650,7 +657,13 @@ export default function Concerts() {
                       <span className="cosmic-upcoming-location">{concert.location}</span>
                     </div>
                     <div className="cosmic-buttons-row">
-                      <button className="cosmic-button reserve-btn">RESERVE</button>
+                      <Link 
+                        to="/concert-booking" 
+                        state={{ concert: concert }}
+                        className="cosmic-button reserve-btn"
+                      >
+                        RESERVE
+                      </Link>
                       <button 
                         className="cosmic-button spotify-btn"
                         onClick={(e) => {

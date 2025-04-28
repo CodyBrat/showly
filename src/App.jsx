@@ -9,6 +9,7 @@ import Movies from './pages/Movies'
 import Concerts from './pages/Concerts'
 import Comedy from './pages/Comedy'
 import BookingPage from './pages/BookingPage'
+import ConcertBookingPage from './pages/ConcertBookingPage'
 
 function HomePage() {
   const concertCarouselRef = useRef(null)
@@ -441,9 +442,11 @@ function HomePage() {
 
 function App() {
   const location = useLocation();
+  const showNavbar = !location.pathname.includes('/booking');
   
   return (
     <>
+      {showNavbar && (
       <div className="navbar-container">
         <nav className="navbar">
           <div className="navbar-logo"></div>
@@ -459,6 +462,7 @@ function App() {
           </div>
         </nav>
       </div>
+      )}
       
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -466,6 +470,7 @@ function App() {
         <Route path="/concerts" element={<Concerts />} />
         <Route path="/comedy" element={<Comedy />} />
         <Route path="/booking" element={<BookingPage />} />
+        <Route path="/concert-booking" element={<ConcertBookingPage />} />
         <Route path="*" element={<HomePage />} />
       </Routes>
     </>

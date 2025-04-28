@@ -323,11 +323,11 @@ export default function BookingPage() {
       <div className="booking-container">
         <div className="booking-header">
           <div className="header-top">
-            <Link to="/movies" className="back-button">
-              <span className="back-icon">←</span>
-            </Link>
-            <div className="movie-headline">
-              <h1>{movie.title}</h1>
+          <Link to="/movies" className="back-button">
+            <span className="back-icon">←</span>
+          </Link>
+          <div className="movie-headline">
+            <h1>{movie.title}</h1>
               <div className="movie-meta">
                 <span className="genre">{movie.genre}</span>
                 <span className="dot">•</span>
