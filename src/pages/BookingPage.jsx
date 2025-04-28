@@ -2,6 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import '../styles/BookingPage.css';
 
+// Conversion rate from USD to INR
+const USD_TO_INR = 83.5;
+
 export default function BookingPage() {
   const location = useLocation();
   const [movie, setMovie] = useState(location.state?.movie || null);
@@ -16,6 +19,7 @@ export default function BookingPage() {
   const [loading, setLoading] = useState(true);
   const [animateClass, setAnimateClass] = useState('');
   const canvasRef = useRef(null);
+  const contentRef = useRef(null);
 
   // Generate dates for the next 7 days
   const getDates = () => {
@@ -201,11 +205,16 @@ export default function BookingPage() {
 
   // Transition to next step with animation
   const handleStepChange = (newStep) => {
-    setAnimateClass('fade-out');
+    setAnimateClass('slide-out');
     
     setTimeout(() => {
       setStep(newStep);
-      setAnimateClass('fade-in');
+      setAnimateClass('slide-in');
+      
+      // Scroll to top of content area
+      if (contentRef.current) {
+        contentRef.current.scrollTop = 0;
+      }
     }, 300);
   };
 
@@ -268,6 +277,11 @@ export default function BookingPage() {
     return seat && seat.type === 'vip' ? 16.99 : 12.99;
   };
 
+  // Convert USD to INR
+  const convertToINR = (usdPrice) => {
+    return Math.round(usdPrice * USD_TO_INR);
+  };
+
   const calculateTotal = () => {
     return selectedSeats.reduce((total, seatId) => {
       return total + getTicketPrice(seatId);
@@ -308,27 +322,41 @@ export default function BookingPage() {
       
       <div className="booking-container">
         <div className="booking-header">
-          <div className="booking-header-left">
+          <div className="header-top">
             <Link to="/movies" className="back-button">
               <span className="back-icon">←</span>
-              <span>Back to Movies</span>
             </Link>
             <div className="movie-headline">
               <h1>{movie.title}</h1>
-              <p className="movie-info">{movie.genre} • {movie.caption}</p>
+              <div className="movie-meta">
+                <span className="genre">{movie.genre}</span>
+                <span className="dot">•</span>
+                <span className="runtime">2h 15min</span>
+                <div className="rating">
+                  <span className="star">★</span>
+                  <span>8.6</span>
+                </div>
+              </div>
             </div>
           </div>
+          
           <div className="booking-progress">
-            <div className={`progress-step ${step >= 1 ? 'active' : ''}`}>
+            <div 
+              className={`progress-step ${step >= 1 ? 'active' : ''} ${step > 1 ? 'completed' : ''}`}
+              onClick={() => step > 1 && handleStepChange(1)}
+            >
               <div className="step-number">1</div>
               <div className="step-label">Date & Time</div>
             </div>
-            <div className="progress-line"></div>
-            <div className={`progress-step ${step >= 2 ? 'active' : ''}`}>
+            <div className={`progress-line ${step > 1 ? 'active' : ''}`}></div>
+            <div 
+              className={`progress-step ${step >= 2 ? 'active' : ''} ${step > 2 ? 'completed' : ''}`}
+              onClick={() => step > 2 && handleStepChange(2)}
+            >
               <div className="step-number">2</div>
               <div className="step-label">Seats</div>
             </div>
-            <div className="progress-line"></div>
+            <div className={`progress-line ${step > 2 ? 'active' : ''}`}></div>
             <div className={`progress-step ${step >= 3 ? 'active' : ''}`}>
               <div className="step-number">3</div>
               <div className="step-label">Payment</div>
@@ -336,14 +364,10 @@ export default function BookingPage() {
           </div>
         </div>
         
-        <div className="booking-content">
-          <div className="booking-poster-container">
-            <div className="booking-poster">
+        <div className="booking-content" ref={contentRef}>
+          <div className="booking-sidebar">
+            <div className="movie-poster">
               <img src={movie.image} alt={movie.title} />
-              <div className="poster-rating">
-                <div className="rating-star">★</div>
-                <div className="rating-value">8.6</div>
-              </div>
               <div className="poster-caption">
                 <div className="caption-item">
                   <span className="caption-icon">📅</span>
@@ -359,15 +383,32 @@ export default function BookingPage() {
                 </div>
               </div>
             </div>
+            
+            {step > 1 && (
+              <div className="booking-summary-sidebar">
+                <div className="summary-item">
+                  <span className="label">Date:</span>
+                  <span className="value">{selectedDate}</span>
+                </div>
+                <div className="summary-item">
+                  <span className="label">Time:</span>
+                  <span className="value">{selectedTime}</span>
+                </div>
+                {step > 2 && (
+                  <div className="summary-item">
+                    <span className="label">Seats:</span>
+                    <span className="value">{selectedSeats.join(', ')}</span>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
           
           <div className={`booking-steps ${animateClass}`}>
             {step === 1 && (
               <div className="date-time-selection">
-                <h2>Select Date & Time</h2>
-                
                 <div className="date-selection">
-                  <h3>Date</h3>
+                  <h3>Select Date</h3>
                   <div className="date-options">
                     {dates.map((date, index) => (
                       <div 
@@ -384,7 +425,7 @@ export default function BookingPage() {
                 </div>
                 
                 <div className="time-selection">
-                  <h3>Time</h3>
+                  <h3>Select Time</h3>
                   <div className="time-options">
                     {showtimes.map((time, index) => (
                       <div 
@@ -393,7 +434,7 @@ export default function BookingPage() {
                         onClick={() => handleTimeSelect(time)}
                       >
                         <span className="time-text">{time}</span>
-                        <span className="seats-left">42 seats left</span>
+                        <span className="seats-left">42 seats</span>
                       </div>
                     ))}
                   </div>
@@ -402,7 +443,7 @@ export default function BookingPage() {
                 <div className="theater-info">
                   <div className="theater-name">
                     <span className="theater-icon">🎬</span>
-                    <span>Cineplex Theater - IMAX Screen 4</span>
+                    <span>Cineplex IMAX - Screen 4</span>
                   </div>
                   <div className="theater-amenities">
                     <span className="amenity">Dolby Atmos</span>
@@ -415,21 +456,19 @@ export default function BookingPage() {
             
             {step === 2 && (
               <div className="seat-selection">
-                <h2>Select Seats</h2>
-                
                 <div className="seat-pricing-legend">
                   <div className="pricing-item">
                     <div className="pricing-color vip"></div>
                     <div className="pricing-details">
                       <div className="pricing-label">VIP</div>
-                      <div className="pricing-value">$16.99</div>
+                      <div className="pricing-value">₹{convertToINR(16.99)}</div>
                     </div>
                   </div>
                   <div className="pricing-item">
                     <div className="pricing-color standard"></div>
                     <div className="pricing-details">
                       <div className="pricing-label">Standard</div>
-                      <div className="pricing-value">$12.99</div>
+                      <div className="pricing-value">₹{convertToINR(12.99)}</div>
                     </div>
                   </div>
                 </div>
@@ -469,12 +508,15 @@ export default function BookingPage() {
                 <div className="selected-seats-summary">
                   {selectedSeats.length > 0 ? (
                     <>
-                      <h3>Selected Seats:</h3>
+                      <div className="summary-title">
+                        <h3>Selected Seats</h3>
+                        <span className="count">{selectedSeats.length}</span>
+                      </div>
                       <div className="selected-seats-grid">
                         {selectedSeats.map(seatId => (
                           <div key={seatId} className={`selected-seat-item ${getSeatType(seatId)}`}>
                             <span className="selected-seat-id">{seatId}</span>
-                            <span className="selected-seat-price">${getTicketPrice(seatId).toFixed(2)}</span>
+                            <span className="selected-seat-price">₹{convertToINR(getTicketPrice(seatId))}</span>
                           </div>
                         ))}
                       </div>
@@ -491,12 +533,10 @@ export default function BookingPage() {
 
             {step === 3 && (
               <div className="booking-summary">
-                <h2>Booking Summary</h2>
-                
                 <div className="summary-container">
                   <div className="summary-details">
                     <div className="summary-section">
-                      <h3 className="summary-heading">Movie Details</h3>
+                      <h3 className="summary-heading">Booking Details</h3>
                       <div className="summary-item">
                         <span className="label">Movie:</span>
                         <span className="value">{movie.title}</span>
@@ -511,18 +551,18 @@ export default function BookingPage() {
                       </div>
                       <div className="summary-item">
                         <span className="label">Theater:</span>
-                        <span className="value">Cineplex IMAX Screen 4</span>
+                        <span className="value">Cineplex IMAX - Screen 4</span>
                       </div>
                     </div>
                     
                     <div className="summary-section">
-                      <h3 className="summary-heading">Seats</h3>
+                      <h3 className="summary-heading">Your Seats</h3>
                       <div className="selected-seats-grid summary-seats">
                         {selectedSeats.map(seatId => (
                           <div key={seatId} className={`selected-seat-item ${getSeatType(seatId)}`}>
                             <span className="selected-seat-id">{seatId}</span>
-                            <span className="selected-seat-type">{getSeatType(seatId)}</span>
-                            <span className="selected-seat-price">${getTicketPrice(seatId).toFixed(2)}</span>
+                            <span className="selected-seat-type">{getSeatType(seatId) === 'vip' ? 'VIP' : 'Standard'}</span>
+                            <span className="selected-seat-price">₹{convertToINR(getTicketPrice(seatId))}</span>
                           </div>
                         ))}
                       </div>
@@ -530,28 +570,27 @@ export default function BookingPage() {
                   </div>
                   
                   <div className="payment-details">
-                    <h3 className="summary-heading">Payment</h3>
+                    <h3 className="summary-heading">Payment Information</h3>
                     <div className="price-breakdown">
                       <div className="price-item">
                         <span className="price-label">Tickets ({selectedSeats.length})</span>
-                        <span className="price-value">${calculateTotal().toFixed(2)}</span>
+                        <span className="price-value">₹{convertToINR(calculateTotal())}</span>
                       </div>
                       <div className="price-item">
                         <span className="price-label">Convenience Fee</span>
-                        <span className="price-value">$1.99</span>
+                        <span className="price-value">₹{convertToINR(1.99)}</span>
                       </div>
                       <div className="price-item discount">
                         <span className="price-label">Member Discount</span>
-                        <span className="price-value">-$2.50</span>
+                        <span className="price-value">-₹{convertToINR(2.50)}</span>
                       </div>
                       <div className="price-item total">
                         <span className="price-label">Total</span>
-                        <span className="price-value">${(calculateTotal() + 1.99 - 2.50).toFixed(2)}</span>
+                        <span className="price-value">₹{convertToINR(calculateTotal() + 1.99 - 2.50)}</span>
                       </div>
                     </div>
                     
                     <div className="payment-methods">
-                      <h4>Payment Method</h4>
                       <div className="payment-options">
                         <div className="payment-option selected">
                           <div className="payment-icon credit-card"></div>
