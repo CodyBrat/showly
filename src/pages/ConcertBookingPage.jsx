@@ -391,7 +391,6 @@ export default function ConcertBookingPage() {
                 <div className="vinyl-label">
                   <div className="vinyl-hole"></div>
                 </div>
-                <div className="vinyl-arm"></div>
               </div>
               
               <div className="poster-caption">

@@ -486,7 +486,7 @@ export default function Concerts() {
       {/* Hero section */}
       <div className="cosmic-hero">
         <div className="cosmic-title-container">
-          <h1 className="cosmic-title">MUSyc</h1>
+          <h1 className="cosmic-title">MUSyC</h1>
           <p className="cosmic-subtitle">CONCERT EXPERIENCE • 2025</p>
           
           <div className="vinyl-display">
