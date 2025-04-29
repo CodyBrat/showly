@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import '../styles/BookingPage.css';
+import TicketCard from '../components/TicketCard';
 
 // Conversion rate from USD to INR
 const USD_TO_INR = 83.5;
@@ -20,6 +21,8 @@ export default function BookingPage() {
   const [animateClass, setAnimateClass] = useState('');
   const canvasRef = useRef(null);
   const contentRef = useRef(null);
+  const [showTicket, setShowTicket] = useState(false);
+  const [bookingData, setBookingData] = useState(null);
 
   // Generate dates for the next 7 days
   const getDates = () => {
@@ -266,9 +269,25 @@ export default function BookingPage() {
   const handleBooking = () => {
     setAnimateClass('success-animation');
     
+    // Create the booking data object for the ticket
+    const newBookingData = {
+      title: movie.title,
+      date: selectedDate,
+      time: selectedTime,
+      venue: movie.location || 'Cinema City',
+      seatsInfo: selectedSeats.join(', '),
+      bookingId: Math.random().toString(36).substring(2, 10).toUpperCase()
+    };
+    
+    setBookingData(newBookingData);
+    
     setTimeout(() => {
-      alert(`Booking confirmed for ${movie.title}!\nDate: ${selectedDate}\nTime: ${selectedTime}\nSeats: ${selectedSeats.join(', ')}`);
+      setShowTicket(true);
     }, 800);
+  };
+
+  const handleCloseTicket = () => {
+    setShowTicket(false);
   };
 
   // Calculate ticket prices
@@ -318,7 +337,6 @@ export default function BookingPage() {
       )}
       
       <div className="booking-backdrop" style={{ backgroundImage: `url(${movie.bannerImage || movie.image})` }}></div>
-      <div className="booking-overlay"></div>
       
       <div className="booking-container">
         <div className="booking-header">
@@ -639,6 +657,13 @@ export default function BookingPage() {
           </div>
         </div>
       </div>
+      
+      {showTicket && bookingData && (
+        <TicketCard 
+          bookingData={bookingData} 
+          onClose={handleCloseTicket} 
+        />
+      )}
     </div>
   );
 } 

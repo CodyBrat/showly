@@ -14,6 +14,7 @@ import ConcertBookingPage from './pages/ConcertBookingPage'
 function HomePage() {
   const concertCarouselRef = useRef(null)
   const [activeConcert, setActiveConcert] = useState(0)
+  const [isPlaying, setIsPlaying] = useState(true)
 
   const categoryItems = [
     { image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', text: 'Movies' },
@@ -178,7 +179,9 @@ function HomePage() {
   useEffect(() => {
     const vinyl = document.querySelector('.vinyl-disc');
     if (vinyl) {
-      vinyl.classList.add('spin-animation');
+      if (isPlaying) {
+        vinyl.classList.add('spin-animation');
+      }
       
       // Apply initial rotation
       setTimeout(() => {
@@ -186,18 +189,23 @@ function HomePage() {
       }, 100);
       
       // Setup auto-rotation of concerts
-      const interval = setInterval(() => {
-        setActiveConcert(prev => (prev + 1) % concerts.length);
-        
-        // Reset and replay animation
-        vinyl.classList.remove('spin-animation');
-        void vinyl.offsetWidth; // Trigger reflow
-        vinyl.classList.add('spin-animation');
-      }, 6000);
+      let interval;
+      if (isPlaying) {
+        interval = setInterval(() => {
+          setActiveConcert(prev => (prev + 1) % concerts.length);
+          
+          // Reset and replay animation
+          vinyl.classList.remove('spin-animation');
+          void vinyl.offsetWidth; // Trigger reflow
+          vinyl.classList.add('spin-animation');
+        }, 6000);
+      }
       
-      return () => clearInterval(interval);
+      return () => {
+        if (interval) clearInterval(interval);
+      };
     }
-  }, [concerts.length]);
+  }, [concerts.length, isPlaying]);
 
   const changeConcert = (index) => {
     // Add a small delay before changing to let the animation work
@@ -235,6 +243,17 @@ function HomePage() {
           vinyl.classList.add('spin-animation');
         }, 50);
       }
+    }
+  };
+
+  const togglePlayPause = () => {
+    const vinyl = document.querySelector('.vinyl-disc');
+    setIsPlaying(!isPlaying);
+    
+    if (isPlaying) {
+      vinyl.classList.remove('spin-animation');
+    } else {
+      vinyl.classList.add('spin-animation');
     }
   };
 
@@ -340,6 +359,7 @@ function HomePage() {
             <div className="vinyl-player">
               <div className="turntable-base">
                 <div className="vinyl-disc">
+                  <div className="vinyl-shine"></div>
                   <div className="vinyl-label"></div>
                   <div className="vinyl-arm"></div>
                 </div>
@@ -368,9 +388,9 @@ function HomePage() {
                 <span className="control-icon">⏮</span>
                 <span className="control-text">Prev</span>
               </button>
-              <button className="vinyl-control play">
-                <span className="control-icon">▶</span>
-                <span className="control-text">Play</span>
+              <button className="vinyl-control play" onClick={togglePlayPause}>
+                <span className="control-icon">{isPlaying ? '⏸' : '▶'}</span>
+                <span className="control-text">{isPlaying ? 'Pause' : 'Play'}</span>
               </button>
               <button className="vinyl-control next" onClick={() => {
                 const newIndex = (activeConcert + 1) % concerts.length;

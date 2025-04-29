@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import '../styles/ConcertBookingPage.css';
+import TicketCard from '../components/TicketCard';
 
 // Conversion rate from USD to INR
 const USD_TO_INR = 83.5;
@@ -22,6 +23,8 @@ export default function ConcertBookingPage() {
   const canvasRef = useRef(null);
   const contentRef = useRef(null);
   const audioRef = useRef(null);
+  const [showTicket, setShowTicket] = useState(false);
+  const [bookingData, setBookingData] = useState(null);
 
   // Generate dates for the event
   const getDates = () => {
@@ -274,9 +277,26 @@ export default function ConcertBookingPage() {
   const handleBooking = () => {
     setAnimateClass('success-animation');
     
+    // Create the booking data object for the ticket
+    const newBookingData = {
+      title: concert.title,
+      artist: concert.artist,
+      date: selectedDate,
+      time: selectedTime,
+      venue: concert.location,
+      seatsInfo: selectedZones.map(zone => `${zone.name} (${zone.quantity})`).join(', '),
+      bookingId: Math.random().toString(36).substring(2, 10).toUpperCase()
+    };
+    
+    setBookingData(newBookingData);
+    
     setTimeout(() => {
-      alert(`Booking confirmed for ${concert.title}!\nDate: ${selectedDate}\nTime: ${selectedTime}\nZones: ${selectedZones.map(zone => `${zone.name} (${zone.quantity})`).join(', ')}`);
+      setShowTicket(true);
     }, 800);
+  };
+
+  const handleCloseTicket = () => {
+    setShowTicket(false);
   };
 
   // Convert USD to INR
@@ -326,7 +346,6 @@ export default function ConcertBookingPage() {
       )}
       
       <div className="concert-booking-backdrop" style={{ backgroundImage: `url(${concert.bannerImage || concert.image})` }}></div>
-      <div className="concert-booking-overlay"></div>
       
       <audio ref={audioRef} src={concert.spotifyPreview || "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"} loop />
       
@@ -794,6 +813,13 @@ export default function ConcertBookingPage() {
           </div>
         </div>
       </div>
+      
+      {showTicket && bookingData && (
+        <TicketCard 
+          bookingData={bookingData} 
+          onClose={handleCloseTicket} 
+        />
+      )}
     </div>
   );
 } 
