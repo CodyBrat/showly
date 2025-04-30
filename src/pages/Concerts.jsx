@@ -201,22 +201,12 @@ export default function Concerts() {
 
   // Animation for vinyl record
   useEffect(() => {
-    const vinyl = document.querySelector('.vinyl-record');
-    if (vinyl) {
-      vinyl.classList.add('spin-animation');
-      
-      // Setup auto-rotation of concerts
-      const interval = setInterval(() => {
-        setActiveConcert(prev => (prev + 1) % featuredConcerts.length);
-        
-        // Reset and replay animation
-        vinyl.classList.remove('spin-animation');
-        void vinyl.offsetWidth; // Trigger reflow
-        vinyl.classList.add('spin-animation');
-      }, 8000);
-      
-      return () => clearInterval(interval);
-    }
+    // Setup auto-rotation of concerts
+    const interval = setInterval(() => {
+      setActiveConcert(prev => (prev + 1) % featuredConcerts.length);
+    }, 8000);
+    
+    return () => clearInterval(interval);
   }, [featuredConcerts.length]);
 
   // Audio player functions
@@ -403,9 +393,6 @@ export default function Concerts() {
             </div>
           </div>
         </div>
-        <div className="floating-vinyl">
-          <div className="vinyl-inner"></div>
-        </div>
         <div className="laser-beam beam-1"></div>
         <div className="laser-beam beam-2"></div>
       </div>
@@ -488,13 +475,6 @@ export default function Concerts() {
         <div className="cosmic-title-container">
           <h1 className="cosmic-title">MUSyC</h1>
           <p className="cosmic-subtitle">CONCERT EXPERIENCE • 2025</p>
-          
-          <div className="vinyl-display">
-            <div className="vinyl-record">
-              <div className="vinyl-label"></div>
-            </div>
-            <div className="vinyl-arm"></div>
-          </div>
         </div>
         
         <div className="audio-waveform-cosmic" ref={waveformRef}>
