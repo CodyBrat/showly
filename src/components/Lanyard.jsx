@@ -2,10 +2,11 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { Canvas, extend, useFrame } from '@react-three/fiber';
-import { Environment, Lightformer, useTexture } from '@react-three/drei';
+import { Environment, Lightformer } from '@react-three/drei';
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 
+// Create geometry directly instead of importing GLB
 import * as THREE from 'three';
 import './Lanyard.css';
 
@@ -39,23 +40,254 @@ function Band({ maxSpeed = 50, minSpeed = 0, bookingData }) {
   const vec = new THREE.Vector3(), ang = new THREE.Vector3(), rot = new THREE.Vector3(), dir = new THREE.Vector3();
   const segmentProps = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 4, linearDamping: 4 };
   
-  // Get event type for styling
-  const eventType = getEventType(bookingData);
-  
   // Create a texture in-memory instead of loading from file
   const [texture] = useState(() => {
-    // Create a canvas to draw the lanyard texture based on event type
-    return createLanyardTexture(eventType, bookingData);
+    // Create a canvas to draw the texture
+    const canvas = document.createElement('canvas');
+    canvas.width = 1000;
+    canvas.height = 100;
+    const ctx = canvas.getContext('2d');
+    
+    // Fill with dark but visible gradient
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+    gradient.addColorStop(0, '#2c2e43');
+    gradient.addColorStop(0.5, '#4f3a65');
+    gradient.addColorStop(1, '#2c2e43');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Add some design elements with subtle glow
+    ctx.shadowColor = '#7d6b91';
+    ctx.shadowBlur = 5;
+    ctx.fillStyle = 'rgba(184, 148, 215, 0.8)';
+    for (let i = 0; i < canvas.width; i += 50) {
+      ctx.fillRect(i, 40, 20, 2);
+    }
+    ctx.shadowBlur = 0;
+    
+    // Add text with glow effect
+    ctx.font = '30px Arial';
+    ctx.shadowColor = '#7d6b91';
+    ctx.shadowBlur = 8;
+    ctx.fillStyle = 'rgba(230, 220, 250, 0.9)';
+    ctx.textAlign = 'center';
+    ctx.fillText('SHOWLY', canvas.width / 2, 60);
+    
+    // Create texture from canvas
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    return texture;
   });
 
-  // Create card texture with booking info and poster image if available
+  // Create card texture with booking info
   const [cardTexture] = useState(() => {
-    return createCardTexture(eventType, bookingData);
-  });
-  
-  // Create badge texture for event type
-  const [badgeTexture] = useState(() => {
-    return createBadgeTexture(eventType);
+    // Create a canvas to draw the card texture
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 768;
+    const ctx = canvas.getContext('2d');
+    
+    // Get event type for styling
+    const eventType = bookingData?.type || 'movie';
+    
+    // Modern dark background
+    ctx.fillStyle = '#151515';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Add subtle texture to background
+    ctx.fillStyle = '#1a1a1a';
+    for (let i = 0; i < canvas.width; i += 40) {
+      for (let j = 0; j < canvas.height; j += 40) {
+        ctx.fillRect(i, j, 20, 20);
+      }
+    }
+    
+    // Determine accent color based on event type
+    let accentColor;
+    switch(eventType) {
+      case 'concert':
+        accentColor = '#7f5af0';
+        break;
+      case 'comedy':
+        accentColor = '#ff9e41';
+        break;
+      case 'movie':
+      default:
+        accentColor = '#ff3366';
+    }
+    
+    // Add top colored header bar
+    const headerGradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+    headerGradient.addColorStop(0, accentColor);
+    headerGradient.addColorStop(1, adjustColor(accentColor, -40));
+    ctx.fillStyle = headerGradient;
+    roundedRect(ctx, 0, 0, canvas.width, 120, [20, 20, 0, 0], true, false);
+    
+    // Add event type label
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '700 32px "Inter", "Roboto", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(eventType.toUpperCase(), canvas.width / 2, 70);
+    
+    // Add event icon
+    let eventIcon;
+    if (eventType === 'concert') {
+      eventIcon = '🎵';
+    } else if (eventType === 'comedy') {
+      eventIcon = '😂';
+    } else {
+      eventIcon = '🎬';
+    }
+    
+    // Draw the icon in a circle with border
+    ctx.fillStyle = '#222222';
+    ctx.beginPath();
+    ctx.arc(canvas.width / 2, 180, 50, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Add circle outline with accent color
+    ctx.strokeStyle = accentColor;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(canvas.width / 2, 180, 50, 0, Math.PI * 2);
+    ctx.stroke();
+    
+    // Draw icon
+    ctx.font = '60px "Inter", "Roboto", sans-serif';
+    ctx.fillStyle = accentColor;
+    ctx.fillText(eventIcon, canvas.width / 2, 200);
+    
+    // Add glow effect around the icon
+    ctx.shadowColor = accentColor;
+    ctx.shadowBlur = 20;
+    ctx.strokeStyle = accentColor;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(canvas.width / 2, 180, 52, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+    
+    // Event title with modern font - improved for long titles
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '700 32px "Inter", "Roboto", sans-serif';
+    const title = bookingData?.title || 'SHOWLY EVENT';
+    
+    // Handle long titles by wrapping text appropriately
+    const titleLines = breakTextIntoLines(title, 20); // Break title into lines of approximately 20 chars
+    
+    let titleY = 280;
+    for (let i = 0; i < titleLines.length; i++) {
+      ctx.fillText(titleLines[i], canvas.width / 2, titleY);
+      titleY += 40; // Increase y position for next line
+    }
+    
+    // Artist/director info if available
+    if (bookingData?.artist || bookingData?.director) {
+      ctx.fillStyle = '#bbbbbb';
+      ctx.font = '400 22px "Inter", "Roboto", sans-serif';
+      const creator = bookingData?.artist || bookingData?.director || '';
+      ctx.fillText(creator, canvas.width / 2, 320);
+    }
+    
+    // Add divider line
+    ctx.strokeStyle = '#333333';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(40, 350);
+    ctx.lineTo(canvas.width - 40, 350);
+    ctx.stroke();
+    
+    // Event details in clean layout
+    ctx.fillStyle = accentColor;
+    ctx.textAlign = 'left';
+    ctx.font = '600 18px "Inter", "Roboto", sans-serif';
+    
+    // Venue
+    ctx.fillText('VENUE', 60, 390);
+    ctx.font = '400 18px "Inter", "Roboto", sans-serif';
+    ctx.fillStyle = '#dddddd';
+    ctx.fillText(bookingData?.venue || 'SHOWLY VENUE', 60, 420);
+    
+    // Date
+    ctx.fillStyle = accentColor;
+    ctx.font = '600 18px "Inter", "Roboto", sans-serif';
+    ctx.fillText('DATE', 60, 460);
+    ctx.font = '400 18px "Inter", "Roboto", sans-serif';
+    ctx.fillStyle = '#dddddd';
+    const dateStr = bookingData?.date || new Date().toLocaleDateString();
+    ctx.fillText(dateStr, 60, 490);
+    
+    // Time on the right side
+    if (bookingData?.time) {
+      ctx.fillStyle = accentColor;
+      ctx.font = '600 18px "Inter", "Roboto", sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText('TIME', canvas.width - 60, 460);
+      ctx.font = '400 18px "Inter", "Roboto", sans-serif';
+      ctx.fillStyle = '#dddddd';
+      ctx.fillText(bookingData?.time, canvas.width - 60, 490);
+    }
+    
+    // Add another divider
+    ctx.strokeStyle = '#333333';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(40, 520);
+    ctx.lineTo(canvas.width - 40, 520);
+    ctx.stroke();
+    
+    // Seat info with improved visibility
+    if (bookingData?.seatsInfo) {
+      ctx.textAlign = 'center';
+      ctx.fillStyle = accentColor;
+      ctx.font = '600 20px "Inter", "Roboto", sans-serif';
+      ctx.fillText('SEATS', canvas.width / 2, 560);
+      
+      // Add glowing effect to seats
+      ctx.shadowColor = accentColor;
+      ctx.shadowBlur = 10;
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '700 24px "Inter", "Roboto", sans-serif';
+      
+      // If seats info is too long, break it into multiple lines
+      const seatsInfo = bookingData.seatsInfo;
+      if (seatsInfo.length > 15) {
+        const parts = breakTextIntoLines(seatsInfo, 15);
+        for (let i = 0; i < parts.length; i++) {
+          ctx.fillText(parts[i], canvas.width / 2, 590 + (i * 30));
+        }
+      } else {
+        ctx.fillText(seatsInfo, canvas.width / 2, 590);
+      }
+      ctx.shadowBlur = 0;
+    }
+    
+    // Add barcode area at bottom
+    ctx.fillStyle = '#222222';
+    roundedRect(ctx, 80, 620, canvas.width - 160, 100, [8, 8, 8, 8], true, false);
+    
+    // Add barcode
+    ctx.fillStyle = '#ffffff';
+    const barcodeStart = canvas.width / 2 - 100;
+    const barcodeWidth = 200;
+    for (let i = 0; i < 40; i++) {
+      const barWidth = Math.random() > 0.7 ? 3 : 1;
+      const barHeight = 40 + Math.random() * 40;
+      const barX = barcodeStart + (i * barcodeWidth / 40);
+      ctx.fillRect(barX, 640, barWidth, barHeight);
+    }
+    
+    // Booking ID
+    if (bookingData?.bookingId) {
+      ctx.fillStyle = '#888888';
+      ctx.font = '400 14px "Inter", "Roboto", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(bookingData.bookingId, canvas.width / 2, 710);
+    }
+    
+    // Create texture from canvas
+    const texture = new THREE.CanvasTexture(canvas);
+    return texture;
   });
 
   const [curve] = useState(() => new THREE.CatmullRomCurve3([new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()]));
@@ -65,9 +297,9 @@ function Band({ maxSpeed = 50, minSpeed = 0, bookingData }) {
     typeof window !== 'undefined' && window.innerWidth < 1024
   );
 
-  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
-  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
-  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1]);
+  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 0.5]);
+  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 0.5]);
+  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 0.5]);
   useSphericalJoint(j3, card, [[0, 0, 0], [0, 1.50, 0]]);
 
   useEffect(() => {
@@ -114,20 +346,109 @@ function Band({ maxSpeed = 50, minSpeed = 0, bookingData }) {
 
   curve.curveType = 'chordal';
 
+  // Helper function for rounded rectangles with variable corner radii
+  function roundedRect(ctx, x, y, width, height, radius, fill, stroke) {
+    if (typeof radius === 'number') {
+      radius = [radius, radius, radius, radius];
+    }
+    
+    ctx.beginPath();
+    ctx.moveTo(x + radius[0], y);
+    ctx.lineTo(x + width - radius[1], y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + radius[1]);
+    ctx.lineTo(x + width, y + height - radius[2]);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - radius[2], y + height);
+    ctx.lineTo(x + radius[3], y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - radius[3]);
+    ctx.lineTo(x, y + radius[0]);
+    ctx.quadraticCurveTo(x, y, x + radius[0], y);
+    ctx.closePath();
+    
+    if (fill) {
+      ctx.fill();
+    }
+    if (stroke) {
+      ctx.stroke();
+    }
+  }
+
+  // Helper function for text wrapping - improved for title wrapping
+  function breakTextIntoLines(text, maxCharsPerLine) {
+    // Special case for very long titles - split by words
+    if (text.length > maxCharsPerLine) {
+      const words = text.split(/\s+/);
+      const lines = [];
+      let currentLine = '';
+      
+      for (const word of words) {
+        if ((currentLine + word).length > maxCharsPerLine) {
+          lines.push(currentLine.trim());
+          currentLine = word + ' ';
+        } else {
+          currentLine += word + ' ';
+        }
+      }
+      
+      if (currentLine.trim().length > 0) {
+        lines.push(currentLine.trim());
+      }
+      
+      return lines;
+    }
+    
+    // If we have commas, try to break at commas too
+    if (text.includes(',')) {
+      return text.split(',').map(part => part.trim());
+    }
+    
+    return [text]; // Return as single line if short enough
+  }
+
+  // Helper function for color adjustment
+  function adjustColor(color, amount) {
+    // Convert hex to RGB
+    let r, g, b;
+    if (color.startsWith('#')) {
+      const hex = color.slice(1);
+      r = parseInt(hex.substring(0, 2), 16);
+      g = parseInt(hex.substring(2, 4), 16);
+      b = parseInt(hex.substring(4, 6), 16);
+    } else if (color.startsWith('rgb')) {
+      const match = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+      if (match) {
+        r = parseInt(match[1]);
+        g = parseInt(match[2]);
+        b = parseInt(match[3]);
+      } else {
+        return color; // Return original if can't parse
+      }
+    } else {
+      return color; // Return original if not hex or rgb
+    }
+    
+    // Adjust color
+    r = Math.max(0, Math.min(255, r + amount));
+    g = Math.max(0, Math.min(255, g + amount));
+    b = Math.max(0, Math.min(255, b + amount));
+    
+    // Convert back to hex
+    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+  }
+
   return (
     <>
       <group position={[0, 4, 0]}>
         <RigidBody ref={fixed} {...segmentProps} type="fixed" />
-        <RigidBody position={[0.5, 0, 0]} ref={j1} {...segmentProps}>
+        <RigidBody position={[0.2, 0, 0]} ref={j1} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody position={[1, 0, 0]} ref={j2} {...segmentProps}>
+        <RigidBody position={[0.4, 0, 0]} ref={j2} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody position={[1.5, 0, 0]} ref={j3} {...segmentProps}>
+        <RigidBody position={[0.6, 0, 0]} ref={j3} {...segmentProps}>
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody position={[2, 0, 0]} ref={card} {...segmentProps} type={dragged ? 'kinematicPosition' : 'dynamic'}>
+        <RigidBody position={[0.8, 0, 0]} ref={card} {...segmentProps} type={dragged ? 'kinematicPosition' : 'dynamic'}>
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
             scale={2.25}
@@ -136,7 +457,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, bookingData }) {
             onPointerOut={() => hover(false)}
             onPointerUp={(e) => (e.target.releasePointerCapture(e.pointerId), drag(false))}
             onPointerDown={(e) => (e.target.setPointerCapture(e.pointerId), drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation()))))}>
-            {/* Card with texture */}
+            {/* Simple card made with box geometry instead of imported GLB */}
             <mesh>
               <boxGeometry args={[1.6, 2.25, 0.05]} />
               <meshPhysicalMaterial 
@@ -148,27 +469,6 @@ function Band({ maxSpeed = 50, minSpeed = 0, bookingData }) {
                 metalness={0.8} 
               />
             </mesh>
-            
-            {/* Event type badge */}
-            <mesh position={[0, 1.0, 0.03]} rotation={[0, 0, 0]}>
-              <planeGeometry args={[0.6, 0.2]} />
-              <meshStandardMaterial 
-                color={getEventColor(eventType)} 
-                metalness={0.6} 
-                roughness={0.3}
-              />
-            </mesh>
-            
-            {/* Badge text using a texture instead of TextGeometry */}
-            <mesh position={[0, 1.0, 0.035]}>
-              <planeGeometry args={[0.5, 0.15]} />
-              <meshBasicMaterial 
-                map={badgeTexture} 
-                transparent={true} 
-                depthWrite={false}
-              />
-            </mesh>
-            
             {/* Simple clasp */}
             <mesh position={[0, 1.2, 0]}>
               <cylinderGeometry args={[0.1, 0.1, 0.2, 16]} />
@@ -191,301 +491,4 @@ function Band({ maxSpeed = 50, minSpeed = 0, bookingData }) {
       </mesh>
     </>
   );
-}
-
-// Helper function to determine event type from booking data
-function getEventType(bookingData) {
-  if (!bookingData) return 'generic';
-  
-  if (bookingData.artist) return 'concert';
-  
-  // Simple string matching to determine event type
-  const title = (bookingData.title || '').toLowerCase();
-  
-  if (title.includes('comedy') || 
-      title.includes('laugh') || 
-      title.includes('stand-up') || 
-      title.includes('funny')) {
-    return 'comedy';
-  }
-  
-  return 'movie'; // Default to movie
-}
-
-// Get event type label for badge
-function getEventTypeLabel(eventType) {
-  switch (eventType) {
-    case 'concert': return 'CONCERT';
-    case 'comedy': return 'COMEDY';
-    case 'movie': return 'MOVIE';
-    default: return 'EVENT';
-  }
-}
-
-// Get color based on event type
-function getEventColor(eventType) {
-  switch (eventType) {
-    case 'concert': return '#ff3366'; // Pink/red
-    case 'comedy': return '#ffaa00';  // Orange
-    case 'movie': return '#33aaff';   // Blue
-    default: return '#33cc88';        // Teal
-  }
-}
-
-// Create badge texture for event type label
-function createBadgeTexture(eventType) {
-  const canvas = document.createElement('canvas');
-  canvas.width = 256;
-  canvas.height = 64;
-  const ctx = canvas.getContext('2d');
-  
-  // Clear canvas with transparent background
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
-  // Add text
-  ctx.font = 'bold 40px Arial';
-  ctx.fillStyle = '#ffffff';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(getEventTypeLabel(eventType), canvas.width / 2, canvas.height / 2);
-  
-  // Create texture from canvas
-  const texture = new THREE.CanvasTexture(canvas);
-  return texture;
-}
-
-// Create lanyard texture based on event type
-function createLanyardTexture(eventType, bookingData) {
-  // Create a canvas to draw the texture
-  const canvas = document.createElement('canvas');
-  canvas.width = 1000;
-  canvas.height = 100;
-  const ctx = canvas.getContext('2d');
-  
-  // Set colors based on event type
-  let primaryColor, secondaryColor;
-  switch (eventType) {
-    case 'concert':
-      primaryColor = '#ff3366';
-      secondaryColor = '#9900cc';
-      break;
-    case 'comedy':
-      primaryColor = '#ffaa00';
-      secondaryColor = '#ff6600';
-      break;
-    case 'movie':
-      primaryColor = '#33aaff';
-      secondaryColor = '#0066cc';
-      break;
-    default:
-      primaryColor = '#33cc88';
-      secondaryColor = '#009966';
-  }
-  
-  // Fill with gradient
-  const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-  gradient.addColorStop(0, primaryColor);
-  gradient.addColorStop(0.3, secondaryColor);
-  gradient.addColorStop(0.7, secondaryColor);
-  gradient.addColorStop(1, primaryColor);
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
-  // Add pattern based on event type
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-  
-  if (eventType === 'concert') {
-    // Music notes pattern
-    const symbols = ['♪', '♫', '♬', '♩'];
-    ctx.font = '20px Arial';
-    for (let i = 0; i < canvas.width; i += 50) {
-      const symbol = symbols[Math.floor(Math.random() * symbols.length)];
-      ctx.fillText(symbol, i, 50 + Math.random() * 30);
-    }
-  } else if (eventType === 'comedy') {
-    // Laughing pattern
-    ctx.font = '20px Arial';
-    for (let i = 0; i < canvas.width; i += 70) {
-      const text = Math.random() > 0.5 ? 'HA!' : 'LOL!';
-      ctx.fillText(text, i, 50 + Math.random() * 30);
-    }
-  } else {
-    // Default striped pattern
-    for (let i = 0; i < canvas.width; i += 40) {
-      ctx.fillRect(i, 30, 15, 40);
-    }
-  }
-  
-  // Add text
-  ctx.font = 'bold 30px Arial';
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-  ctx.textAlign = 'center';
-  ctx.fillText('SHOWLY', canvas.width / 2, 60);
-  
-  // Add event title if available
-  if (bookingData?.title) {
-    ctx.font = '20px Arial';
-    ctx.fillText(bookingData.title.substring(0, 30), canvas.width / 2, 30);
-  }
-  
-  // Create texture from canvas
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-  return texture;
-}
-
-// Create card texture with booking info and poster image
-function createCardTexture(eventType, bookingData) {
-  // Create a canvas to draw the card texture
-  const canvas = document.createElement('canvas');
-  canvas.width = 512;
-  canvas.height = 768;
-  const ctx = canvas.getContext('2d');
-  
-  // Choose different background styles based on event type
-  let bgColor1, bgColor2;
-  switch (eventType) {
-    case 'concert':
-      bgColor1 = '#330033';
-      bgColor2 = '#660066';
-      break;
-    case 'comedy':
-      bgColor1 = '#663300';
-      bgColor2 = '#994400';
-      break;
-    case 'movie':
-      bgColor1 = '#001133';
-      bgColor2 = '#002266';
-      break;
-    default:
-      bgColor1 = '#002233';
-      bgColor2 = '#004455';
-  }
-  
-  // Background gradient
-  const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-  gradient.addColorStop(0, bgColor1);
-  gradient.addColorStop(1, bgColor2);
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
-  // Add a noise texture for better appearance
-  addNoiseTexture(ctx, 0, 0, canvas.width, canvas.height);
-  
-  // Create a placeholder for where the poster image would go
-  const posterHeight = 300;
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-  ctx.fillRect(50, 90, canvas.width - 100, posterHeight);
-  
-  // Draw a "poster frame" border
-  ctx.strokeStyle = getEventColor(eventType);
-  ctx.lineWidth = 4;
-  ctx.strokeRect(50, 90, canvas.width - 100, posterHeight);
-  
-  // Ticket border
-  ctx.strokeStyle = getEventColor(eventType);
-  ctx.lineWidth = 6;
-  ctx.strokeRect(15, 15, canvas.width - 30, canvas.height - 30);
-  
-  // Add a ticket stub perforation
-  ctx.setLineDash([10, 10]);
-  ctx.beginPath();
-  ctx.moveTo(15, 420);
-  ctx.lineTo(canvas.width - 15, 420);
-  ctx.stroke();
-  ctx.setLineDash([]);
-  
-  // Header
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-  ctx.font = 'bold 36px Arial';
-  ctx.textAlign = 'center';
-  ctx.fillText('ADMISSION', canvas.width / 2, 50);
-  
-  // Add "badge" design elements based on event type
-  if (eventType === 'concert') {
-    // Concert badge
-    drawCircleBadge(ctx, 70, 60, 40, getEventColor(eventType), '♫');
-  } else if (eventType === 'comedy') {
-    // Comedy badge
-    drawCircleBadge(ctx, 70, 60, 40, getEventColor(eventType), '!');
-  } else {
-    // Movie badge
-    drawCircleBadge(ctx, 70, 60, 40, getEventColor(eventType), '★');
-  }
-  
-  // Event name - use booking data if available
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-  ctx.font = 'bold 28px Arial';
-  ctx.fillText(bookingData?.title || 'SHOWLY EVENT', canvas.width / 2, 450);
-  
-  // Artist - only show if available
-  if (bookingData?.artist) {
-    ctx.font = '22px Arial';
-    ctx.fillText(bookingData.artist, canvas.width / 2, 480);
-  }
-  
-  // Venue
-  ctx.font = '18px Arial';
-  ctx.fillText(`VENUE: ${bookingData?.venue || 'SHOWLY THEATER'}`, canvas.width / 2, 520);
-  
-  // Date and Time
-  const dateStr = bookingData?.date || new Date().toLocaleDateString();
-  const timeStr = bookingData?.time || '';
-  ctx.fillText(`DATE: ${dateStr}`, canvas.width / 2, 550);
-  if (timeStr) {
-    ctx.fillText(`TIME: ${timeStr}`, canvas.width / 2, 580);
-  }
-  
-  // Seat info if available
-  if (bookingData?.seatsInfo) {
-    ctx.fillText(`SEATS: ${bookingData.seatsInfo}`, canvas.width / 2, 610);
-  }
-  
-  // Booking ID if available
-  if (bookingData?.bookingId) {
-    ctx.font = 'bold 24px Arial';
-    ctx.fillText(`ID: ${bookingData.bookingId}`, canvas.width / 2, 650);
-  }
-  
-  // Barcode
-  ctx.fillStyle = '#ffffff';
-  for (let i = 80; i < canvas.width - 80; i += 4) {
-    const height = Math.random() * 80 + 20;
-    ctx.fillRect(i, 670, 2, height);
-  }
-  
-  // Create texture from canvas
-  const texture = new THREE.CanvasTexture(canvas);
-  return texture;
-}
-
-// Helper function to add noise texture
-function addNoiseTexture(ctx, x, y, width, height, alpha = 0.03) {
-  const imageData = ctx.getImageData(x, y, width, height);
-  const data = imageData.data;
-  
-  for (let i = 0; i < data.length; i += 4) {
-    const noise = Math.floor(Math.random() * 255);
-    data[i] = (data[i] + noise * alpha) % 255;
-    data[i + 1] = (data[i + 1] + noise * alpha) % 255;
-    data[i + 2] = (data[i + 2] + noise * alpha) % 255;
-  }
-  
-  ctx.putImageData(imageData, x, y);
-}
-
-// Helper function to draw a circular badge
-function drawCircleBadge(ctx, x, y, radius, color, symbol) {
-  // Draw circle
-  ctx.fillStyle = color;
-  ctx.beginPath();
-  ctx.arc(x, y, radius, 0, 2 * Math.PI);
-  ctx.fill();
-  
-  // Draw symbol
-  ctx.fillStyle = 'white';
-  ctx.font = `bold ${radius}px Arial`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(symbol, x, y);
 } 

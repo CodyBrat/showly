@@ -285,7 +285,9 @@ export default function ConcertBookingPage() {
       time: selectedTime,
       venue: concert.location,
       seatsInfo: selectedZones.map(zone => `${zone.name} (${zone.quantity})`).join(', '),
-      bookingId: Math.random().toString(36).substring(2, 10).toUpperCase()
+      bookingId: Math.random().toString(36).substring(2, 10).toUpperCase(),
+      type: 'concert',
+      posterUrl: concert.bannerImage || concert.image
     };
     
     setBookingData(newBookingData);

@@ -276,7 +276,10 @@ export default function BookingPage() {
       time: selectedTime,
       venue: movie.location || 'Cinema City',
       seatsInfo: selectedSeats.join(', '),
-      bookingId: Math.random().toString(36).substring(2, 10).toUpperCase()
+      bookingId: Math.random().toString(36).substring(2, 10).toUpperCase(),
+      type: 'movie',
+      posterUrl: movie.poster_path || movie.backdrop_path || movie.imageUrl,
+      director: movie.director
     };
     
     setBookingData(newBookingData);
