@@ -419,6 +419,28 @@ function HomePage() {
 function App() {
   const location = useLocation();
   const showNavbar = !location.pathname.includes('/booking');
+  const [navbarCollapsed, setNavbarCollapsed] = useState(false);
+  
+  // Detect scroll position to collapse navbar
+  useEffect(() => {
+    if (!showNavbar) return;
+    
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      if (scrollPosition > 150) {
+        setNavbarCollapsed(true);
+      } else {
+        setNavbarCollapsed(false);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [showNavbar]);
+  
+  const toggleNavbar = () => {
+    setNavbarCollapsed(!navbarCollapsed);
+  };
   
   return (
     <>
@@ -437,7 +459,7 @@ function App() {
       </div>
       
       {showNavbar && (
-      <div className={`navbar-container ${location.pathname === '/' ? 'home-navbar' : ''}`}>
+      <div className={`navbar-container ${location.pathname === '/' ? 'home-navbar' : ''} ${navbarCollapsed ? 'navbar-collapsed' : ''}`} onClick={navbarCollapsed ? toggleNavbar : undefined}>
         <nav className={`navbar ${location.pathname === '/' ? 'home-navbar-inner' : ''}`}>
           <div className="navbar-logo"></div>
           <ul className="navbar-links">
@@ -449,6 +471,11 @@ function App() {
           </ul>
           <div className="navbar-actions">
             <button className="signup-button">Get Template</button>
+          </div>
+          <div className="navbar-collapse-icon">
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
         </nav>
       </div>
