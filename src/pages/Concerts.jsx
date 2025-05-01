@@ -13,9 +13,9 @@ export default function Concerts() {
   const [hoveredCard, setHoveredCard] = useState(null);
   const [showSpotifyPlayer, setShowSpotifyPlayer] = useState(false);
   const [currentTrack, setCurrentTrack] = useState({
-    name: "Cosmic Dreams",
-    artist: "СЛЕЗЫ",
-    cover: "https://assets-in.bmscdn.com/discovery-catalog/events/et00438542-jxttzzdppy-landscape.jpg"
+    name: "11K",
+    artist: "Seedhe Maut",
+    cover: "https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC/et00437060-mdlmgewvgb-portrait.jpg"
   });
   
   // Additional player states
@@ -25,27 +25,27 @@ export default function Concerts() {
   const animationRef = useRef(null);
   const [isMuted, setIsMuted] = useState(false);
   const [prevVolume, setPrevVolume] = useState(60);
-  const [trackIndex, setTrackIndex] = useState(0);
+  const [trackIndex, setTrackIndex] = useState(2);
   
   // Sample tracks for player
   const tracks = [
     {
-      title: "Cosmic Dreams",
-      artist: "СЛЕЗЫ",
-      src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-      cover: "https://assets-in.bmscdn.com/discovery-catalog/events/et00438542-jxttzzdppy-landscape.jpg"
+      title: "Paradise City",
+      artist: "Guns N' Roses",
+      src: "/src/assets/songs/Guns N' Roses - Paradise City (Official Music Video).mp3",
+      cover: "https://in.bmscdn.com/events/moviecard/ET00437139.jpg"
     },
     {
-      title: "Neon Nights",
-      artist: "Electronic Void",
-      src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
-      cover: "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-vilen-india-tour-0-2025-4-8-t-12-59-57.jpg"
+      title: "Highway to Hell",
+      artist: "AC/DC",
+      src: "/src/assets/songs/ACDC - Highway to Hell (Official Video).mp3",
+      cover: "https://www.impericon.com/cdn/shop/articles/20241209_g_r_2.jpg?v=1742482171"
     },
     {
-      title: "Stellar Journey",
-      artist: "Astral Collective",
-      src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
-      cover: "https://blog.ticketmaster.com/wp-content/uploads/Rolling-Loud-Landscape-Header.jpg"
+      title: "11K",
+      artist: "Seedhe Maut",
+      src: "/src/assets/songs/11K - Seedhe Maut.mp3",
+      cover: "https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC/et00437060-mdlmgewvgb-portrait.jpg"
     }
   ];
 

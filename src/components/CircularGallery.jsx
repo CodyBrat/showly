@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import {
   Renderer,
   Camera,
@@ -905,13 +906,76 @@ export default function CircularGallery({
   font = "bold 30px DM Sans"
 }) {
   const containerRef = useRef(null)
+  
   useEffect(() => {
     const app = new App(containerRef.current, { items, bend, textColor, borderRadius, font })
+    
+    // Add click event listener to detect card clicks
+    const handleClick = (e) => {
+      const rect = containerRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      // Calculate approximate card positions (simplified detection)
+      const containerWidth = rect.width;
+      const containerHeight = rect.height;
+      const centerX = containerWidth / 2;
+      const centerY = containerHeight / 2;
+      
+      // Distance from center
+      const distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+      
+      // If click is close to center (active card), trigger navigation
+      if (distance < containerWidth * 0.2) {
+        // Find which card is currently centered
+        const scrollOffset = app.scroll.current % app.medias[0].widthTotal;
+        const cardWidth = app.medias[0].width;
+        const activeIndex = Math.round(scrollOffset / cardWidth) % items.length;
+        
+        // Get the text of the active card to determine where to navigate
+        const activeCardText = items[activeIndex].text;
+        
+        // Navigate based on card text
+        let targetPath = '';
+        switch (activeCardText) {
+          case 'Movies':
+            targetPath = '/movies';
+            break;
+          case 'Concerts':
+            targetPath = '/concerts';
+            break;
+          case 'Comedy':
+            targetPath = '/comedy';
+            break;
+          case 'Sports':
+            targetPath = '/sports';
+            break;
+          case 'Food':
+            targetPath = '/food';
+            break;
+          case 'Music':
+            targetPath = '/concerts';
+            break;
+          default:
+            targetPath = '/';
+        }
+        
+        // Navigate to the target path
+        if (targetPath) {
+          window.location.href = targetPath;
+        }
+      }
+    };
+    
+    containerRef.current.addEventListener('click', handleClick);
+    
     return () => {
-      app.destroy()
-    }
-  }, [items, bend, textColor, borderRadius, font])
+      containerRef.current?.removeEventListener('click', handleClick);
+      app.destroy();
+    };
+  }, [items, bend, textColor, borderRadius, font]);
+  
   return (
     <div className='circular-gallery' ref={containerRef} />
-  )
+  );
 } 

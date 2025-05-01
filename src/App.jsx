@@ -10,7 +10,7 @@ import Concerts from './pages/Concerts'
 import Comedy from './pages/Comedy'
 import BookingPage from './pages/BookingPage'
 import ConcertBookingPage from './pages/ConcertBookingPage'
-import LoadingScreen from './components/LoadingScreen'
+// import LoadingScreen from './components/LoadingScreen'
 
 function HomePage() {
   const concertCarouselRef = useRef(null)
@@ -72,22 +72,22 @@ function HomePage() {
     {
       title: 'Vilen India Tour',
       caption: 'Live • Apr 2025',
-      image: 'https://images.unsplash.com/photo-1569701813229-33284b643e3c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1088&q=80'
+      image: 'https://in.bmscdn.com/events/moviecard/ET00441603.jpg'
     },
     {
       title: 'Guns N\' Roses',
       caption: 'Experience LDG • Aug 2024',
-      image: 'https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80'
+      image: 'https://in.bmscdn.com/events/moviecard/ET00437139.jpg'
     },
     {
-      title: 'Electronic Music Fest',
+      title: 'Dil-luminati Tour',
       caption: 'Tickets Available • Sep 2024',
-      image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80'
+      image: 'https://images.news18.com/webstories/uploads/2024/09/Screenshot-2024-09-28-at-12.48.03-PM-2024-09-5a66cbfd9ce9343301181344c6a18690.png'
     },
     {
-      title: 'Jazz Night',
+      title: 'Seedhe Maut',
       caption: 'Limited Seats • Oct 2024',
-      image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80'
+      image: 'https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC/et00437060-mdlmgewvgb-portrait.jpg'
     },
   ]
 
@@ -261,6 +261,7 @@ function HomePage() {
             borderRadius={0.05} 
             font="bold 26px DM Sans"
           />
+          <div className="gallery-tooltip">Click on a card to explore</div>
         </div>
       </div>
       <div className='browse-category'>
@@ -315,6 +316,19 @@ function HomePage() {
         <div className="event-category">
           <h2>Music & Concerts</h2>
           <div className="music-showcase">
+            {/* Left side decorative elements */}
+            <div className="music-side-element left-element">
+              <div className="vinyl-record"></div>
+              <div className="music-note note-1">♪</div>
+              <div className="music-note note-2">♫</div>
+              <div className="equalizer-bars">
+                <div className="equalizer-bar"></div>
+                <div className="equalizer-bar"></div>
+                <div className="equalizer-bar"></div>
+                <div className="equalizer-bar"></div>
+              </div>
+            </div>
+            
             <div className="music-cards-wrapper">
               {concerts.map((concert, index) => (
                 <div 
@@ -323,10 +337,11 @@ function HomePage() {
                   onClick={() => setActiveConcert(index)}
                 >
                   <div className="concert-card-content">
-                  <div className="concert-image">
-                    <img src={concert.image} alt={concert.title} />
-                  </div>
-                  <div className="concert-details">
+                    <div className="concert-image">
+                      <img src={concert.image} alt={concert.title} />
+                      <div className="concert-rating">Coming Soon</div>
+                    </div>
+                    <div className="concert-details">
                       <div className="concert-title">{concert.title}</div>
                       <div className="concert-caption">{concert.caption}</div>
                     </div>
@@ -334,28 +349,13 @@ function HomePage() {
                 </div>
               ))}
             </div>
-            <div className="music-controls">
-              <button className="music-control" onClick={() => {
-                const newIndex = (activeConcert - 1 + concerts.length) % concerts.length;
-                setActiveConcert(newIndex);
-              }}>
-                Prev
-              </button>
-              <button className="music-control" onClick={() => {
-                const newIndex = (activeConcert + 1) % concerts.length;
-                setActiveConcert(newIndex);
-              }}>
-                Next
-              </button>
-            </div>
-            <div className="music-navigation">
-              {concerts.map((_, index) => (
-                <div 
-                  className={`music-nav-dot ${index === activeConcert ? 'active' : ''}`}
-                  key={index}
-                  onClick={() => setActiveConcert(index)}
-                ></div>
-              ))}
+            
+            {/* Right side decorative elements */}
+            <div className="music-side-element right-element">
+              <div className="spotlight"></div>
+              <div className="music-note note-3">♩</div>
+              <div className="music-note note-4">♬</div>
+              <div className="stage-mic"></div>
             </div>
           </div>
           <div style={{ textAlign: 'center', marginTop: '2rem' }}>
@@ -421,80 +421,7 @@ function App() {
   const location = useLocation();
   const showNavbar = !location.pathname.includes('/booking');
   const [navbarCollapsed, setNavbarCollapsed] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [pageLoading, setPageLoading] = useState(false);
   const prevLocation = useRef(location.pathname);
-  const loadingTimerRef = useRef(null);
-  const initialLoadTimerRef = useRef(null);
-  const contentLoadedRef = useRef(false);
-  
-  // Initial loading when app starts - only show if takes too long
-  useEffect(() => {
-    const handleInitialLoad = () => {
-      contentLoadedRef.current = true;
-      clearTimeout(initialLoadTimerRef.current);
-      setLoading(false);
-    };
-    
-    // Set a timer to show loading screen if content takes more than 800ms to load
-    initialLoadTimerRef.current = setTimeout(() => {
-      if (!contentLoadedRef.current) {
-        setLoading(true);
-      }
-    }, 800);
-    
-    // Listen for when content is fully loaded
-    if (document.readyState === 'complete') {
-      handleInitialLoad();
-    } else {
-      window.addEventListener('load', handleInitialLoad);
-    }
-    
-    return () => {
-      clearTimeout(initialLoadTimerRef.current);
-      window.removeEventListener('load', handleInitialLoad);
-    };
-  }, []);
-  
-  // Detect page navigation to show loading screen only if it takes too long
-  useEffect(() => {
-    if (prevLocation.current !== location.pathname) {
-      // Clear any existing timer
-      if (loadingTimerRef.current) {
-        clearTimeout(loadingTimerRef.current);
-      }
-      
-      let navigationCompleted = false;
-      
-      // Set timer to show loading after delay (only if navigation is slow)
-      loadingTimerRef.current = setTimeout(() => {
-        if (!navigationCompleted) {
-          setPageLoading(true);
-        }
-      }, 400); // Wait 400ms before showing loading screen
-      
-      // When navigation appears complete
-      const completeNavigation = () => {
-        navigationCompleted = true;
-        clearTimeout(loadingTimerRef.current);
-        prevLocation.current = location.pathname;
-        
-        // If loading was shown, keep it visible for a minimum time for better UX
-        if (pageLoading) {
-          setTimeout(() => {
-            setPageLoading(false);
-          }, 500);
-        }
-      };
-      
-      // Check for navigation completion (this is an approximation)
-      setTimeout(completeNavigation, 50);
-      
-      return () => {
-        clearTimeout(loadingTimerRef.current);
-      };
-    }
-  }, [location.pathname, pageLoading]);
   
   // Detect scroll position to collapse navbar
   useEffect(() => {
@@ -520,8 +447,8 @@ function App() {
   return (
     <>
       {/* Loading screens */}
-      {loading && <LoadingScreen finishLoading={() => setLoading(false)} />}
-      {pageLoading && <LoadingScreen finishLoading={() => setPageLoading(false)} />}
+      {/* {loading && <LoadingScreen finishLoading={() => setLoading(false)} />} */}
+      {/* {pageLoading && <LoadingScreen finishLoading={() => setPageLoading(false)} />} */}
       
       {/* Stars background */}
       <div className="stars-container">
