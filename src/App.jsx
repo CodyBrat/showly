@@ -167,9 +167,9 @@ function HomePage() {
   // Auto-rotate concerts
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveConcert(prev => (prev + 1) % concerts.length);
-    }, 6000);
-    
+          setActiveConcert(prev => (prev + 1) % concerts.length);
+        }, 6000);
+      
     return () => clearInterval(interval);
   }, [concerts.length]);
 
@@ -180,7 +180,7 @@ function HomePage() {
       let zIndex = 1;
       let opacity = 0.7;
       let filter = 'brightness(0.7)';
-      
+    
       if (index === activeConcert) {
         transform = 'translate(-50%, -50%) translateZ(0) rotate(0)';
         zIndex = 10;
@@ -322,10 +322,10 @@ function HomePage() {
                   onClick={() => setActiveConcert(index)}
                 >
                   <div className="concert-card-content">
-                    <div className="concert-image">
-                      <img src={concert.image} alt={concert.title} />
-                    </div>
-                    <div className="concert-details">
+                  <div className="concert-image">
+                    <img src={concert.image} alt={concert.title} />
+                  </div>
+                  <div className="concert-details">
                       <div className="concert-title">{concert.title}</div>
                       <div className="concert-caption">{concert.caption}</div>
                     </div>
@@ -422,6 +422,20 @@ function App() {
   
   return (
     <>
+      {/* Stars background */}
+      <div className="stars-container">
+        {/* Regular stars */}
+        {Array.from({ length: 40 }).map((_, index) => (
+          <div key={`star-${index}`} className="star"></div>
+        ))}
+        
+        {/* Bright stars with glow */}
+        <div className="bright-star"></div>
+        <div className="bright-star"></div>
+        <div className="bright-star"></div>
+        <div className="bright-star"></div>
+      </div>
+      
       {showNavbar && (
       <div className="navbar-container">
         <nav className="navbar">
