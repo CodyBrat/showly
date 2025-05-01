@@ -2,12 +2,13 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import DecryptedText from '../components/DecryptedText';
 import '../styles/Concerts.css';
+import '../styles/ConcertsGoldenTheme.css';
 
 export default function Concerts() {
   const [activeConcert, setActiveConcert] = useState(0);
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(60);
+  const [volume, setVolume] = useState(30);
   const [activeCategory, setActiveCategory] = useState('all');
   const waveformRef = useRef(null);
   const [hoveredCard, setHoveredCard] = useState(null);
@@ -53,8 +54,8 @@ export default function Concerts() {
   const featuredConcerts = [
     {
       id: 1,
-      title: "СЛЕЗЫ FESTIVAL",
-      artist: "Multiple Artists",
+      title: "Guns N' Roses:India Tour",
+      artist: "Guns N' Roses",
       date: "August 15-17, 2024",
       location: "Cosmic Arena",
       image: "https://www.impericon.com/cdn/shop/articles/20241209_g_r_2.jpg?v=1742482171",
