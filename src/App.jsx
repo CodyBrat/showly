@@ -14,7 +14,6 @@ import ConcertBookingPage from './pages/ConcertBookingPage'
 function HomePage() {
   const concertCarouselRef = useRef(null)
   const [activeConcert, setActiveConcert] = useState(0)
-  const [isPlaying, setIsPlaying] = useState(true)
 
   const categoryItems = [
     { image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', text: 'Movies' },
@@ -70,35 +69,25 @@ function HomePage() {
 
   const concerts = [
     {
-      image: "https://metalinsider.net/wp-content/uploads/2024/12/GunsNRoses_EU_ME_2025_Tour_Banner.jpg",
-      title: "Guns N Roses",
-      caption: "Live • Aug 2024"
+      title: 'Vilen India Tour',
+      caption: 'Live • Apr 2025',
+      image: 'https://images.unsplash.com/photo-1569701813229-33284b643e3c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1088&q=80'
     },
     {
-      image: "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-vilen-india-tour-0-2025-4-8-t-12-59-57.jpg",
-      title: "Vilen India Tour",
-      caption: "Live • Apr 2025"
+      title: 'Guns N\' Roses',
+      caption: 'Experience LDG • Aug 2024',
+      image: 'https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80'
     },
     {
-      image: "https://assets-in.bmscdn.com/discovery-catalog/events/et00438542-jxttzzdppy-landscape.jpg",
-      title: "Electronic Music Fest",
-      caption: "Tickets Available • Sep 2024"
+      title: 'Electronic Music Fest',
+      caption: 'Tickets Available • Sep 2024',
+      image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80'
     },
     {
-      image: "https://assets-in.bmscdn.com/discovery-catalog/events/et00434549-xfeqknjtxt-landscape.jpg",
-      title: "Jazz Night Live",
-      caption: "Limited Seats • Oct 2024"
+      title: 'Jazz Night',
+      caption: 'Limited Seats • Oct 2024',
+      image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80'
     },
-    // {
-    //   image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    //   title: "Symphony Orchestra",
-    //   caption: "Premium Experience • Dec 2024"
-    // },
-    // {
-    //   image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    //   title: "Pop Music Awards",
-    //   caption: "Annual Event • Nov 2024"
-    // }
   ]
 
   const comedy = [
@@ -175,87 +164,56 @@ function HomePage() {
     return () => clearInterval(interval)
   }, [concerts.length])
 
-  // Vinyl record rotation effect
+  // Auto-rotate concerts
   useEffect(() => {
-    const vinyl = document.querySelector('.vinyl-disc');
-    if (vinyl) {
-      if (isPlaying) {
-        vinyl.classList.add('spin-animation');
-      }
-      
-      // Apply initial rotation
-      setTimeout(() => {
-        setActiveConcert(0);  
-      }, 100);
-      
-      // Setup auto-rotation of concerts
-      let interval;
-      if (isPlaying) {
-        interval = setInterval(() => {
-          setActiveConcert(prev => (prev + 1) % concerts.length);
-          
-          // Reset and replay animation
-          vinyl.classList.remove('spin-animation');
-          void vinyl.offsetWidth; // Trigger reflow
-          vinyl.classList.add('spin-animation');
-        }, 6000);
-      }
-      
-      return () => {
-        if (interval) clearInterval(interval);
-      };
-    }
-  }, [concerts.length, isPlaying]);
-
-  const changeConcert = (index) => {
-    // Add a small delay before changing to let the animation work
-    const currentActive = document.querySelector('.concert-card.active');
-    const vinyl = document.querySelector('.vinyl-disc');
+    const interval = setInterval(() => {
+      setActiveConcert(prev => (prev + 1) % concerts.length);
+    }, 6000);
     
-    if (currentActive) {
-      currentActive.classList.add('transitioning');
-      
-      // Also animate the vinyl disc
-      if (vinyl) {
-        vinyl.classList.remove('spin-animation');
-        setTimeout(() => {
-          vinyl.classList.add('spin-animation');
-        }, 50);
-      }
-      
-      setTimeout(() => {
-        setActiveConcert(index);
-        
-        setTimeout(() => {
-          const newActive = document.querySelector('.concert-card.active');
-          if (newActive) {
-            newActive.classList.remove('transitioning');
-          }
-        }, 50);
-      }, 300);
-    } else {
-      setActiveConcert(index);
-      
-      // Also animate the vinyl disc on first change
-      if (vinyl) {
-        vinyl.classList.remove('spin-animation');
-        setTimeout(() => {
-          vinyl.classList.add('spin-animation');
-        }, 50);
-      }
-    }
-  };
+    return () => clearInterval(interval);
+  }, [concerts.length]);
 
-  const togglePlayPause = () => {
-    const vinyl = document.querySelector('.vinyl-disc');
-    setIsPlaying(!isPlaying);
-    
-    if (isPlaying) {
-      vinyl.classList.remove('spin-animation');
-    } else {
-      vinyl.classList.add('spin-animation');
-    }
-  };
+  useEffect(() => {
+    // Update card positions when active concert changes
+    document.querySelectorAll('.concert-card').forEach((card, index) => {
+      let transform = '';
+      let zIndex = 1;
+      let opacity = 0.7;
+      let filter = 'brightness(0.7)';
+      
+      if (index === activeConcert) {
+        transform = 'translate(-50%, -50%) translateZ(0) rotate(0)';
+        zIndex = 10;
+        opacity = 1;
+        filter = 'brightness(1)';
+      } else if (index === activeConcert - 1 || (activeConcert === 0 && index === concerts.length - 1)) {
+        transform = 'translate(-80%, -50%) translateZ(-100px) rotate(-5deg)';
+        zIndex = 9;
+        opacity = 0.85;
+        filter = 'brightness(0.8)';
+      } else if (index === activeConcert + 1 || (activeConcert === concerts.length - 1 && index === 0)) {
+        transform = 'translate(-20%, -50%) translateZ(-100px) rotate(5deg)';
+        zIndex = 8;
+        opacity = 0.85;
+        filter = 'brightness(0.8)';
+      } else if (index === activeConcert - 2 || (activeConcert <= 1 && index === concerts.length - 2 + activeConcert)) {
+        transform = 'translate(-110%, -50%) translateZ(-200px) rotate(-10deg)';
+        zIndex = 7;
+        opacity = 0.7;
+        filter = 'brightness(0.6)';
+      } else {
+        transform = 'translate(100%, -50%) translateZ(-200px) rotate(10deg)';
+        zIndex = 6;
+        opacity = 0.7;
+        filter = 'brightness(0.6)';
+      }
+      
+      card.style.transform = transform;
+      card.style.zIndex = zIndex;
+      card.style.opacity = opacity;
+      card.style.filter = filter;
+    });
+  }, [activeConcert, concerts.length]);
 
   return (
     <>
@@ -356,49 +314,47 @@ function HomePage() {
         <div className="event-category">
           <h2>Music & Concerts</h2>
           <div className="music-showcase">
-            <div className="vinyl-player">
-              <div className="turntable-base">
-                <div className="vinyl-disc">
-                  <div className="vinyl-shine"></div>
-                  <div className="vinyl-label"></div>
-                  <div className="vinyl-arm"></div>
-                </div>
-              </div>
-            </div>
-            <div className="concert-display">
+            <div className="music-cards-wrapper">
               {concerts.map((concert, index) => (
-                <div className={`concert-card ${index === activeConcert ? 'active' : ''}`} key={index} data-index={index}>
-                  <div className="concert-image">
-                    <img src={concert.image} alt={concert.title} />
-                  </div>
-                  <div className="card-logo">C6BANK</div>
-                  <div className="card-chip"></div>
-                  <div className="concert-details">
-                    <h3>{concert.title}</h3>
-                    <p className="concert-caption">{concert.caption}</p>
+                <div 
+                  className={`concert-card ${index === activeConcert ? 'active' : ''} visible`} 
+                  key={index} 
+                  onClick={() => setActiveConcert(index)}
+                >
+                  <div className="concert-card-content">
+                    <div className="concert-image">
+                      <img src={concert.image} alt={concert.title} />
+                    </div>
+                    <div className="concert-details">
+                      <div className="concert-title">{concert.title}</div>
+                      <div className="concert-caption">{concert.caption}</div>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="vinyl-controls">
-              <button className="vinyl-control prev" onClick={() => {
+            <div className="music-controls">
+              <button className="music-control" onClick={() => {
                 const newIndex = (activeConcert - 1 + concerts.length) % concerts.length;
-                changeConcert(newIndex);
+                setActiveConcert(newIndex);
               }}>
-                <span className="control-icon">⏮</span>
-                <span className="control-text">Prev</span>
+                Prev
               </button>
-              <button className="vinyl-control play" onClick={togglePlayPause}>
-                <span className="control-icon">{isPlaying ? '⏸' : '▶'}</span>
-                <span className="control-text">{isPlaying ? 'Pause' : 'Play'}</span>
-              </button>
-              <button className="vinyl-control next" onClick={() => {
+              <button className="music-control" onClick={() => {
                 const newIndex = (activeConcert + 1) % concerts.length;
-                changeConcert(newIndex);
+                setActiveConcert(newIndex);
               }}>
-                <span className="control-icon">⏭</span>
-                <span className="control-text">Next</span>
+                Next
               </button>
+            </div>
+            <div className="music-navigation">
+              {concerts.map((_, index) => (
+                <div 
+                  className={`music-nav-dot ${index === activeConcert ? 'active' : ''}`}
+                  key={index}
+                  onClick={() => setActiveConcert(index)}
+                ></div>
+              ))}
             </div>
           </div>
           <div style={{ textAlign: 'center', marginTop: '2rem' }}>
