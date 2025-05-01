@@ -437,8 +437,8 @@ function App() {
       </div>
       
       {showNavbar && (
-      <div className="navbar-container">
-        <nav className="navbar">
+      <div className={`navbar-container ${location.pathname === '/' ? 'home-navbar' : ''}`}>
+        <nav className={`navbar ${location.pathname === '/' ? 'home-navbar-inner' : ''}`}>
           <div className="navbar-logo"></div>
           <ul className="navbar-links">
             <li><Link to="/" className={`navbar-link ${location.pathname === '/' ? 'active' : ''}`}>Home</Link></li>

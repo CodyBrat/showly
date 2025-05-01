@@ -262,6 +262,11 @@ body::after {
   justify-content: center;
 }
 
+/* Home page specific navbar styles */
+.home-navbar {
+  padding: 0.8rem;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -274,6 +279,12 @@ body::after {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   width: 85%;
   max-width: 1100px;
+}
+
+/* Home page smaller navbar */
+.home-navbar-inner {
+  width: 65%;
+  max-width: 800px;
 }
 
 .navbar-logo {
