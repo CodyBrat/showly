@@ -10,6 +10,7 @@ import Concerts from './pages/Concerts'
 import Comedy from './pages/Comedy'
 import BookingPage from './pages/BookingPage'
 import ConcertBookingPage from './pages/ConcertBookingPage'
+import LoadingScreen from './components/LoadingScreen'
 
 function HomePage() {
   const concertCarouselRef = useRef(null)
@@ -420,6 +421,80 @@ function App() {
   const location = useLocation();
   const showNavbar = !location.pathname.includes('/booking');
   const [navbarCollapsed, setNavbarCollapsed] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(false);
+  const prevLocation = useRef(location.pathname);
+  const loadingTimerRef = useRef(null);
+  const initialLoadTimerRef = useRef(null);
+  const contentLoadedRef = useRef(false);
+  
+  // Initial loading when app starts - only show if takes too long
+  useEffect(() => {
+    const handleInitialLoad = () => {
+      contentLoadedRef.current = true;
+      clearTimeout(initialLoadTimerRef.current);
+      setLoading(false);
+    };
+    
+    // Set a timer to show loading screen if content takes more than 800ms to load
+    initialLoadTimerRef.current = setTimeout(() => {
+      if (!contentLoadedRef.current) {
+        setLoading(true);
+      }
+    }, 800);
+    
+    // Listen for when content is fully loaded
+    if (document.readyState === 'complete') {
+      handleInitialLoad();
+    } else {
+      window.addEventListener('load', handleInitialLoad);
+    }
+    
+    return () => {
+      clearTimeout(initialLoadTimerRef.current);
+      window.removeEventListener('load', handleInitialLoad);
+    };
+  }, []);
+  
+  // Detect page navigation to show loading screen only if it takes too long
+  useEffect(() => {
+    if (prevLocation.current !== location.pathname) {
+      // Clear any existing timer
+      if (loadingTimerRef.current) {
+        clearTimeout(loadingTimerRef.current);
+      }
+      
+      let navigationCompleted = false;
+      
+      // Set timer to show loading after delay (only if navigation is slow)
+      loadingTimerRef.current = setTimeout(() => {
+        if (!navigationCompleted) {
+          setPageLoading(true);
+        }
+      }, 400); // Wait 400ms before showing loading screen
+      
+      // When navigation appears complete
+      const completeNavigation = () => {
+        navigationCompleted = true;
+        clearTimeout(loadingTimerRef.current);
+        prevLocation.current = location.pathname;
+        
+        // If loading was shown, keep it visible for a minimum time for better UX
+        if (pageLoading) {
+          setTimeout(() => {
+            setPageLoading(false);
+          }, 500);
+        }
+      };
+      
+      // Check for navigation completion (this is an approximation)
+      setTimeout(completeNavigation, 50);
+      
+      return () => {
+        clearTimeout(loadingTimerRef.current);
+      };
+    }
+  }, [location.pathname, pageLoading]);
   
   // Detect scroll position to collapse navbar
   useEffect(() => {
@@ -444,6 +519,10 @@ function App() {
   
   return (
     <>
+      {/* Loading screens */}
+      {loading && <LoadingScreen finishLoading={() => setLoading(false)} />}
+      {pageLoading && <LoadingScreen finishLoading={() => setPageLoading(false)} />}
+      
       {/* Stars background */}
       <div className="stars-container">
         {/* Regular stars */}
