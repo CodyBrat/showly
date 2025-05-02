@@ -97,7 +97,33 @@
 }
 
 .cosmic-glowing-border {
-  box-shadow: 0 0 15px var(--gold-subtle);
+  box-shadow: 0 0 15px var(--gold-subtle), inset 0 0 10px var(--gold-faint);
+}
+
+/* Film poster style additions */
+.cosmic-concert-image::after {
+  background: var(--gold-primary);
+  color: var(--black-deep);
+  box-shadow: 0 0 10px var(--gold-glow);
+}
+
+.cosmic-concert-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.4) 50%,
+    rgba(10, 10, 10, 0.95) 90%
+  );
+}
+
+.cosmic-concert-overlay::before {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 1px,
+    var(--gold-faint) 1px,
+    var(--gold-faint) 2px
+  );
 }
 
 .cosmic-concert-title,
@@ -115,6 +141,7 @@
 .cosmic-date-badge {
   background: var(--gold-primary);
   color: var(--black-primary);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 /* Buttons */
@@ -240,63 +267,4 @@
 
 .cosmic-stat-label {
   color: #aaa;
-}
-
-/* Make featured event cards bigger */
-.cosmic-featured-grid {
-  display: grid;
-  grid-gap: 2.5rem;
-  padding: 1.5rem;
-  margin: 0 auto;
-}
-
-.cosmic-featured-grid .cosmic-concert-card {
-  transform: scale(1.15);
-  margin: 1.5rem;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  z-index: 1;
-}
-
-.cosmic-featured-grid .cosmic-concert-card.active {
-  transform: scale(1.2);
-  z-index: 2;
-}
-
-.cosmic-featured-grid .cosmic-concert-card:hover {
-  transform: scale(1.22);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-  z-index: 3;
-}
-
-.cosmic-featured-showcase {
-  padding: 2rem 0;
-  overflow: visible;
-}
-
-/* Enhance featured card content to match larger size */
-.cosmic-featured-grid .cosmic-concert-card .cosmic-concert-title {
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
-  color: white;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.cosmic-featured-grid .cosmic-concert-card .cosmic-concert-artist {
-  font-size: 1.1rem;
-  color: var(--gold-secondary);
-  margin-bottom: 1rem;
-}
-
-.cosmic-featured-grid .cosmic-concert-card .cosmic-date-badge {
-  font-size: 0.9rem;
-  font-weight: 600;
-  padding: 0.4rem 0.8rem;
-  border-radius: 4px;
-  background: var(--gold-primary);
-  color: var(--black-primary);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-.cosmic-featured-grid .cosmic-concert-card .cosmic-glowing-border {
-  box-shadow: 0 0 20px var(--gold-subtle);
 } 

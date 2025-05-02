@@ -473,37 +473,41 @@ export default function Concerts() {
 
       {/* Hero section */}
       <div className="cosmic-hero">
-        <div className="cosmic-title-container">
-          <h1 className="cosmic-title">MUSyC</h1>
-          <p className="cosmic-subtitle">CONCERT EXPERIENCE • 2025</p>
-        </div>
-        
-        <div className="audio-waveform-cosmic" ref={waveformRef}>
-          {Array(40).fill().map((_, i) => (
-            <div 
-              key={i} 
-              className="waveform-bar-cosmic" 
-              style={{ 
-                height: `${Math.floor(Math.random() * 60) + 20}px`,
-                animationDelay: `${i * 0.02}s`
-              }}
-            ></div>
-          ))}
+        <div className="cosmic-container">
+          <div className="cosmic-title-container">
+            <h1 className="cosmic-title">MUSyC</h1>
+            <p className="cosmic-subtitle">CONCERT EXPERIENCE • 2025</p>
+          </div>
+          
+          <div className="audio-waveform-cosmic" ref={waveformRef}>
+            {Array(40).fill().map((_, i) => (
+              <div 
+                key={i} 
+                className="waveform-bar-cosmic" 
+                style={{ 
+                  height: `${Math.floor(Math.random() * 60) + 20}px`,
+                  animationDelay: `${i * 0.02}s`
+                }}
+              ></div>
+            ))}
+          </div>
         </div>
       </div>
       
       {/* Featured concerts */}
       <section className="cosmic-featured-section">
-        <h2 className="cosmic-section-title">
-          <span className="glow-text">FEATURED</span> 
-          EVENTS
-          <div className="equalizer-animation">
-            <div className="equalizer-bar"></div>
-            <div className="equalizer-bar"></div>
-            <div className="equalizer-bar"></div>
-            <div className="equalizer-bar"></div>
-          </div>
-        </h2>
+        <div className="cosmic-container">
+          <h2 className="cosmic-section-title">
+            <span className="glow-text">FEATURED</span> 
+            EVENTS
+            <div className="equalizer-animation">
+              <div className="equalizer-bar"></div>
+              <div className="equalizer-bar"></div>
+              <div className="equalizer-bar"></div>
+              <div className="equalizer-bar"></div>
+            </div>
+          </h2>
+        </div>
         
         <div className="cosmic-featured-showcase">
           <div className="cosmic-featured-grid">
@@ -569,172 +573,186 @@ export default function Concerts() {
       </section>
       
       {/* Category filter */}
-      <div className="cosmic-category-filter">
-        <button 
-          className={activeCategory === 'all' ? 'active' : ''} 
-          onClick={() => setActiveCategory('all')}
-        >
-          ALL
-        </button>
-        <button 
-          className={activeCategory === 'festival' ? 'active' : ''} 
-          onClick={() => setActiveCategory('festival')}
-        >
-          FESTIVALS
-        </button>
-        <button 
-          className={activeCategory === 'rock' ? 'active' : ''} 
-          onClick={() => setActiveCategory('rock')}
-        >
-          ROCK
-        </button>
-        <button 
-          className={activeCategory === 'jazz' ? 'active' : ''} 
-          onClick={() => setActiveCategory('jazz')}
-        >
-          JAZZ
-        </button>
-        <button 
-          className={activeCategory === 'electronic' ? 'active' : ''} 
-          onClick={() => setActiveCategory('electronic')}
-        >
-          ELECTRONIC
-        </button>
-        <button 
-          className={activeCategory === 'classical' ? 'active' : ''} 
-          onClick={() => setActiveCategory('classical')}
-        >
-          CLASSICAL
-        </button>
+      <div className="cosmic-container">
+        <div className="cosmic-category-filter">
+          <button 
+            className={activeCategory === 'all' ? 'active' : ''} 
+            onClick={() => setActiveCategory('all')}
+          >
+            ALL
+          </button>
+          <button 
+            className={activeCategory === 'festival' ? 'active' : ''} 
+            onClick={() => setActiveCategory('festival')}
+          >
+            FESTIVALS
+          </button>
+          <button 
+            className={activeCategory === 'rock' ? 'active' : ''} 
+            onClick={() => setActiveCategory('rock')}
+          >
+            ROCK
+          </button>
+          <button 
+            className={activeCategory === 'jazz' ? 'active' : ''} 
+            onClick={() => setActiveCategory('jazz')}
+          >
+            JAZZ
+          </button>
+          <button 
+            className={activeCategory === 'electronic' ? 'active' : ''} 
+            onClick={() => setActiveCategory('electronic')}
+          >
+            ELECTRONIC
+          </button>
+          <button 
+            className={activeCategory === 'classical' ? 'active' : ''} 
+            onClick={() => setActiveCategory('classical')}
+          >
+            CLASSICAL
+          </button>
+        </div>
       </div>
       
       {/* Upcoming concerts */}
       <section className="cosmic-upcoming-section">
-        <h2 className="cosmic-section-title">
-          <span className="glow-text">UPCOMING</span> 
-          EVENTS
-          <div className="equalizer-animation">
-            <div className="equalizer-bar"></div>
-            <div className="equalizer-bar"></div>
-            <div className="equalizer-bar"></div>
-            <div className="equalizer-bar"></div>
-          </div>
-        </h2>
+        <div className="cosmic-container">
+          <h2 className="cosmic-section-title">
+            <span className="glow-text">UPCOMING</span> 
+            EVENTS
+            <div className="equalizer-animation">
+              <div className="equalizer-bar"></div>
+              <div className="equalizer-bar"></div>
+              <div className="equalizer-bar"></div>
+              <div className="equalizer-bar"></div>
+            </div>
+          </h2>
+        </div>
         
-        <div className="cosmic-grid">
-          {upcomingConcerts
-            .filter(concert => activeCategory === 'all' || 
-                   concert.category === activeCategory || 
-                   concert.tags.includes(activeCategory))
-            .map(concert => (
-              <div className="cosmic-upcoming-card" key={concert.id}>
-                <div className="cosmic-upcoming-image">
-                  <img src={concert.image} alt={concert.title} />
-                  <div className="cosmic-upcoming-overlay">
-                    <h3 className="cosmic-upcoming-title">{concert.title}</h3>
-                    <p className="cosmic-upcoming-artist">{concert.artist}</p>
-                    <div className="cosmic-upcoming-info">
-                      <span className="cosmic-upcoming-date">{concert.date}</span>
-                      <span className="cosmic-upcoming-location">{concert.location}</span>
-                    </div>
-                    <div className="cosmic-buttons-row">
-                      <Link 
-                        to="/concert-booking" 
-                        state={{ concert: concert }}
-                        className="cosmic-button reserve-btn"
-                      >
-                        RESERVE
-                      </Link>
-                      <button 
-                        className="cosmic-button spotify-btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setCurrentTrack({
-                            name: concert.title,
-                            artist: concert.artist,
-                            cover: concert.image
-                          });
-                          setActiveConcert(featuredConcerts.findIndex(fc => fc.category === concert.category) || 0);
-                          setShowSpotifyPlayer(true);
-                        }}
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
-                        </svg>
-                      </button>
+        <div className="cosmic-container">
+          <div className="cosmic-grid">
+            {upcomingConcerts
+              .filter(concert => activeCategory === 'all' || 
+                    concert.category === activeCategory || 
+                    concert.tags.includes(activeCategory))
+              .map(concert => (
+                <div className="cosmic-upcoming-card" key={concert.id}>
+                  <div className="cosmic-upcoming-image">
+                    <img src={concert.image} alt={concert.title} />
+                    <div className="cosmic-upcoming-overlay">
+                      <h3 className="cosmic-upcoming-title">{concert.title}</h3>
+                      <p className="cosmic-upcoming-artist">{concert.artist}</p>
+                      <div className="cosmic-upcoming-info">
+                        <span className="cosmic-upcoming-date">{concert.date}</span>
+                        <span className="cosmic-upcoming-location">{concert.location}</span>
+                      </div>
+                      <div className="cosmic-buttons-row">
+                        <Link 
+                          to="/concert-booking" 
+                          state={{ concert: concert }}
+                          className="cosmic-button reserve-btn"
+                        >
+                          RESERVE
+                        </Link>
+                        <button 
+                          className="cosmic-button spotify-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setCurrentTrack({
+                              name: concert.title,
+                              artist: concert.artist,
+                              cover: concert.image
+                            });
+                            setActiveConcert(featuredConcerts.findIndex(fc => fc.category === concert.category) || 0);
+                            setShowSpotifyPlayer(true);
+                          }}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                   </div>
+                  <div className="cosmic-upcoming-tags">
+                    {concert.tags.map((tag, index) => (
+                      <span key={index} className="cosmic-tag">{tag}</span>
+                    ))}
+                  </div>
                 </div>
-                <div className="cosmic-upcoming-tags">
-                  {concert.tags.map((tag, index) => (
-                    <span key={index} className="cosmic-tag">{tag}</span>
-                  ))}
-                </div>
-              </div>
-            ))}
+              ))}
+          </div>
         </div>
       </section>
       
       {/* Venues section */}
       <section className="cosmic-venues-section">
-        <h2 className="cosmic-section-title">
-          <span className="glow-text">PREMIER</span> 
-          VENUES
-          <div className="equalizer-animation">
-            <div className="equalizer-bar"></div>
-            <div className="equalizer-bar"></div>
-            <div className="equalizer-bar"></div>
-            <div className="equalizer-bar"></div>
-          </div>
-        </h2>
-        
-        <div className="cosmic-venues-grid">
-          {popularVenues.map((venue, index) => (
-            <div className="cosmic-venue-card" key={index}>
-              <div className="cosmic-venue-image">
-                <img src={venue.image} alt={venue.name} />
-                <div className="cosmic-venue-overlay"></div>
-              </div>
-              <div className="cosmic-venue-content">
-                <h3 className="cosmic-venue-name">{venue.name}</h3>
-                <p className="cosmic-venue-location">{venue.location}</p>
-                <div className="cosmic-venue-stats">
-                  <div className="cosmic-venue-stat">
-                    <span className="cosmic-stat-value">{venue.capacity}</span>
-                    <span className="cosmic-stat-label">CAPACITY</span>
-                  </div>
-                  <div className="cosmic-venue-stat">
-                    <span className="cosmic-stat-value">{venue.upcoming}</span>
-                    <span className="cosmic-stat-label">UPCOMING</span>
-                  </div>
-                </div>
-                <button className="cosmic-button">VIEW EVENTS</button>
-              </div>
+        <div className="cosmic-container">
+          <h2 className="cosmic-section-title">
+            <span className="glow-text">PREMIER</span> 
+            VENUES
+            <div className="equalizer-animation">
+              <div className="equalizer-bar"></div>
+              <div className="equalizer-bar"></div>
+              <div className="equalizer-bar"></div>
+              <div className="equalizer-bar"></div>
             </div>
-          ))}
+          </h2>
+        </div>
+        
+        <div className="cosmic-container">
+          <div className="cosmic-venues-grid">
+            {popularVenues.map((venue, index) => (
+              <div className="cosmic-venue-card" key={index}>
+                <div className="cosmic-venue-image">
+                  <img src={venue.image} alt={venue.name} />
+                  <div className="cosmic-venue-overlay"></div>
+                </div>
+                <div className="cosmic-venue-content">
+                  <h3 className="cosmic-venue-name">{venue.name}</h3>
+                  <p className="cosmic-venue-location">{venue.location}</p>
+                  <div className="cosmic-venue-stats">
+                    <div className="cosmic-venue-stat">
+                      <span className="cosmic-stat-value">{venue.capacity}</span>
+                      <span className="cosmic-stat-label">CAPACITY</span>
+                    </div>
+                    <div className="cosmic-venue-stat">
+                      <span className="cosmic-stat-value">{venue.upcoming}</span>
+                      <span className="cosmic-stat-label">UPCOMING</span>
+                    </div>
+                  </div>
+                  <button className="cosmic-button">VIEW EVENTS</button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
       
       {/* Newsletter */}
-      <section className="cosmic-newsletter">
-        <div className="cosmic-newsletter-content">
-          <h2 className="cosmic-newsletter-title">JOIN THE <span className="glow-text">EXPERIENCE</span></h2>
-          <p className="cosmic-newsletter-text">Subscribe to our newsletter and be the first to know about upcoming concerts, exclusive pre-sales, and special events.</p>
-          <div className="cosmic-newsletter-form">
-            <input type="email" placeholder="YOUR EMAIL ADDRESS" className="cosmic-input" />
-            <button className="cosmic-button">SUBSCRIBE</button>
+      <div className="cosmic-container">
+        <section className="cosmic-newsletter">
+          <div className="cosmic-newsletter-content">
+            <h2 className="cosmic-newsletter-title">JOIN THE <span className="glow-text">EXPERIENCE</span></h2>
+            <p className="cosmic-newsletter-text">Subscribe to our newsletter and be the first to know about upcoming concerts, exclusive pre-sales, and special events.</p>
+            <div className="cosmic-newsletter-form">
+              <input type="email" placeholder="YOUR EMAIL ADDRESS" className="cosmic-input" />
+              <button className="cosmic-button">SUBSCRIBE</button>
+            </div>
           </div>
-        </div>
-        <div className="cosmic-newsletter-decoration">
-          <div className="cosmic-shape shape-1"></div>
-          <div className="cosmic-shape shape-2"></div>
-          <div className="cosmic-shape shape-3"></div>
-        </div>
-      </section>
+          <div className="cosmic-newsletter-decoration">
+            <div className="cosmic-shape shape-1"></div>
+            <div className="cosmic-shape shape-2"></div>
+            <div className="cosmic-shape shape-3"></div>
+          </div>
+        </section>
+      </div>
 
       {/* Footer credit */}
       <div className="cosmic-footer">
-        <p>© 2024 СЛЕЗЫ EVENTS • ALL RIGHTS RESERVED</p>
+        <div className="cosmic-container">
+          <p>© 2024 СЛЕЗЫ EVENTS • ALL RIGHTS RESERVED</p>
+        </div>
       </div>
     </div>
   );
