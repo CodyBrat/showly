@@ -281,32 +281,25 @@
   font-size: 1.8rem;
 }
 
-.featured-comedian-display {
-  position: relative;
-  min-height: 600px;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #1c1c24;
+.featured-comedian-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+  gap: 2rem;
+  width: 100%;
 }
 
 .featured-comedian-card {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
-  display: flex;
-  opacity: 0;
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  transform: translateX(40px);
-  pointer-events: none;
+  margin-bottom: 2rem;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.featured-comedian-card.active {
-  opacity: 1;
-  transform: translateX(0);
-  pointer-events: all;
-  z-index: 2;
+.featured-comedian-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
 
 .comedian-card-inner {
@@ -869,8 +862,17 @@
 }
 
 @media (max-width: 992px) {
+  .featured-comedian-grid {
+    grid-template-columns: 1fr;
+  }
+  
   .comedian-card-inner {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .comedian-image {
+    height: 400px;
   }
   
   .clubs-grid {
@@ -891,22 +893,18 @@
   }
   
   .comedy-tag-filter button {
-    font-size: 0.9rem;
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
   }
   
   .section-title {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
 }
 
 @media (max-width: 768px) {
-  .featured-comedian-card {
-    min-height: auto;
-  }
-  
   .comedian-image {
-    height: 400px;
+    height: 350px;
   }
   
   .comedian-info-grid {

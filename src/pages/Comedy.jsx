@@ -13,53 +13,78 @@ export default function Comedy() {
   const featuredComedians = [
     {
       id: 1,
-      name: "Dave Chappelle",
-      specialty: "Observational Comedy",
-      date: "September 15, 2024",
-      location: "Comedy Central Theater",
-      image: "https://media.npr.org/assets/img/2021/10/05/gettyimages-1202110461_custom-bd819dff694bd1cda4e2d100bca6acfa87f0d8cc.jpg",
-      description: "The iconic Dave Chappelle returns with his razor-sharp insights and unforgettable storytelling.",
-      price: "$89 - $200",
-      tags: ["standup", "adult", "satire"],
-      quotes: ["I'm rich and famous, but I still check restaurant bills for errors.", "The hardest thing to do is to be true to yourself, especially when everybody is watching."]
+      name: "Anubhav Singh Bassi",
+      specialty: "Stand-up Comedy",
+      date: "May 9, 2025",
+      location: "Shri Shanmukhananda Fine Arts Auditorium, Mumbai",
+      image: "https://assets-in.bmscdn.com/discovery-catalog/events/et00355125-pzenufexta-portrait.jpg",
+      description: "A live stand-up comedy show performed by Indian comedian Anubhav Singh Bassi",
+      price: "₹999 onwards",
+      tags: ["standup", "live", "bassi"],
+      quotes: ["Kisi Ko Batana Mat – because it's too hilarious to share."]
     },
     {
       id: 2,
-      name: "Ali Wong",
-      specialty: "Storytelling Comedy",
-      date: "October 7, 2024",
-      location: "Laugh Factory",
-      image: "https://www.rollingstone.com/wp-content/uploads/2022/04/ali-wong-interview.jpg",
-      description: "Ali Wong's hilarious takes on motherhood, marriage, and modern life will leave you in stitches.",
-      price: "$65 - $150",
-      tags: ["standup", "storytelling", "adult"],
-      quotes: ["Pregnant women are smug. I was smug.", "My mom was a jungle Asian. She was from a developing country... We were the more savage Asians."]
+      name: "Multiple Comedians",
+      specialty: "Mixed Lineup",
+      date: "April 23, 2025",
+      location: "The Fine Arts Society, Mumbai",
+      image: "https://in.bmscdn.com/events/moviecard/ET00329412.jpg",
+      description: "Forget your problems and laugh out loud with the best comedians in the city",
+      price: "₹799 onwards",
+      tags: ["standup", "group", "city-comedy"],
+      quotes: ["Kal Ki Chinta Nahi Karta – laughter is the best therapy."]
     },
     {
       id: 3,
-      name: "John Mulaney",
-      specialty: "Self-deprecating Comedy",
-      date: "November 10, 2024",
-      location: "Comedy Cellar",
-      image: "https://media.gq.com/photos/5c9d404a8d92de0c0c0836c0/master/pass/John-Mulaney-Kid-Gorgeous-GQ-2018-042718.jpg",
-      description: "John Mulaney brings his signature style of self-deprecating humor and brilliant storytelling.",
-      price: "$75 - $180",
-      tags: ["standup", "storytelling", "observational"],
-      quotes: ["In terms of instant relief, canceling plans is like heroin.", "I don't look older, I just look worse."]
+      name: "Harsh Gujral",
+      specialty: "Stand-up Comedy",
+      date: "April 25, 2025",
+      location: "Sophia Auditorium, Mumbai",
+      image: "https://assets-in.bmscdn.com/nmcms/weblisting/et00145294-2025-4-16-t-6-58-1.jpg",
+      description: "'Jo Bolta Hai Wahi Hota' is a stand-up comedy show done by Harsh Gujral.",
+      price: "₹799 onwards",
+      tags: ["standup", "harshgujral", "relatable"],
+      quotes: ["Jo Bolta Hai Wahi Hota Hai – mic drop guaranteed."]
     },
     {
       id: 4,
-      name: "Hannah Gadsby",
-      specialty: "Observational Comedy",
-      date: "December 5, 2024",
-      location: "The Improv",
-      image: "https://media.newyorker.com/photos/5b3bc2015e54c02d11641ef1/1:1/w_1079,h_1079,c_limit/St-Felix-Hannah-Gadsby.jpg",
-      description: "Hannah Gadsby's thought-provoking comedy challenges conventions while making you laugh.",
-      price: "$55 - $130",
-      tags: ["standup", "storytelling", "lgbtq"],
-      quotes: ["I identify as tired.", "I've built a career out of self-deprecating humor. That's what I've built my career on. And I don't want to do that anymore."]
+      name: "Pranit More",
+      specialty: "Stand-up Comedy",
+      date: "April 26, 2025",
+      location: "Courtyard, R City Mall",
+      image: "https://in.bmscdn.com/events/moviecard/ET00440526.jpg",
+      description: "For Hire Entertainment presents Pranit More live",
+      price: "₹799 onwards",
+      tags: ["standup", "pranitmore", "live"],
+      quotes: ["Pranit More live – come for the laughs, stay for the punchlines."]
+    },
+    {
+      id: 5,
+      name: "Maheep Singh",
+      specialty: "Stand-up Comedy",
+      date: "May 24, 2025",
+      location: "Bal Gandharva Rang Mandir, Bandra",
+      image: "https://in.bmscdn.com/events/moviecard/ET00433332.jpg",
+      description: "At the Talkies Kala Chasma presents Maheep Singh live",
+      price: "₹699 onwards",
+      tags: ["standup", "maheeplive", "localtalent"],
+      quotes: ["Maheep Singh live – where every punch lands."]
+    },
+    {
+      id: 6,
+      name: "Zakir Khan",
+      specialty: "Stand-up Comedy",
+      date: "April 24, 2025",
+      location: "St Andrew's Auditorium, Mumbai",
+      image: "https://in.bmscdn.com/events/moviecard/ET00434989.jpg",
+      description: "Papa Yaar is a comedy show performed by Indian comedian Zakir Khan",
+      price: "₹1,499 onwards",
+      tags: ["standup", "zakirkhan", "emotionalcomedy"],
+      quotes: ["Papa Yaar – Zakir Khan knows how to hit right in the feels."]
     }
   ];
+  
 
   // Upcoming comedy shows
   const upcomingShows = [
@@ -312,23 +337,10 @@ export default function Comedy() {
         <h2 className="section-title comic-font">Featured Comedians</h2>
         
         <div className="comedian-showcase">
-          <div className="comedy-navigation">
-            {featuredComedians.map((comedian, index) => (
-              <button 
-                key={index}
-                className={`comedy-nav-btn ${index === activeComedian ? 'active' : ''}`}
-                onClick={() => changeComedian(index)}
-              >
-                <span className="nav-emoji">{index === activeComedian ? '😂' : '😐'}</span>
-                <span className="sr-only">Select {comedian.name}</span>
-              </button>
-            ))}
-          </div>
-          
-          <div className="featured-comedian-display">
-            {featuredComedians.map((comedian, index) => (
+          <div className="featured-comedian-grid">
+            {featuredComedians.map((comedian) => (
               <div 
-                className={`featured-comedian-card ${index === activeComedian ? 'active' : ''}`} 
+                className="featured-comedian-card"
                 key={comedian.id}
               >
                 <div className="comedian-card-inner">

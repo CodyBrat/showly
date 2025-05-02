@@ -433,7 +433,8 @@ function HomePage() {
 
 function App() {
   const location = useLocation();
-  const showNavbar = !location.pathname.includes('/booking');
+  const bookingRoutes = ['/booking', '/concert-booking'];
+  const showNavbar = !bookingRoutes.some(route => location.pathname.includes(route));
   const [navbarCollapsed, setNavbarCollapsed] = useState(false);
   const prevLocation = useRef(location.pathname);
   
