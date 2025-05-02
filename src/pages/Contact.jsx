@@ -77,8 +77,8 @@ function Contact() {
                 <div className="contact-icon">✉️</div>
                 <div className="contact-details">
                   <h4>Email Us</h4>
-                  <p><a href="mailto:support@showly.com">support@showly.com</a></p>
-                  <p><a href="mailto:info@showly.com">info@showly.com</a></p>
+                  <p><a href="mailto:priyabrata.singh@adypu.edu.in">priyabrata.singh@adypu.edu.in</a></p>
+                  <p><a href="mailto:priyabrata.singh@adypu.edu.in">priyabrata.singh@adypu.edu.in</a></p>
                 </div>
               </div>
               
