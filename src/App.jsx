@@ -9,6 +9,7 @@ import Movies from './pages/Movies'
 import Concerts from './pages/Concerts'
 import Comedy from './pages/Comedy'
 import About from './pages/About'
+import Contact from './pages/Contact'
 import BookingPage from './pages/BookingPage'
 import ConcertBookingPage from './pages/ConcertBookingPage'
 import ComedyBookingPage from './pages/ComedyBookingPage'
@@ -511,6 +512,7 @@ function App() {
         <Route path="/concerts" element={<Concerts />} />
         <Route path="/comedy" element={<Comedy />} />
         <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/booking" element={<BookingPage />} />
         <Route path="/concert-booking" element={<ConcertBookingPage />} />
         <Route path="/comedy-booking" element={<ComedyBookingPage />} />
