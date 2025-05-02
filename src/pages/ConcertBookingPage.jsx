@@ -19,10 +19,8 @@ export default function ConcertBookingPage() {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(true);
   const [animateClass, setAnimateClass] = useState('');
-  const [audioPlaying, setAudioPlaying] = useState(false);
   const canvasRef = useRef(null);
   const contentRef = useRef(null);
-  const audioRef = useRef(null);
   const [showTicket, setShowTicket] = useState(false);
   const [bookingData, setBookingData] = useState(null);
 
@@ -202,36 +200,6 @@ export default function ConcertBookingPage() {
     }, 300);
   };
 
-  const toggleAudio = () => {
-    if (audioRef.current) {
-      if (audioPlaying) {
-        audioRef.current.pause();
-        setAudioPlaying(false);
-      } else {
-        const playPromise = audioRef.current.play();
-        
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              setAudioPlaying(true);
-            })
-            .catch(error => {
-              console.error("Error playing audio:", error);
-              // Try with fallback URL
-              audioRef.current.src = "https://assets.codepen.io/296057/fem-bombay-nights.mp3";
-              audioRef.current.play()
-                .then(() => {
-                  setAudioPlaying(true);
-                })
-                .catch(fallbackError => {
-                  console.error("Fallback audio also failed:", fallbackError);
-                });
-            });
-        }
-      }
-    }
-  };
-
   const handleZoneSelection = (zoneId) => {
     const selectedZone = zones.find(z => z.id === zoneId);
     
@@ -368,18 +336,6 @@ export default function ConcertBookingPage() {
       
       <div className="concert-booking-backdrop" style={{ backgroundImage: `url(${concert.bannerImage || concert.image})` }}></div>
       
-      <audio 
-        ref={audioRef} 
-        src={concert.spotifyPreview || "https://assets.codepen.io/296057/fem-bombay-nights.mp3"} 
-        loop 
-        crossOrigin="anonymous"
-        onError={(e) => {
-          console.error("Audio error:", e);
-          // Try fallback if original URL fails
-          e.target.src = "https://assets.codepen.io/296057/fem-bombay-nights.mp3";
-        }}
-      />
-      
       <div className="concert-booking-container">
         <div className="concert-booking-header">
           <div className="header-top">
@@ -392,13 +348,6 @@ export default function ConcertBookingPage() {
                 <span className="artist">{concert.artist}</span>
                 <span className="dot">•</span>
                 <span className="location">{concert.location}</span>
-                <div 
-                  className={`audio-preview ${audioPlaying ? 'playing' : ''}`}
-                  onClick={toggleAudio}
-                >
-                  <span className="audio-icon">{audioPlaying ? '⏸' : '▶'}</span>
-                  <span className="audio-text">{audioPlaying ? 'Preview Playing' : 'Play Preview'}</span>
-                </div>
               </div>
             </div>
           </div>
@@ -459,6 +408,7 @@ export default function ConcertBookingPage() {
               </div>
             </div>
             
+            {/* Show lineup if available */}
             {concert.lineup && concert.lineup.length > 0 && (
               <div className="lineup-sidebar">
                 <h3 className="sidebar-title">Lineup</h3>
@@ -473,6 +423,7 @@ export default function ConcertBookingPage() {
               </div>
             )}
             
+            {/* Show booking summary when applicable */}
             {step > 1 && (
               <div className="booking-summary-sidebar">
                 <div className="summary-item">

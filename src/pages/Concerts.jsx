@@ -130,11 +130,11 @@ export default function Concerts() {
   const upcomingConcerts = [
     {
       id: 5,
-      title: "СИМФОНИЯ",
-      artist: "Metropolitan Symphony Orchestra",
+      title: "Alan Walker India Tour",
+      artist: "Alan Walker",
       date: "August 30, 2024",
       location: "Lakeside Amphitheater",
-      image: "https://www.denverpost.com/wp-content/uploads/2016/07/syme-orchestra1.jpg",
+      image: "https://i.ytimg.com/vi/OW1fOVSveXE/maxresdefault.jpg",
       description: "A magical evening of classical music performed under the open night sky.",
       price: "$45 - $150",
       category: "classical",
@@ -144,11 +144,11 @@ export default function Concerts() {
     },
     {
       id: 6,
-      title: "ГЛОБАЛЬНЫЕ BEATS",
-      artist: "International Music Collective",
+      title: "Travis Scott India Tour",
+      artist: "Travis Scott",
       date: "September 21-22, 2024",
       location: "Cultural Center Plaza",
-      image: "https://media.istockphoto.com/id/1189205501/photo/cheering-crowd-at-a-concert.jpg?s=612x612&w=0&k=20&c=WdTkO9iNI25P5y_kRywmQCus8LnIMbgr2SygAeoHTRY=",
+      image: "https://creativemindsent.com/wp-content/uploads/2025/01/ts1-1024x683.jpg",
       description: "Celebrating music from around the world with performances from 6 continents.",
       price: "$65 - $155",
       category: "world",
@@ -158,11 +158,11 @@ export default function Concerts() {
     },
     {
       id: 7,
-      title: "ИНДИ UNDERGROUND",
-      artist: "Various Artists",
+      title: "Karan Aujla India Tour",
+      artist: "Karan Aujla",
       date: "October 5, 2024",
       location: "The Vault Music Hall",
-      image: "https://blog.ticketmaster.com/wp-content/uploads/Rolling-Loud-Landscape-Header.jpg",
+      image: "https://cdn-az.allevents.in/events8/banners/3d2578d0-b292-11ef-9d06-bf7eeee1ea7e-rimg-w1200-h600-dc040404-gmir.jpg?v=1733352668",
       description: "Discover the next big thing with emerging indie artists in an intimate venue.",
       price: "$35 - $75",
       category: "indie",
@@ -172,16 +172,16 @@ export default function Concerts() {
     },
     {
       id: 8,
-      title: "КАНТРИ ROADS",
-      artist: "Country Legends & Rising Stars",
+      title: "Country Roads India Tour",
+      artist: "",
       date: "August 25, 2024",
       location: "Hillside Ranch",
-      image: "https://www.visitdetroit.com/sites/default/files/2021-10/Concert%20Crowd%20%28c%29%20Faster%20Horses%20%28Sean%20Winkiel%29_0.jpg",
+      image: "https://static.wixstatic.com/media/3a848c_cd0857c8a9f2401c9df6fd3e70ea59ff~mv2.jpg/v1/fill/w_980,h_551,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/3a848c_cd0857c8a9f2401c9df6fd3e70ea59ff~mv2.jpg",
       description: "A day of country music, food, and fun under the open sky.",
       price: "$55 - $175",
       category: "country",
       tags: ["country", "folk", "americana"],
-      lineup: ["Luke Combs", "Miranda Lambert", "Zac Brown Band", "Chris Stapleton"],
+      // lineup: ["Luke Combs", "Miranda Lambert", "Zac Brown Band", "Chris Stapleton"],
       spotifyPlaylist: "37i9dQZF1DWZBCPUIUs2iR"
     }
   ];
@@ -708,38 +708,57 @@ export default function Concerts() {
                 <div className="cosmic-upcoming-card" key={concert.id}>
                   <div className="cosmic-upcoming-image">
                     <img src={concert.image} alt={concert.title} />
+                    <div className="cosmic-event-date">
+                      <span>{concert.date.split(' ')[0]}</span>
+                      <span className="event-year">{concert.date.split(' ')[2]}</span>
+                    </div>
                     <div className="cosmic-upcoming-overlay">
-                      <h3 className="cosmic-upcoming-title">{concert.title}</h3>
-                      <p className="cosmic-upcoming-artist">{concert.artist}</p>
-                      <div className="cosmic-upcoming-info">
-                        <span className="cosmic-upcoming-date">{concert.date}</span>
-                        <span className="cosmic-upcoming-location">{concert.location}</span>
-                      </div>
-                      <div className="cosmic-buttons-row">
-                        <Link 
-                          to="/concert-booking" 
-                          state={{ concert: concert }}
-                          className="cosmic-button reserve-btn"
-                        >
-                          RESERVE
-                        </Link>
-                        <button 
-                          className="cosmic-button spotify-btn"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setCurrentTrack({
-                              name: concert.title,
-                              artist: concert.artist,
-                              cover: concert.image
-                            });
-                            setActiveConcert(featuredConcerts.findIndex(fc => fc.category === concert.category) || 0);
-                            setShowSpotifyPlayer(true);
-                          }}
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
-                          </svg>
-                        </button>
+                      <div className="concert-card-content">
+                        <h3 className="cosmic-upcoming-title">{concert.title}</h3>
+                        <p className="cosmic-upcoming-artist">{concert.artist}</p>
+                        <div className="cosmic-upcoming-info">
+                          <div className="info-item">
+                            <span className="info-icon">📅</span>
+                            <span className="cosmic-upcoming-date">{concert.date}</span>
+                          </div>
+                          <div className="info-item">
+                            <span className="info-icon">📍</span>
+                            <span className="cosmic-upcoming-location">{concert.location}</span>
+                          </div>
+                          <div className="info-item">
+                            <span className="info-icon">💰</span>
+                            <span className="cosmic-upcoming-price">{concert.price}</span>
+                          </div>
+                        </div>
+                        <div className="cosmic-upcoming-description">
+                          {concert.description}
+                        </div>
+                        <div className="cosmic-buttons-row">
+                          <Link 
+                            to="/concert-booking" 
+                            state={{ concert: concert }}
+                            className="cosmic-button reserve-btn glow-effect"
+                          >
+                            BOOK NOW
+                          </Link>
+                          <button 
+                            className="cosmic-button spotify-btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setCurrentTrack({
+                                name: concert.title,
+                                artist: concert.artist,
+                                cover: concert.image
+                              });
+                              setActiveConcert(featuredConcerts.findIndex(fc => fc.category === concert.category) || 0);
+                              setShowSpotifyPlayer(true);
+                            }}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                            </svg>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -754,7 +773,8 @@ export default function Concerts() {
         </div>
       </section>
       
-      {/* Venues section */}
+      {/* Venues section - commented out as requested */}
+      {/*
       <section className="cosmic-venues-section">
         <div className="cosmic-container">
           <h2 className="cosmic-section-title">
@@ -797,6 +817,7 @@ export default function Concerts() {
           </div>
         </div>
       </section>
+      */}
 
       {/* Footer credit */}
       <div className="cosmic-footer">
