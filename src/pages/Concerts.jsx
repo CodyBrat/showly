@@ -33,19 +33,22 @@ export default function Concerts() {
     {
       title: "Paradise City",
       artist: "Guns N' Roses",
-      src: "/src/assets/songs/Guns N' Roses - Paradise City (Official Music Video).mp3",
+      src: "/assets/songs/Guns N' Roses - Paradise City (Official Music Video).mp3",
+      fallbackSrc: "https://pub-ec6945a9389d42c89c1683c37cc5fa16.r2.dev/paradise-city.mp3",
       cover: "https://in.bmscdn.com/events/moviecard/ET00437139.jpg"
     },
     {
       title: "Highway to Hell",
       artist: "AC/DC",
-      src: "/src/assets/songs/ACDC - Highway to Hell (Official Video).mp3",
+      src: "/assets/songs/ACDC - Highway to Hell (Official Video).mp3",
+      fallbackSrc: "https://pub-ec6945a9389d42c89c1683c37cc5fa16.r2.dev/highway-to-hell.mp3",
       cover: "https://www.impericon.com/cdn/shop/articles/20241209_g_r_2.jpg?v=1742482171"
     },
     {
       title: "11K",
       artist: "Seedhe Maut",
-      src: "/src/assets/songs/11K - Seedhe Maut.mp3",
+      src: "/assets/songs/11K - Seedhe Maut.mp3",
+      fallbackSrc: "https://pub-ec6945a9389d42c89c1683c37cc5fa16.r2.dev/seedhe-maut-11k.mp3",
       cover: "https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC/et00437060-mdlmgewvgb-portrait.jpg"
     }
   ];
@@ -233,13 +236,17 @@ export default function Concerts() {
       // Load the initial track
       loadTrack(trackIndex);
       
-      // Add event listener for audio errors
+      // Add event listeners for audio errors
       const handleError = (e) => {
         console.error("Audio error:", e);
+        console.error("Failed to load audio file:", tracks[trackIndex].src);
+        
         // Try loading a different track if there's an error
         if (trackIndex < tracks.length - 1) {
+          console.log("Attempting to play next track due to error");
           skipTrack('forward');
         } else {
+          console.log("Attempting to play previous track due to error");
           skipTrack('back');
         }
       };
@@ -264,20 +271,25 @@ export default function Concerts() {
           audioRef.current.pause();
           cancelAnimationFrame(animationRef.current);
         } else {
+          console.log("Attempting to play:", tracks[trackIndex].src);
           const playPromise = audioRef.current.play();
           if (playPromise !== undefined) {
             playPromise
               .then(() => {
+                console.log("Audio playback started successfully");
                 animationRef.current = requestAnimationFrame(updateProgress);
               })
               .catch(error => {
                 console.error("Error playing audio:", error);
+                // Try an alternative track or handle the error
+                setIsPlaying(false);
               });
           }
         }
         setIsPlaying(!isPlaying);
       } catch (error) {
         console.error("Error toggling play state:", error);
+        setIsPlaying(false);
       }
     }
   };
@@ -334,7 +346,18 @@ export default function Concerts() {
     loadTrack(newIndex);
   };
 
-  const loadTrack = (index) => {
+  // Check if file exists
+  const checkFileExists = async (url) => {
+    try {
+      const response = await fetch(url, { method: 'HEAD' });
+      return response.ok;
+    } catch (error) {
+      console.error("Error checking file:", error);
+      return false;
+    }
+  };
+
+  const loadTrack = async (index) => {
     const track = tracks[index];
     setCurrentTrack({
       name: track.title,
@@ -343,10 +366,19 @@ export default function Concerts() {
     });
 
     if (audioRef.current) {
-      audioRef.current.src = track.src;
+      console.log("Loading track:", track.src);
+      
+      // Try the primary source first, if that fails, use the fallback
+      const primaryExists = await checkFileExists(track.src);
+      
+      // Set the appropriate source
+      audioRef.current.src = primaryExists ? track.src : track.fallbackSrc;
+      console.log("Using audio source:", audioRef.current.src);
+      
       audioRef.current.load();
       
       if (isPlaying) {
+        console.log("Attempting to play new track");
         const playPromise = audioRef.current.play();
         if (playPromise !== undefined) {
           playPromise.catch(error => {
@@ -511,7 +543,11 @@ export default function Concerts() {
             </div>
           </div>
           
-          <audio ref={audioRef} preload="metadata" />
+          <audio 
+            ref={audioRef} 
+            preload="metadata" 
+            crossOrigin="anonymous"
+          />
         </div>
       </div>
 
@@ -794,7 +830,7 @@ export default function Concerts() {
           </div>
         </div>
       </section>
-      
+
       {/* Footer credit */}
       <div className="cosmic-footer">
         <div className="cosmic-container">
