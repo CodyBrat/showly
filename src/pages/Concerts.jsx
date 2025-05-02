@@ -8,7 +8,7 @@ export default function Concerts() {
   const [activeConcert, setActiveConcert] = useState(0);
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(30);
+  const [volume, setVolume] = useState(60);
   const [activeCategory, setActiveCategory] = useState('all');
   const waveformRef = useRef(null);
   const [hoveredCard, setHoveredCard] = useState(null);
@@ -224,17 +224,61 @@ export default function Concerts() {
     return () => clearInterval(interval);
   }, [featuredConcerts.length]);
 
+  // Initialize audio player when component mounts
+  useEffect(() => {
+    if (audioRef.current) {
+      // Set initial volume
+      audioRef.current.volume = volume / 100;
+      
+      // Load the initial track
+      loadTrack(trackIndex);
+      
+      // Add event listener for audio errors
+      const handleError = (e) => {
+        console.error("Audio error:", e);
+        // Try loading a different track if there's an error
+        if (trackIndex < tracks.length - 1) {
+          skipTrack('forward');
+        } else {
+          skipTrack('back');
+        }
+      };
+      
+      audioRef.current.addEventListener('error', handleError);
+      
+      return () => {
+        if (audioRef.current) {
+          audioRef.current.removeEventListener('error', handleError);
+          audioRef.current.pause();
+        }
+        cancelAnimationFrame(animationRef.current);
+      };
+    }
+  }, []);
+
   // Audio player functions
   const togglePlay = () => {
     if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-        cancelAnimationFrame(animationRef.current);
-      } else {
-        audioRef.current.play();
-        animationRef.current = requestAnimationFrame(updateProgress);
+      try {
+        if (isPlaying) {
+          audioRef.current.pause();
+          cancelAnimationFrame(animationRef.current);
+        } else {
+          const playPromise = audioRef.current.play();
+          if (playPromise !== undefined) {
+            playPromise
+              .then(() => {
+                animationRef.current = requestAnimationFrame(updateProgress);
+              })
+              .catch(error => {
+                console.error("Error playing audio:", error);
+              });
+          }
+        }
+        setIsPlaying(!isPlaying);
+      } catch (error) {
+        console.error("Error toggling play state:", error);
       }
-      setIsPlaying(!isPlaying);
     }
   };
 
@@ -301,8 +345,15 @@ export default function Concerts() {
     if (audioRef.current) {
       audioRef.current.src = track.src;
       audioRef.current.load();
+      
       if (isPlaying) {
-        audioRef.current.play();
+        const playPromise = audioRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            console.error("Error loading track:", error);
+            setIsPlaying(false);
+          });
+        }
       }
     }
   };
@@ -423,16 +474,16 @@ export default function Concerts() {
             
             <div className="playback-controls">
               <div className="control-buttons">
-                <button className="control-btn" onClick={() => skipTrack('back')}>
+                <button className="control-btn" onClick={() => skipTrack('back')} aria-label="Previous track">
                   <svg viewBox="0 0 24 24"><path fill="currentColor" d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
                 </button>
-                <button className="control-btn play-btn" onClick={togglePlay}>
+                <button className="control-btn play-btn" onClick={togglePlay} aria-label={isPlaying ? "Pause" : "Play"}>
                   {isPlaying ? 
                     <svg viewBox="0 0 24 24"><path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> : 
                     <svg viewBox="0 0 24 24"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
                   }
                 </button>
-                <button className="control-btn" onClick={() => skipTrack('forward')}>
+                <button className="control-btn" onClick={() => skipTrack('forward')} aria-label="Next track">
                   <svg viewBox="0 0 24 24"><path fill="currentColor" d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
                 </button>
               </div>
@@ -448,6 +499,7 @@ export default function Concerts() {
                     onChange={handleProgressChange}
                     ref={progressBarRef}
                     className="progress-bar"
+                    aria-label="Playback progress"
                   />
                   <div 
                     className="progress-filled" 
@@ -459,7 +511,7 @@ export default function Concerts() {
             </div>
           </div>
           
-          <audio ref={audioRef} src={tracks[trackIndex].src} />
+          <audio ref={audioRef} preload="metadata" />
         </div>
       </div>
 
@@ -743,25 +795,6 @@ export default function Concerts() {
         </div>
       </section>
       
-      {/* Newsletter */}
-      <div className="cosmic-container">
-        <section className="cosmic-newsletter">
-          <div className="cosmic-newsletter-content">
-            <h2 className="cosmic-newsletter-title">JOIN THE <span className="glow-text">EXPERIENCE</span></h2>
-            <p className="cosmic-newsletter-text">Subscribe to our newsletter and be the first to know about upcoming concerts, exclusive pre-sales, and special events.</p>
-            <div className="cosmic-newsletter-form">
-              <input type="email" placeholder="YOUR EMAIL ADDRESS" className="cosmic-input" />
-              <button className="cosmic-button">SUBSCRIBE</button>
-            </div>
-          </div>
-          <div className="cosmic-newsletter-decoration">
-            <div className="cosmic-shape shape-1"></div>
-            <div className="cosmic-shape shape-2"></div>
-            <div className="cosmic-shape shape-3"></div>
-          </div>
-        </section>
-      </div>
-
       {/* Footer credit */}
       <div className="cosmic-footer">
         <div className="cosmic-container">

@@ -395,11 +395,6 @@ export default function Movies() {
           {renderMovieSlider(scifiMovies, sliderRefs.scifi, 'scifi')}
         </div>
       )}
-
-      <div className="movies-footer">
-        <p>Check back regularly for updates on the latest releases and exclusive premieres</p>
-        <button className="newsletter-button">Subscribe to Updates</button>
-      </div>
     </div>
   );
 } 

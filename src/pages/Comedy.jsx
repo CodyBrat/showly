@@ -506,24 +506,6 @@ export default function Comedy() {
           ))}
         </div>
       </section>
-      
-      {/* Newsletter with comic style */}
-      <section className="comedy-newsletter">
-        <div className="newsletter-content">
-          <div className="newsletter-speech-bubble">
-            <h2 className="comic-font">Join Our Joke Club!</h2>
-            <p>Subscribe for exclusive ticket deals, comedian interviews, and a daily dose of laughter in your inbox!</p>
-            <div className="newsletter-form">
-              <input type="email" placeholder="Your email address" />
-              <button className="newsletter-btn comic-font">Ha-Ha-Subscribe!</button>
-            </div>
-            <div className="bubble-tail"></div>
-          </div>
-        </div>
-        <div className="newsletter-character">
-          <img src="https://img.freepik.com/free-vector/cartoon-funny-clown-character_1308-114189.jpg" alt="Comedy character" />
-        </div>
-      </section>
     </div>
   );
 } 

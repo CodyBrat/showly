@@ -443,22 +443,6 @@
   margin-bottom: 1.5rem;
 }
 
-.newsletter-button {
-  background: #e50914;
-  color: white;
-  border: none;
-  padding: 0.8rem 2rem;
-  border-radius: 4px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 1rem;
-}
-
-.newsletter-button:hover {
-  background: #f40612;
-}
-
 /* Responsive styles */
 @media (max-width: 1200px) {
   .hero-content {
