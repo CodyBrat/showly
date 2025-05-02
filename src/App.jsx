@@ -8,8 +8,10 @@ import TiltedCard from './components/TiltedCard'
 import Movies from './pages/Movies'
 import Concerts from './pages/Concerts'
 import Comedy from './pages/Comedy'
+import About from './pages/About'
 import BookingPage from './pages/BookingPage'
 import ConcertBookingPage from './pages/ConcertBookingPage'
+import favicon from './assets/favicon.png'
 // import LoadingScreen from './components/LoadingScreen'
 
 function HomePage() {
@@ -350,7 +352,7 @@ function HomePage() {
                         state={{ concert: concert }}
                         className="concert-book-button"
                       >
-                        BOOK NOW
+                        Book Now
                       </Link>
                     </div>
                     <div className="concert-details">
@@ -479,16 +481,18 @@ function App() {
       {showNavbar && (
       <div className={`navbar-container ${location.pathname === '/' ? 'home-navbar' : ''} ${navbarCollapsed ? 'navbar-collapsed' : ''}`} onClick={navbarCollapsed ? toggleNavbar : undefined}>
         <nav className={`navbar ${location.pathname === '/' ? 'home-navbar-inner' : ''}`}>
-          <div className="navbar-logo"></div>
+          <div className="navbar-logo">
+            <img src={favicon} alt="Showly Logo" className="navbar-favicon" />
+          </div>
           <ul className="navbar-links">
             <li><Link to="/" className={`navbar-link ${location.pathname === '/' ? 'active' : ''}`}>Home</Link></li>
             <li><Link to="/movies" className={`navbar-link ${location.pathname === '/movies' ? 'active' : ''}`}>Movies</Link></li>
             <li><Link to="/concerts" className={`navbar-link ${location.pathname === '/concerts' ? 'active' : ''}`}>Concerts</Link></li>
             <li><Link to="/comedy" className={`navbar-link ${location.pathname.includes('/comedy') ? 'active' : ''}`}>Comedy</Link></li>
-            <li><Link to="/contact" className={`navbar-link ${location.pathname === '/contact' ? 'active' : ''}`}>Contact</Link></li>
+            <li><Link to="/about" className={`navbar-link ${location.pathname === '/about' ? 'active' : ''}`}>About</Link></li>
           </ul>
           <div className="navbar-actions">
-            <button className="signup-button">Get Template</button>
+            <Link to="/contact" className="contact-button">Contact Us</Link>
           </div>
           <div className="navbar-collapse-icon">
             <span></span>
@@ -504,6 +508,7 @@ function App() {
         <Route path="/movies" element={<Movies />} />
         <Route path="/concerts" element={<Concerts />} />
         <Route path="/comedy" element={<Comedy />} />
+        <Route path="/about" element={<About />} />
         <Route path="/booking" element={<BookingPage />} />
         <Route path="/concert-booking" element={<ConcertBookingPage />} />
         <Route path="*" element={<HomePage />} />

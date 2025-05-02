@@ -275,6 +275,114 @@ body::after {
   transform: translateZ(0);
 }
 
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(20, 20, 28, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(40, 40, 50, 0.4);
+  border-radius: 40px;
+  padding: 0.3rem 0.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  width: 85%;
+  max-width: 900px;
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+/* Home page smaller navbar */
+.home-navbar-inner {
+  width: 65%;
+  max-width: 800px;
+}
+
+.navbar-logo {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  margin-left: 0.8rem;
+}
+
+.navbar-favicon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 8px;
+  object-fit: contain;
+}
+
+.navbar-links {
+  display: flex;
+  list-style: none;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.navbar-link {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  padding: 0.6rem 1.5rem;
+  position: relative;
+  opacity: 0.85;
+  border-radius: 30px;
+}
+
+.navbar-link:hover {
+  opacity: 1;
+}
+
+.navbar-link.active {
+  opacity: 1;
+  background: linear-gradient(135deg, rgba(227, 184, 115, 0.7), rgba(190, 150, 90, 0.7));
+  font-weight: 600;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-link.active::after {
+  display: none;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
+}
+
+.contact-button {
+  background: rgba(227, 184, 115, 0.85);
+  color: rgba(20, 20, 28, 1);
+  border: none;
+  padding: 0.6rem 1.4rem;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(227, 184, 115, 0.3);
+}
+
+.contact-button:hover {
+  background: rgba(227, 184, 115, 1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(227, 184, 115, 0.4);
+}
+
+.contact-button:active {
+  transform: translateY(1px);
+}
+
+/* Collapsed navbar */
 .navbar-collapsed .navbar {
   width: 50px !important;
   height: 50px;
@@ -285,7 +393,7 @@ body::after {
   overflow: hidden;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
-  background: var(--navbar-bg);
+  background: rgba(20, 20, 28, 0.85);
   backdrop-filter: blur(10px);
   transform: translateZ(0);
   animation: pulse-border 2s infinite;
@@ -389,14 +497,12 @@ body::after {
   margin-left: 0.8rem;
 }
 
-.navbar-logo::before {
-  content: '';
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  background: linear-gradient(135deg, rgba(227, 184, 115, 0.9), rgba(190, 150, 90, 0.9));
+.navbar-favicon {
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   margin-right: 8px;
+  object-fit: contain;
 }
 
 .navbar-links {
@@ -413,18 +519,25 @@ body::after {
   font-weight: 500;
   font-size: 0.85rem;
   transition: all 0.2s ease;
-  padding: 0.4rem 0.6rem;
+  padding: 0.4rem 0.8rem;
   position: relative;
   opacity: 0.85;
+  border-radius: 25px;
+  border: 1px solid transparent;
 }
 
 .navbar-link:hover {
   opacity: 1;
+  background: rgba(227, 184, 115, 0.15);
+  border: 1px solid rgba(227, 184, 115, 0.3);
+  transform: translateY(-1px);
 }
 
 .navbar-link.active {
   opacity: 1;
   position: relative;
+  background: rgba(227, 184, 115, 0.15);
+  border: 1px solid rgba(227, 184, 115, 0.3);
 }
 
 .navbar-link.active::after {
