@@ -206,10 +206,29 @@ export default function ConcertBookingPage() {
     if (audioRef.current) {
       if (audioPlaying) {
         audioRef.current.pause();
+        setAudioPlaying(false);
       } else {
-        audioRef.current.play();
+        const playPromise = audioRef.current.play();
+        
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              setAudioPlaying(true);
+            })
+            .catch(error => {
+              console.error("Error playing audio:", error);
+              // Try with fallback URL
+              audioRef.current.src = "https://assets.codepen.io/296057/fem-bombay-nights.mp3";
+              audioRef.current.play()
+                .then(() => {
+                  setAudioPlaying(true);
+                })
+                .catch(fallbackError => {
+                  console.error("Fallback audio also failed:", fallbackError);
+                });
+            });
+        }
       }
-      setAudioPlaying(!audioPlaying);
     }
   };
 
@@ -349,7 +368,17 @@ export default function ConcertBookingPage() {
       
       <div className="concert-booking-backdrop" style={{ backgroundImage: `url(${concert.bannerImage || concert.image})` }}></div>
       
-      <audio ref={audioRef} src={concert.spotifyPreview || "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"} loop />
+      <audio 
+        ref={audioRef} 
+        src={concert.spotifyPreview || "https://assets.codepen.io/296057/fem-bombay-nights.mp3"} 
+        loop 
+        crossOrigin="anonymous"
+        onError={(e) => {
+          console.error("Audio error:", e);
+          // Try fallback if original URL fails
+          e.target.src = "https://assets.codepen.io/296057/fem-bombay-nights.mp3";
+        }}
+      />
       
       <div className="concert-booking-container">
         <div className="concert-booking-header">
