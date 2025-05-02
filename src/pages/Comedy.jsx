@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import DecryptedText from '../components/DecryptedText';
 import '../styles/Comedy.css';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Comedy() {
   const [activeComedian, setActiveComedian] = useState(0);
@@ -8,6 +9,7 @@ export default function Comedy() {
   const [activeSpeechBubble, setActiveSpeechBubble] = useState(0);
   const [filterTag, setFilterTag] = useState('all');
   const speechBubbleTimerRef = useRef(null);
+  const navigate = useNavigate();
 
   // Featured comedians data
   const featuredComedians = [
@@ -381,7 +383,7 @@ export default function Comedy() {
                       ))}
                     </div>
                     
-                    <button className="tickets-btn">
+                    <button className="tickets-btn" onClick={() => navigate('/comedy-booking', { state: { show: comedian } })}>
                       Get Tickets 
                       <span className="ticket-icon">🎭</span>
                     </button>
@@ -478,7 +480,7 @@ export default function Comedy() {
                       ))}
                     </div>
                     
-                    <button className="show-btn">Book Now</button>
+                    <button className="show-btn" onClick={() => navigate('/comedy-booking', { state: { show } })}>Book Now</button>
                   </div>
                 </div>
               </div>

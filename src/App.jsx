@@ -11,6 +11,7 @@ import Comedy from './pages/Comedy'
 import About from './pages/About'
 import BookingPage from './pages/BookingPage'
 import ConcertBookingPage from './pages/ConcertBookingPage'
+import ComedyBookingPage from './pages/ComedyBookingPage'
 import favicon from './assets/favicon.png'
 // import LoadingScreen from './components/LoadingScreen'
 
@@ -433,7 +434,7 @@ function HomePage() {
 
 function App() {
   const location = useLocation();
-  const bookingRoutes = ['/booking', '/concert-booking'];
+  const bookingRoutes = ['/booking', '/concert-booking', '/comedy-booking'];
   const showNavbar = !bookingRoutes.some(route => location.pathname.includes(route));
   const [navbarCollapsed, setNavbarCollapsed] = useState(false);
   const prevLocation = useRef(location.pathname);
@@ -512,6 +513,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/booking" element={<BookingPage />} />
         <Route path="/concert-booking" element={<ConcertBookingPage />} />
+        <Route path="/comedy-booking" element={<ComedyBookingPage />} />
         <Route path="*" element={<HomePage />} />
       </Routes>
     </>
