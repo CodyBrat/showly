@@ -1532,14 +1532,14 @@ body::after {
 .music-showcase {
   position: relative;
   width: 100%;
-  height: 700px;
   max-width: 1400px;
+  height: 700px;
   margin: 0 auto;
-  padding: 0;
+  padding: 0 2rem;
   overflow: visible;
   perspective: 1000px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 }
@@ -1550,6 +1550,8 @@ body::after {
   height: 600px;
   transform-style: preserve-3d;
   perspective: 2000px;
+  display: flex;
+  justify-content: center;
 }
 
 .concert-card {
@@ -1755,7 +1757,12 @@ body::after {
   z-index: 5;
 }
 
+/* Responsive styles */
 @media (max-width: 1200px) {
+  .music-showcase {
+    padding: 0 1rem;
+  }
+  
   .concert-card {
     width: 300px;
     height: 450px;
@@ -1764,116 +1771,44 @@ body::after {
   .concert-title {
     font-size: 2.2rem;
   }
+  
+  .concert-book-button {
+    font-size: 0.9rem;
+    padding: 0.7rem 1.3rem;
+  }
 }
 
-/* City badges */
-.city-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 30px;
-}
-
-.city-badge {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  padding: 5px 15px;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-}
-
-.city-badge::before {
-  content: '';
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  margin-right: 8px;
-}
-
-.city-badge:nth-child(1)::before { background: #FF6B6B; }
-.city-badge:nth-child(2)::before { background: #4ECDC4; }
-.city-badge:nth-child(3)::before { background: #FFE66D; }
-.city-badge:nth-child(4)::before { background: #FF8FA3; }
-.city-badge:nth-child(5)::before { background: #1A535C; }
-
-/* Blob shapes */
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(60px);
-  z-index: 0;
-  opacity: 0.4;
-}
-
-.blob-1 {
-  width: 300px;
-  height: 300px;
-  background: #9966FF;
-  top: 10%;
-  left: 10%;
-  animation: float-slow 15s infinite alternate;
-}
-
-.blob-2 {
-  width: 400px;
-  height: 400px;
-  background: #00FFAA;
-  bottom: 20%;
-  right: 5%;
-  animation: float-slow 20s infinite alternate-reverse;
-}
-
-.blob-3 {
-  width: 250px;
-  height: 250px;
-  background: #FF66FF;
-  bottom: 40%;
-  left: 30%;
-  animation: float-slow 18s infinite alternate;
-}
-
-@keyframes float-slow {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(50px, -30px) scale(1.1); }
-  100% { transform: translate(-30px, 50px) scale(0.9); }
-}
-
-/* Responsive adjustments */
 @media (max-width: 768px) {
-  .music-hero-title {
-    font-size: 3.5rem;
-  }
-  
-  .music-hero-text {
-    font-size: 1.2rem;
-  }
-  
-  .music-festival {
+  .music-showcase {
     flex-direction: column;
+    height: 600px;
+    overflow: hidden;
   }
   
-  .festival-content, .festival-image {
-    width: 100%;
+  .music-cards-wrapper {
+    height: 500px;
   }
   
-  .festival-image {
-    margin-top: 30px;
-    order: 2;
+  .concert-card {
+    width: 260px;
+    height: 390px;
   }
   
-  .music-cards-container {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  .concert-title {
+    font-size: 1.8rem;
   }
   
-  .player-timeline {
-    margin: 0 10px;
+  .concert-caption {
+    font-size: 0.9rem;
   }
   
-  .player-controls {
-    gap: 8px;
+  .music-side-element {
+    display: none;
+  }
+  
+  .concert-book-button {
+    font-size: 0.85rem;
+    padding: 0.6rem 1.2rem;
   }
 }
 
@@ -2256,3 +2191,687 @@ body::after {
 }
 
 /* Concert card styles */
+.concert-card {
+  position: absolute;
+  width: 340px;
+  height: 510px;
+  background: #000;
+  left: 50%;
+  top: 50%;
+  border-radius: 12px;
+  transform: translate(-50%, -50%) rotate(0deg) translateZ(0);
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  overflow: hidden;
+  backface-visibility: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  will-change: transform, opacity;
+  cursor: pointer;
+  border: 1px solid rgba(227, 184, 115, 0.3);
+}
+
+.concert-card.visible {
+  opacity: 1;
+}
+
+.concert-card-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.concert-card:nth-child(1) {
+  transform: translate(-50%, -50%) translateZ(0) rotate(0);
+  z-index: 10;
+}
+
+.concert-card:nth-child(2) {
+  transform: translate(-85%, -50%) translateZ(-100px) rotate(-5deg);
+  z-index: 9;
+  opacity: 0.85;
+  filter: brightness(0.8);
+}
+
+.concert-card:nth-child(3) {
+  transform: translate(-15%, -50%) translateZ(-100px) rotate(5deg);
+  z-index: 8;
+  opacity: 0.85;
+  filter: brightness(0.8);
+}
+
+.concert-card:nth-child(4) {
+  transform: translate(-120%, -50%) translateZ(-200px) rotate(-10deg);
+  z-index: 7;
+  opacity: 0.7;
+  filter: brightness(0.6);
+}
+
+.concert-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.concert-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, 
+    rgba(0,0,0,0.95) 0%, 
+    rgba(0,0,0,0.7) 30%, 
+    rgba(0,0,0,0.4) 60%, 
+    rgba(0,0,0,0.2) 80%, 
+    rgba(0,0,0,0.1) 100%);
+}
+
+.concert-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s ease;
+}
+
+.concert-card.active .concert-image img {
+  transform: scale(1.05);
+}
+
+.concert-details {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 2rem;
+  color: #fff;
+  z-index: 5;
+  text-align: left;
+}
+
+.concert-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.95);
+  line-height: 1.1;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.concert-card.active .concert-title {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.concert-caption {
+  font-size: 1.1rem;
+  font-weight: 400;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease 0.1s;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.concert-card.active .concert-caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.concert-caption::before {
+  content: "•";
+  display: inline-block;
+  margin: 0 8px;
+}
+
+/* View All Concerts button styling */
+.view-all-button {
+  display: inline-block;
+  background: rgba(227, 184, 115, 0.15);
+  color: white;
+  text-decoration: none;
+  border: 1px solid rgba(227, 184, 115, 0.3);
+  padding: 0.6rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.view-all-button:hover {
+  background: rgba(227, 184, 115, 0.25);
+  transform: translateY(-2px);
+}
+
+.view-all-button::after {
+  content: ' →';
+  opacity: 0.8;
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+
+/* Movie poster style elements */
+.concert-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(255, 255, 255, 0.03) 3px,
+    rgba(255, 255, 255, 0.03) 6px
+  );
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.concert-rating {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(227, 184, 115, 0.9);
+  color: #000;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 5px;
+  z-index: 5;
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+  .music-showcase {
+    padding: 0 1rem;
+  }
+  
+  .concert-card {
+    width: 300px;
+    height: 450px;
+  }
+  
+  .concert-title {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .music-showcase {
+    flex-direction: column;
+    height: 600px;
+    overflow: hidden;
+  }
+  
+  .music-cards-wrapper {
+    height: 500px;
+  }
+  
+  .concert-card {
+    width: 260px;
+    height: 390px;
+  }
+  
+  .concert-title {
+    font-size: 1.8rem;
+  }
+  
+  .concert-caption {
+    font-size: 0.9rem;
+  }
+  
+  .music-side-element {
+    display: none;
+  }
+}
+
+/* The grooves on the vinyl record */
+.vinyl-grooves {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  background: repeating-radial-gradient(
+    circle at center,
+    rgba(60, 60, 60, 1) 0px,
+    rgba(60, 60, 60, 1) 1px,
+    rgba(20, 20, 20, 1) 1.5px,
+    rgba(20, 20, 20, 1) 3px
+  );
+  z-index: 3;
+  opacity: 0.8;
+}
+
+/* Add localized gradients to specific sections */
+.browse-category:first-of-type::before {
+  display: block;
+  content: '';
+  position: absolute;
+  bottom: 20%;
+  left: 25%;
+  width: 50%;
+  height: 300px;
+  background: radial-gradient(ellipse, rgba(227, 184, 115, 0.15), transparent 70%);
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(40px);
+}
+
+/* Add golden gradient to the top of browse category */
+.browse-category:first-of-type::after {
+  display: block;
+  content: '';
+  position: absolute;
+  top: -5%;
+  left: 0;
+  width: 100%;
+  height: 250px;
+  background: radial-gradient(ellipse at top, rgba(227, 184, 115, 0.18), rgba(227, 184, 115, 0.08) 50%, transparent 80%);
+  z-index: -1;
+  filter: blur(30px);
+}
+
+/* Upcoming Events section accent */
+.Upcoming-Events::before {
+  content: '';
+  position: absolute;
+  top: 30%;
+  right: 15%;
+  width: 25vw;
+  height: 25vw;
+  max-width: 400px;
+  max-height: 400px;
+  background: radial-gradient(circle, rgba(227, 184, 115, 0.12), transparent 70%);
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(40px);
+}
+
+.Upcoming-Events::after {
+  content: '';
+  position: absolute;
+  bottom: 10%;
+  left: 10%;
+  width: 20vw;
+  height: 20vw;
+  max-width: 300px;
+  max-height: 300px;
+  background: radial-gradient(circle, rgba(227, 184, 115, 0.1), transparent 70%);
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(30px);
+}
+
+/* Music section accents */
+.music-showcase::before {
+  content: '';
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  width: 35vw;
+  height: 35vw;
+  max-width: 500px;
+  max-height: 500px;
+  background: radial-gradient(circle, rgba(227, 184, 115, 0.12), transparent 70%);
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(40px);
+}
+
+.music-showcase::after {
+  content: '';
+  position: absolute;
+  bottom: 10%;
+  right: 15%;
+  width: 25vw;
+  height: 25vw;
+  max-width: 400px;
+  max-height: 400px;
+  background: radial-gradient(circle, rgba(227, 184, 115, 0.15), transparent 75%);
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(50px);
+}
+
+/* Responsive styles for collapsed navbar */
+@media (max-width: 768px) {
+  .navbar-collapsed {
+    right: 15px;
+    top: 15px;
+  }
+
+  .navbar-collapsed .navbar {
+    width: 45px !important;
+    height: 45px;
+    max-width: 45px;
+    min-width: 45px;
+  }
+  
+  .navbar-collapse-icon span {
+    width: 18px;
+    height: 2px;
+    margin: 2px 0;
+  }
+}
+
+/* Gallery tooltip */
+.gallery-tooltip {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(25, 25, 35, 0.8);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  border: 1px solid rgba(227, 184, 115, 0.2);
+  white-space: nowrap;
+  z-index: 10;
+  backdrop-filter: blur(5px);
+}
+
+.gallery-wrapper:hover .gallery-tooltip {
+  opacity: 1;
+}
+
+/* Music side decorative elements */
+.music-side-element {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.left-element {
+  left: 5%;
+}
+
+.right-element {
+  right: 5%;
+}
+
+/* Vinyl record */
+.vinyl-record {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #000000, #333333);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  position: relative;
+  margin-bottom: 30px;
+  animation: spin 8s linear infinite;
+}
+
+.vinyl-record:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: rgba(227, 184, 115, 0.8);
+  border: 2px solid #000;
+}
+
+.vinyl-record:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  background: repeating-radial-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 3px, rgba(96, 96, 96, 0.4) 4px, rgba(0, 0, 0, 0) 5px);
+}
+
+/* Music notes */
+.music-note {
+  font-size: 32px;
+  color: rgba(227, 184, 115, 0.6);
+  position: absolute;
+  animation-name: float;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+.note-1 {
+  top: 30%;
+  left: 40px;
+  font-size: 36px;
+  animation-duration: 4s;
+  animation-delay: 0.2s;
+}
+
+.note-2 {
+  top: 60%;
+  left: 70px;
+  font-size: 28px;
+  animation-duration: 6s;
+  animation-delay: 1s;
+}
+
+.note-3 {
+  top: 25%;
+  right: 60px;
+  font-size: 32px;
+  animation-duration: 5s;
+  animation-delay: 0.5s;
+}
+
+.note-4 {
+  top: 70%;
+  right: 40px;
+  font-size: 34px;
+  animation-duration: 7s;
+  animation-delay: 1.5s;
+}
+
+/* Equalizer bars */
+.equalizer-bars {
+  display: flex;
+  gap: 3px;
+  height: 40px;
+  margin-top: 40px;
+}
+
+.equalizer-bar {
+  width: 4px;
+  background: linear-gradient(to top, rgba(227, 184, 115, 0.2), rgba(227, 184, 115, 0.8));
+  border-radius: 2px;
+  animation-name: equalize;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.equalizer-bar:nth-child(1) {
+  height: 60%;
+  animation-duration: 0.7s;
+}
+
+.equalizer-bar:nth-child(2) {
+  height: 100%;
+  animation-duration: 0.9s;
+}
+
+.equalizer-bar:nth-child(3) {
+  height: 70%;
+  animation-duration: 0.5s;
+}
+
+.equalizer-bar:nth-child(4) {
+  height: 85%;
+  animation-duration: 0.8s;
+}
+
+/* Spotlight */
+.spotlight {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 40px;
+}
+
+.spotlight:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  background: rgba(227, 184, 115, 0.9);
+  border-radius: 50%;
+  box-shadow: 0 0 20px 10px rgba(227, 184, 115, 0.4);
+  animation: pulse 2s ease-in-out infinite alternate;
+}
+
+.spotlight:after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-top: 100px solid rgba(227, 184, 115, 0.15);
+  filter: blur(5px);
+  animation: sway 5s ease-in-out infinite alternate;
+}
+
+/* Stage mic */
+.stage-mic {
+  position: relative;
+  width: 10px;
+  height: 60px;
+  background: linear-gradient(to bottom, #333, #111);
+  margin-top: 30px;
+  border-radius: 2px;
+}
+
+.stage-mic:before {
+  content: '';
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  background: rgba(60, 60, 60, 0.9);
+  border: 2px solid rgba(80, 80, 80, 1);
+  border-radius: 5px;
+  box-shadow: inset 0 0 5px rgba(227, 184, 115, 0.4);
+}
+
+/* Animations */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0) rotate(0); opacity: 0.4; }
+  50% { transform: translateY(-15px) rotate(5deg); opacity: 0.8; }
+  100% { transform: translateY(0) rotate(0); opacity: 0.4; }
+}
+
+@keyframes equalize {
+  0% { height: 20%; }
+  100% { height: 100%; }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 10px 5px rgba(227, 184, 115, 0.3); }
+  100% { box-shadow: 0 0 25px 10px rgba(227, 184, 115, 0.6); }
+}
+
+@keyframes sway {
+  0% { transform: translateX(-50%) rotate(-5deg); }
+  100% { transform: translateX(-50%) rotate(5deg); }
+}
+
+/* Book Now Button */
+.concert-book-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  opacity: 0;
+  z-index: 10;
+  background: linear-gradient(135deg, rgba(227, 184, 115, 0.9), rgba(190, 150, 90, 0.9));
+  color: #000;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.concert-book-button::after {
+  content: ' →';
+  margin-left: 5px;
+  transition: transform 0.2s ease;
+}
+
+.concert-card:hover .concert-book-button {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.concert-card:hover .concert-image img {
+  transform: scale(1.05);
+  filter: brightness(0.4) blur(1px);
+}
+
+.concert-card:hover .concert-image::after {
+  background: linear-gradient(to top, 
+    rgba(0,0,0,0.98) 0%, 
+    rgba(0,0,0,0.85) 30%, 
+    rgba(0,0,0,0.6) 60%, 
+    rgba(0,0,0,0.4) 80%, 
+    rgba(0,0,0,0.3) 100%);
+}
+
+.concert-book-button:hover {
+  background: linear-gradient(135deg, rgba(227, 184, 115, 1), rgba(190, 150, 90, 1));
+  transform: translate(-50%, -50%) scale(1.05) !important;
+}
+
+.concert-book-button:hover::after {
+  transform: translateX(3px);
+}

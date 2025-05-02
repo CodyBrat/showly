@@ -58,49 +58,63 @@ export default function Concerts() {
       artist: "Guns N' Roses",
       date: "August 15-17, 2024",
       location: "Cosmic Arena",
-      image: "https://www.impericon.com/cdn/shop/articles/20241209_g_r_2.jpg?v=1742482171",
+      image: "https://in.bmscdn.com/events/moviecard/ET00437139.jpg",
       description: "Experience three days of nonstop music with over 30 artists across 4 stages.",
       price: "$149 - $499",
       category: "festival",
       tags: ["rock", "indie", "electronic"],
       lineup: ["The Rolling Stones", "Coldplay", "Imagine Dragons", "Twenty One Pilots"],
-      spotifyPlaylist: "37i9dQZF1DX5Vy6DFOcx00"
+      spotifyPlaylist: "https://open.spotify.com/playlist/37i9dQZF1DZ06evO1Ziym4?si=004c7f231ef646a8"
     },
     {
       id: 2,
-      title: "ROCK LEGENDS",
-      artist: "Classic Rock Revival",
+      title: "Vilen India Tour",
+      artist: "Vilen",
       date: "July 28, 2024",
       location: "Stadium Arena",
-      image: "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-vilen-india-tour-0-2025-4-8-t-12-59-57.jpg",
+      image: "https://in.bmscdn.com/events/moviecard/ET00441603.jpg",
       description: "The ultimate rock experience with legendary bands performing their greatest hits.",
       price: "$89 - $299",
       category: "tour",
       tags: ["rock", "classic rock"],
       lineup: ["Aerosmith", "Guns N' Roses", "Def Leppard"],
-      spotifyPlaylist: "37i9dQZF1DWXRqgorJj26U"
+      spotifyPlaylist: "https://open.spotify.com/playlist/37i9dQZF1DZ06evO36eSzw?si=ee42a77c9c5e4618"
     },
     {
       id: 3,
-      title: "ЭЛЕКТРО MUSIC",
-      artist: "EDM Collective",
+      title: "Shreya Ghoshal Live",
+      artist: "Shreya Ghoshal",
       date: "September 8-9, 2024",
       location: "Riverside Festival Grounds",
-      image: "https://assets-in.bmscdn.com/discovery-catalog/events/et00438542-jxttzzdppy-landscape.jpg",
+      image: "https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC/et00438542-fvkbeggjke-portrait.jpg",
       description: "Dance the night away with world-class DJs and spectacular light shows.",
       price: "$79 - $189",
       category: "festival",
       tags: ["electronic", "edm", "dance"],
       lineup: ["Martin Garrix", "David Guetta", "Tiesto", "Alesso"],
-      spotifyPlaylist: "37i9dQZF1DX6J5NfMJS675"
+      spotifyPlaylist: "https://open.spotify.com/playlist/37i9dQZF1DWWbe6KinsK2k?si=859412a5524849cf"
     },
     {
       id: 4,
-      title: "JAZZ НОЧЬ",
-      artist: "Jazz Masters Ensemble",
+      title: "Dil-luminati Tour",
+      artist: "Diljit Dosanjh",
       date: "October 15, 2024",
       location: "Blue Note Theater",
-      image: "https://assets-in.bmscdn.com/discovery-catalog/events/et00434549-xfeqknjtxt-landscape.jpg",
+      image: "https://images.news18.com/webstories/uploads/2024/09/Screenshot-2024-09-28-at-12.48.03-PM-2024-09-5a66cbfd9ce9343301181344c6a18690.png",
+      description: "An intimate evening of smooth jazz from world-renowned musicians.",
+      price: "$59 - $129",
+      category: "jazz",
+      tags: ["jazz", "smooth jazz", "instrumental"],
+      lineup: ["Wynton Marsalis", "Chick Corea Trio", "Diana Krall"],
+      spotifyPlaylist: "https://open.spotify.com/playlist/37i9dQZF1DX0GO2iStOATx?si=07e999c32dfc46f4"
+    },
+    {
+      id: 5,
+      title: "Seedhe Maut",
+      artist: "Seedhe Maut",
+      date: "October 15, 2024",
+      location: "Blue Note Theater",
+      image: "https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC/et00437060-mdlmgewvgb-portrait.jpg",
       description: "An intimate evening of smooth jazz from world-renowned musicians.",
       price: "$59 - $129",
       category: "jazz",
@@ -549,7 +563,7 @@ export default function Concerts() {
                         state={{ concert: concert }}
                         className="cosmic-button reserve-btn"
                       >
-                        RESERVE
+                        BOOK NOW
                       </Link>
                       <button 
                         className="cosmic-button spotify-btn"

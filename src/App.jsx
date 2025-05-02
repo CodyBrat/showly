@@ -89,6 +89,11 @@ function HomePage() {
       caption: 'Limited Seats • Oct 2024',
       image: 'https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC/et00437060-mdlmgewvgb-portrait.jpg'
     },
+    {
+      title: 'Shreya Ghoshal Live',
+      caption: 'Live • Apr 2025',
+      image: 'https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC/et00438542-fvkbeggjke-portrait.jpg' 
+    }
   ]
 
   const comedy = [
@@ -340,6 +345,13 @@ function HomePage() {
                     <div className="concert-image">
                       <img src={concert.image} alt={concert.title} />
                       <div className="concert-rating">Coming Soon</div>
+                      <Link 
+                        to="/concert-booking" 
+                        state={{ concert: concert }}
+                        className="concert-book-button"
+                      >
+                        BOOK NOW
+                      </Link>
                     </div>
                     <div className="concert-details">
                       <div className="concert-title">{concert.title}</div>
